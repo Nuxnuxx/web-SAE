@@ -1,0 +1,22 @@
+name: Add Pull Request to Project
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR details
+        id: pr_details
+        run: echo "::set-output name=title::$(echo "${{ github.event.pull_request.title }}") ::set-output name=body::$(echo "${{ github.event.pull_request.body }}")"
+
+      - name: Add PR to Project
+        uses: peter-evans/create-pull-request-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          project: 'web-SAE'
+          column: 'Todo'
+          title: ${{ steps.pr_details.outputs.title }}
+          body: ${{ steps.pr_details.outputs.body }}
