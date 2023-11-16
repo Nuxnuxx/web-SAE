@@ -8,17 +8,9 @@ jobs:
   add-to-project:
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR details
-        id: pr_details
-        run: echo "::set-output name=title::$(echo "${{ github.event.pull_request.title }}") ::set-output name=body::$(echo "${{ github.event.pull_request.body }}")"
-
-      - uses: actions/checkout@v4
-
-      - name: Add PR to Project
-        uses: peter-evans/create-pull-request-action@v5
+      - name: Create or Update Project Card
+        uses: peter-evans/create-or-update-project-card@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          project: 'web-SAE'
-          column: 'Todo'
-          title: ${{ steps.pr_details.outputs.title }}
-          body: ${{ steps.pr_details.outputs.body }}
+          project-name: web-SAE
+          column-name: Todo
+          issue-number: ${{ github.event.number }}
