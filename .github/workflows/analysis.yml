@@ -1,14 +1,13 @@
-name: Build
+name: Analysis Code
 
 on:
   push:
     branches:
       - main
 
-
 jobs:
   build:
-    name: Build
+    name: Analysis code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
