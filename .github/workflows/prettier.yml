@@ -18,11 +18,14 @@ jobs:
         with:
           node-version: 'latest'
 
-      - name: Install dependencies
+      - name: Run Prettier On Backend
         run: |
             cd backend
             npm install
+            npx prettier --write .
 
-      - name: Run Prettier On Backend
+      - name: Install dependencies
         run: |
+            cd frontend
+            npm install
             npx prettier --write .
