@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  build:
-    name: Analysis code
+  unit-test:
+    name: Unit test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

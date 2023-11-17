@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  analysis-code:
     name: Analysis code
     runs-on: ubuntu-latest
     steps:
