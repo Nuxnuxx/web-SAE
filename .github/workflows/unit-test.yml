@@ -1,14 +1,12 @@
-name: Prettier Code Formatting
+name: Run unit test
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 jobs:
-  prettier-format:
+  build:
+    name: Analysis code
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,14 +16,12 @@ jobs:
         with:
           node-version: 'latest'
 
-      - name: run prettier on backend
+      - name: run unit test on frontend
         run: |
             cd backend
-            npm install
-            npx prettier --write .
+            npm run test
 
-      - name: run prettier on Frontend
+      - name: run unit test on backend
         run: |
             cd frontend
-            npm install
-            npx prettier --write .
+            npm run test
