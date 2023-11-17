@@ -1,3 +1,3 @@
-[![Quality Gate Status](http://20.199.47.238:9000/api/project_badges/measure?project=web-SAE&metric=alert_status&token=sqb_2fc1427a33857a33c46536ba41b9f3280e2aefbb)](http://20.199.47.238:9000/dashboard?id=web-SAE)
+[![Maintainability Rating](http://20.199.47.238:9000/api/project_badges/measure?project=web-SAE&metric=sqale_rating&token=sqb_2fc1427a33857a33c46536ba41b9f3280e2aefbb)](http://20.199.47.238:9000/dashboard?id=web-SAE) [![Reliability Rating](http://20.199.47.238:9000/api/project_badges/measure?project=web-SAE&metric=reliability_rating&token=sqb_2fc1427a33857a33c46536ba41b9f3280e2aefbb)](http://20.199.47.238:9000/dashboard?id=web-SAE) [![Security Rating](http://20.199.47.238:9000/api/project_badges/measure?project=web-SAE&metric=security_rating&token=sqb_2fc1427a33857a33c46536ba41b9f3280e2aefbb)](http://20.199.47.238:9000/dashboard?id=web-SAE)
 # web-SAE
 Project web for the SAE at UPJV Iut Amiens 2023 for the third year of BUT.
