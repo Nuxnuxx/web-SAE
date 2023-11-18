@@ -21,11 +21,9 @@ jobs:
       - name: run prettier on backend
         run: |
             cd backend
-            npm install
             npx prettier --write .
 
       - name: run prettier on Frontend
         run: |
             cd frontend
-            npm install
             npx prettier --write .
