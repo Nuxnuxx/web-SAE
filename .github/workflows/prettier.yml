@@ -27,4 +27,4 @@ jobs:
         run: |
             cd frontend
             npm i
-            npx prettier --write .
+            npm run format
