@@ -1,0 +1,1 @@
+<h1>Permet d'afficher les recette selon une id avec : SimilarRecipe / RecommendedForYou</h1>
