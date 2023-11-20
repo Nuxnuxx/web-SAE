@@ -5,14 +5,12 @@
 	let password = "";
 
 	function handleLogin() {
-		// Ajoutez ici la logique de connexion
+		// TODO:Ajoutez ici la logique de connexion
 		console.log("Email:", email);
 		console.log("Mot de passe:", password);
-		goto("/")
+		goto("/");
 	}
-
 </script>
-
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
