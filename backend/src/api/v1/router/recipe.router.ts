@@ -4,7 +4,6 @@ import {
 	getRecipesByKeyWordController,
 	getRecipesController,
 } from "../controllers/recipe.controller.js";
-import { findRecipesByKeyWord } from "../../../services/recipe.js";
 
 const recipeRouter = Router();
 
