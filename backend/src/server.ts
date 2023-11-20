@@ -1,3 +1,4 @@
 import app from "./app.js"
+import config from "./config/index.js"
 
-app.listen(4000, () => console.log("Listening on port 4000"))
+app.listen(config.port, () => console.log(`Listening on port ${config.port}`))
