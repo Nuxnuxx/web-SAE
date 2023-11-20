@@ -3,15 +3,21 @@ name: Prettier Code Formatting
 on:
   push:
     branches:
-      - main
+      main
+
+  workflow_dispatch:
 
 jobs:
   prettier-format:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+            ref: ${{ github.head_ref }}
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -21,10 +27,15 @@ jobs:
       - name: run prettier on backend
         run: |
             cd backend
-            npx prettier --write .
+            npm i
+            npm run format
 
       - name: run prettier on Frontend
         run: |
             cd frontend
             npm i
             npm run format
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply formatting changes
