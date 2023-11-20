@@ -1,5 +1,7 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
 
 export const getProduct = async (req: Request, res: Response) => {
-	res.send("Hello from controller")
-}
+	const { id } = req.params;
+	// const result = await GetRecipeById(id)
+	res.send(id);
+};
