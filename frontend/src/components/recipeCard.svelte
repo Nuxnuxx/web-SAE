@@ -1,4 +1,5 @@
 <script>
+	<!-- i'm useless -->
 	let data = {
 		img: "https://assets.afcdn.com/recipe/20230608/143328_w600h600c1.webp",
 		title: "Tarte aux pommes et chocolat Nestlé ®",
