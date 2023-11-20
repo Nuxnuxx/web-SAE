@@ -60,42 +60,7 @@
     </div>
 </div>
 
-<style>
-    h3{
-        font-size: 14px;
-        margin:0;
-        width: 100%;
-        line-height: normal;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        display: -webkit-box;
-    }
-
-    .card__img{
-        width: 100%;
-        height: 70%;   
-        border-radius: 5px;  
-        overflow: hidden;
-    }
-    .card__img img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .card__icons{    
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .card__content{
-        padding: 10px;
-        display: grid;
-        grid-auto-flow: column;
-        height: 30%;
-    }
+<style lang="scss">
 
     .card{ 
         aspect-ratio: 1/1;
@@ -105,19 +70,57 @@
         border-radius: 1.5vh;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
 
-    .card__likes{
-        display: flex;
-        align-items: center;
-        height:40%;
-        color:#C4C4C4;
-        font-size: 12px;
+        .card__img{
+            width: 100%;
+            height: 70%;   
+            border-radius: 5px;  
+            overflow: hidden;
+        
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        .card__content{
+            padding: 10px;
+            display: grid;
+            grid-auto-flow: column;
+            height: 30%;
+            .card__title{
+                h3{
+                    font-size: 14px;
+                    margin:0;
+                    width: 100%;
+                    line-height: normal;
+                    overflow: hidden;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    display: -webkit-box;
+                }
+                .card__likes{
+                    display: flex;
+                    align-items: center;
+                    height:40%;
+                    color:#C4C4C4;
+                    font-size: 12px;
+                    .material-symbols-rounded{
+                        font-size: inherit;
+                        margin-left: 3px;
+                    }
+                }
+            }
+            .card__icons{    
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+        }
     }
-    .card__likes .material-symbols-rounded{
-        font-size: inherit;
-        margin-left: 3px;
-    }
+    
     
     button.material-symbols-rounded{
         /* reset all button properties */
