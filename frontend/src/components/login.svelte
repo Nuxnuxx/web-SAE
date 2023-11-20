@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
 <script>
     let email = '';
     let password = '';
@@ -22,14 +25,19 @@
 
     <a href="#">Mot de passe oublié ?</a>
 
-    <button type="submit">Se connecter</button>
+    <button type="submit">Connexion 
+        <span class="material-symbols-rounded">
+        arrow_forward
+        </span>
+    </button>
 </form>
 
 <style>
     h2 {
         text-align: center;
         color: #333;
-        font-weight: normal;
+        font-weight: bold;
+        font-size: 22px;
     }
 
     form {
@@ -43,19 +51,22 @@
         display: flex;
         flex-direction: column;
         margin-bottom: 10px;
-        width: 40%;
+        /*min-width: 80%;*/
+        /*width selon taille de l'écran*/
+        width: 50%;
+        min-width: 350px;
         padding: 20px;
     }
 
     input {
         border: 1px solid #ccc;
-        border-radius: 4px;
+        border-radius: 3%;
         border-top: none;
         border-left: none;
         border-right: none;
 
         /*padding du texte*/
-        padding: 5px 20px;
+        padding: 5px 15px;
         font-size: 16px;
         outline: none;        
     }
@@ -76,19 +87,31 @@
 
     a{
         text-decoration: none;
-        color: #333;
+        color: #9F9F9F;
+        text-decoration: underline;
         font-size: 14px;
         margin-top: -20px;
-        margin-bottom: 20px;
-        margin-right: -30%;
+        margin-bottom: 25px;
+        margin-right: -40%;
     }
 
     button {
         padding: 10px 20px;
-        background-color: #333;
+        background-color: #DE403E;
         color: #fff;
         border: none;
-        border-radius: 4px;
+        border-radius: 20px;
         cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
     }
+
+    .material-symbols-rounded {
+        font-size: 20px;
+        font-weight: bold;
+        margin-left: 10px;
+        margin-right: -10px;
+    }
+
 </style>
