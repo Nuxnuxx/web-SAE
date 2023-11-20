@@ -1,0 +1,1 @@
+<h1>Page d'authentification permettant de register/login/coldstart</h1>
