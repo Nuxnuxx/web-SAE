@@ -146,10 +146,10 @@
     }
 
     .material-symbols-rounded.red{
-        color: #ff0000;
+        color: #F93362;
     }
 
     .material-symbols-rounded.green{
-        color: #00ff00;
+        color: #40D133;
     }
 </style>
