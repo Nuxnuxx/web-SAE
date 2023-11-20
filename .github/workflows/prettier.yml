@@ -1,9 +1,9 @@
 name: Prettier Code Formatting
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+
+  workflow_dispatch:
 
 jobs:
   prettier-format:
@@ -21,7 +21,8 @@ jobs:
       - name: run prettier on backend
         run: |
             cd backend
-            npx prettier --write .
+            npm i
+            npm run format
 
       - name: run prettier on Frontend
         run: |

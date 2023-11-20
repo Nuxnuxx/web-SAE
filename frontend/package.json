@@ -9,7 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --ignore-path .gitignore --write \"**/*.{js,json,md,ts,svelte}\"",
-    "test": "echo \"Error: no test specified\""
+		"test": "echo \"Error: no test specified\""
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
