@@ -10,12 +10,9 @@
 		console.log("Mot de passe:", password);
 		goto("/")
 	}
+
 </script>
 
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
