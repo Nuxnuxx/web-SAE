@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Playlist {data.slug} | PirateCook</title>
+</svelte:head>
+
 <script>
     export let data;
 </script>
