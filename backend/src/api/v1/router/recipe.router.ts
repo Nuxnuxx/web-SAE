@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { getProduct } from "../controllers/recipe.controller.js";
 
-const recipeRouter = Router()
+const recipeRouter = Router();
 
-recipeRouter.get("/:id", getProduct)
+recipeRouter.get("/:id", getProduct);
 
-export default recipeRouter
+export default recipeRouter;
