@@ -1,5 +1,4 @@
-import { Recipe } from "..";
-import models from "../models/models";
+import { Recipe } from "../recipe";
 
 //FIXME: delete this when neo4j setup
 const recipes: Recipe[] = [

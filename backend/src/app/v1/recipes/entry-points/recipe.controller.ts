@@ -4,7 +4,7 @@ import {
 	findRecipesByKeyWord,
 	getRecipeById,
 	getRecipes,
-} from "../../../services/recipe.js";
+} from "../domain/recipe.js";
 
 //TODO: Try catch tout ca tout ca
 
