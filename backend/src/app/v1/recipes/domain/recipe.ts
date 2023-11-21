@@ -1,35 +1,29 @@
-import { Recipe } from "../recipe";
-
-//FIXME: delete this when neo4j setup
-const recipes: Recipe[] = [
-	{ name: "Poulet a la creme", id: 1, numberLike: 0, urlImage: "" },
-	{ name: "Sanglier au miel", id: 4, numberLike: 0, urlImage: "" },
-	{ name: "Saumon au curry", id: 3, numberLike: 0, urlImage: "" },
-	{ name: "Poulet au curry", id: 2, numberLike: 0, urlImage: "" },
-];
+import {
+	getRecipesByFilterInDatabase,
+	getRecipesByIdInDatabase,
+	getRecipesByKeyWordInDatabase,
+	getRecipesInDatabaseWithPagination,
+} from "../data-access.js";
 
 export const getRecipeById = async (id: number) => {
-	//TODO: Implement query to neo4j
-	const recipe: Recipe = {
-		name: "Poulet a la creme",
-		id: 1,
-		numberLike: 0,
-		urlImage: "",
-	};
+	const recipe = await getRecipesByIdInDatabase(id);
 	return recipe;
 };
 
-export const getRecipes = async () => {
-	//TODO: Impletement query to neo4j with pagination
+export const getRecipes = async (page: number) => {
+	//TODO: Impletement pagination
+	const recipes = await getRecipesInDatabaseWithPagination(page);
 	return recipes;
 };
 
 export const findRecipesByKeyWord = async (keyWord: string[]) => {
 	//TODO: Implement query by keyword on name and ingredients to neo4j with pagination if more than X results
+	const recipes = getRecipesByKeyWordInDatabase(keyWord);
 	return recipes;
 };
 
 export const findRecipesByFilter = async (filter: string[]) => {
 	//TODO: Implement query by filter to neo4j with pagination if more than X results
+	const recipes = getRecipesByFilterInDatabase(filter);
 	return recipes;
 };
