@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import recipeRouter from "./api/v1/router/recipe.router.js";
+import v1Router from "./app/v1/index.router.js";
 
 const app = express();
 
@@ -18,6 +18,6 @@ app.use(
 	})
 );
 
-app.use("/api/v1/recipe", recipeRouter);
+app.use("/api/v1", v1Router);
 
 export default app;
