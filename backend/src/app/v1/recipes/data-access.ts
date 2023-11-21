@@ -22,19 +22,37 @@ export const getRecipesByIdInDatabase = async (id: number) => {
 	const query = "MATCH (n) WHERE n.idRecipe = $idRecipe RETURN n";
 	// need a string to match the data in the database
 	const idString: string = String(id);
-	const result = await database.run(query, { idRecipe: idString });
+	const raw = await database.run(query, { idRecipe: idString });
+	const result = raw.records.map((record) => record.get(0).properties);
 
 	return result;
 };
 
-export const getRecipesByKeyWordInDatabase = async (keyWord: string[]) => {
-	const query = "";
-	const result = await database.run(query, { keyWord: keyWord });
+export const getRecipesByKeyWordInDatabase = async (keyWordArray: string) => {
+	const query = `
+        MATCH (n:Recipe)
+        WHERE n.name CONTAINS $keyWord
+        RETURN n
+				LIMIT 10
+    `;
+	const raw = await database.run(query, { keyWord: keyWordArray });
+	const result = raw.records.map((record) => record.get(0).properties);
 	return result;
 };
 
 export const getRecipesByFilterInDatabase = async (filter: string[]) => {
-	const query = "";
-	const result = await database.run(query, { filter: filter });
+	let query = "MATCH (r:Recipe) WHERE ";
+
+	const filters = Object.keys(filter).map((key) => {
+		if (key == "name") {
+			return `r.${key} CONTAINS $${key}`;
+		}
+		return `r.${key} = $${key}`;
+	});
+
+	query += filters.join(" AND ");
+	query += " RETURN r";
+	const raw = await database.run(query, filter);
+	const result = raw.records.map((record) => record.get(0).properties);
 	return result;
 };

@@ -11,19 +11,18 @@ export const getRecipeById = async (id: number) => {
 };
 
 export const getRecipes = async (page: number) => {
-	//TODO: Impletement pagination
 	const recipes = await getRecipesInDatabaseWithPagination(page);
 	return recipes;
 };
 
-export const findRecipesByKeyWord = async (keyWord: string[]) => {
-	//TODO: Implement query by keyword on name and ingredients to neo4j with pagination if more than X results
-	const recipes = getRecipesByKeyWordInDatabase(keyWord);
+export const findRecipesByKeyWord = async (keyWordArray: string) => {
+	//TODO: implement with multiple keywords and pagination
+	const recipes = await getRecipesByKeyWordInDatabase(keyWordArray);
 	return recipes;
 };
 
 export const findRecipesByFilter = async (filter: string[]) => {
-	//TODO: Implement query by filter to neo4j with pagination if more than X results
+	//TODO: Implement pagination
 	const recipes = getRecipesByFilterInDatabase(filter);
 	return recipes;
 };

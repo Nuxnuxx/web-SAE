@@ -8,47 +8,36 @@ import {
 
 //TODO: Try catch tout ca tout ca
 
-export const getRecipeByIdController = async (req: Request, res: Response) => {
+export const handleRecipeById = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const parsedInt = parseInt(id, 10);
+
 	const result = await getRecipeById(parsedInt);
+
 	res.send(result);
 };
 
-export const getRecipesController = async (req: Request, res: Response) => {
+export const handleRecipes = async (req: Request, res: Response) => {
 	const page = parseInt(req.params.page, 10);
+
 	const result = await getRecipes(page);
+
 	res.send(result);
 };
 
-export const getRecipesByKeyWordController = async (
-	req: Request,
-	res: Response
-) => {
-	const { searchKey } = req.query;
+export const handleRecipeByKeyWord = async (req: Request, res: Response) => {
+	const keyWord = req.params.keyword;
 
-	const keywords: string[] = Array.isArray(searchKey)
-		? searchKey.map((key: any) => (typeof key === "string" ? key : ""))
-		: typeof searchKey === "string"
-		  ? [searchKey]
-		  : [];
+	const result = await findRecipesByKeyWord(keyWord);
 
-	const result = await findRecipesByKeyWord(keywords);
 	res.send(result);
 };
 
-export const getRecipesByFilterController = async (
-	req: Request,
-	res: Response
-) => {
-	const { searchKey: filter } = req.query;
+export const handleRecipeByFilter = async (req: Request, res: Response) => {
+	//FIXME: filter not typed a string[]
+	const filter: any = req.query;
 
-	const keywords: string[] = Array.isArray(filter)
-		? filter.map((key: any) => (typeof key === "string" ? key : ""))
-		: typeof filter === "string"
-		  ? [filter]
-		  : [];
+	const result = await findRecipesByFilter(filter);
 
-	const result = await findRecipesByFilter(keywords);
 	res.send(result);
 };
