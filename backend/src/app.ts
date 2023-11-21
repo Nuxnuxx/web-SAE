@@ -1,8 +1,23 @@
-import express from "express"
-import recipeRouter from "./api/v1/router/recipe.router.js"
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import v1Router from "./app/v1/index.router.js";
 
-const app = express()
+const app = express();
 
-app.use("/api/v1/recipe", recipeRouter)
+app.disable("x-powered-by");
 
-export default app
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(
+	cors({
+		credentials: true,
+		origin: "http://localhost:5173",
+	})
+);
+
+app.use("/api/v1", v1Router);
+
+export default app;

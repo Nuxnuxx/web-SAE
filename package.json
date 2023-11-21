@@ -1,0 +1,17 @@
+{
+  "name": "web-sae",
+  "version": "1.0.0",
+  "description": "What a awesome project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+		"format": "cd frontend && npm run format && cd ../backend && npm run format"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
+}

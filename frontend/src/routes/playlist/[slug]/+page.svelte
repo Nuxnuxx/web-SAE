@@ -1,10 +1,10 @@
-<svelte:head>
-    <title>Playlist {data.slug} | PirateCook</title>
-</svelte:head>
-
 <script>
-    export let data;
+	export let data;
 </script>
+
+<svelte:head>
+	<title>Playlist {data.slug} | PirateCook</title>
+</svelte:head>
 
 <h1>This is the playlist page</h1>
 
