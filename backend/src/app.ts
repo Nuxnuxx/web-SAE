@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import v1Router from "./api/v1/router/index.router.js";
+import v1Router from "./app/v1/index.router.js";
 
 const app = express();
 
@@ -19,4 +19,5 @@ app.use(
 );
 
 app.use("/api/v1", v1Router);
+
 export default app;
