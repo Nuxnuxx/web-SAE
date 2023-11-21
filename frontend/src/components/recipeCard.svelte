@@ -1,18 +1,13 @@
-<script>
-	<!-- i'm useless -->
-	let data = {
-		img: "https://assets.afcdn.com/recipe/20230608/143328_w600h600c1.webp",
-		title: "Tarte aux pommes et chocolat Nestlé ®",
-		nbLikes: 120,
-		liked: true,
-		saved: false,
-		like: function () {
-			data.liked = !data.liked;
-		},
-		save: function () {
-			console.log("save");
-			data.saved = !data.saved;
-		},
+<script lang="ts">
+	import readable from "readable-numbers";
+	import type { Recipe } from "../app";
+	export let data: Recipe;
+
+	const like = () => {
+		data.liked = !data.liked;
+	};
+	const save = () => {
+		data.saved = !data.saved;
 	};
 </script>
 
@@ -30,7 +25,9 @@
 		<div class="card__title">
 			<h3>{data.title}</h3>
 			<div class="card__likes">
-				<span class="card__likes__number">{data.nbLikes}</span>
+				<span class="card__likes__number"
+					>{readable(data.nbLikes, 1)}</span
+				>
 				<span class="material-symbols-rounded filled"> favorite </span>
 			</div>
 		</div>
@@ -38,14 +35,14 @@
 			<span class="card__likes__icon">
 				{#if data.liked}
 					<button
-						on:click={() => data.like()}
+						on:click={() => like()}
 						class="material-symbols-rounded filled red"
 					>
 						favorite
 					</button>
 				{:else}
 					<button
-						on:click={() => data.like()}
+						on:click={() => like()}
 						class="material-symbols-rounded"
 					>
 						favorite
@@ -55,14 +52,14 @@
 			<span class="card__saved__icon">
 				{#if data.saved}
 					<button
-						on:click={() => data.save()}
+						on:click={() => save()}
 						class="material-symbols-rounded green"
 					>
 						playlist_add_check
 					</button>
 				{:else}
 					<button
-						on:click={() => data.save()}
+						on:click={() => save()}
 						class="material-symbols-rounded"
 					>
 						playlist_add
@@ -76,12 +73,11 @@
 <style lang="scss">
 	.card {
 		aspect-ratio: 1/1;
-		width: 20vh;
 		display: flex;
 		flex-direction: column;
 		border-radius: 1.5vh;
 		overflow: hidden;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		// box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
 		.card__img {
 			width: 100%;
@@ -96,9 +92,11 @@
 			}
 		}
 		.card__content {
-			padding: 10px;
+			padding: 5px;
 			display: grid;
-			grid-auto-flow: column;
+			// grid-auto-flow: column;
+			grid-template-columns: 1fr auto; /* The first column takes all available space, the second takes only necessary space */
+			gap: 5px; /* Adjust the gap as needed */
 			height: 30%;
 			.card__title {
 				h3 {
@@ -126,7 +124,6 @@
 			.card__icons {
 				display: flex;
 				flex-direction: column;
-				justify-content: center;
 				align-items: center;
 			}
 		}
@@ -164,5 +161,21 @@
 
 	.material-symbols-rounded.green {
 		color: #40d133;
+	}
+
+	@media (min-width: 768px) {
+		.card {
+			.card__content {
+				padding: 10px;
+				.card__title {
+					h3 {
+						font-size: 16px;
+					}
+				}
+				.card__likes {
+					font-size: 14px;
+				}
+			}
+		}
 	}
 </style>
