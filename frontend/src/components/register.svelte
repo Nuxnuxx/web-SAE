@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-
 <script>
     let email = '';
     let firstName = '';
@@ -19,12 +18,26 @@
         console.log('Confirm Password:', confirmPassword);
         console.log('Gender:', gender);
     }
+ 
+    // function pour les checkbox pour n'en avoir qu'un seul de cocher
+    function handleCheckboxChange(genre) {
+        //récupérer les checkbox de option
+        const checkboxes = document.querySelectorAll('.option input[type="checkbox"]');
+
+        //décocher les checkbox qui ne sont pas celle qui a été coché
+        checkboxes.forEach(checkbox => {
+            if (checkbox.value !== genre) {
+                checkbox.checked = false;
+            }
+        });
+    }
 </script>
 
 <main>
-    <h2>Rejoignez nous, et trouver l'inspiration<br>culinaire qui vous ressemble</h2>
+    <h2>Rejoignez nous, et trouver l'inspiration<br>culinaire qui <span class="rouge">vous</span> ressemble</h2>
 
     <form on:submit|preventDefault={handleSubmit}>
+
         <label for="email">
             <input 
                 type="email"
@@ -37,7 +50,7 @@
         </label>
        
         <div class="name">
-            <label class="lastname">
+            <label for="lastName">
                 <input 
                     type="text" 
                     id="lastName" 
@@ -48,7 +61,7 @@
                     />
             </label>
 
-            <label class="firstname">
+            <label for="firstName">
                 <input 
                     type="text" 
                     id="firstName"
@@ -60,7 +73,7 @@
             </label>
         </div>
 
-        <label>
+        <label for="password">
             <input 
                 type="password" 
                 id="password" 
@@ -71,7 +84,7 @@
                 />
         </label>
 
-        <label>
+        <label for="password">
             <input
                 type="password" 
                 id="confirmPassword" 
@@ -82,10 +95,12 @@
                 />
         </label>
 
+        <p class="genre">Je suis* :</p>
+
         <div class="option">
-        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Homme"} /> Un pirate</label>
-        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Femme"} /> Une pirate</label>
-        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Autre"} /> Autre</label>
+        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Homme"} on:change={() => handleCheckboxChange("Homme")} /> Un pirate</label>
+        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Femme"} on:change={() => handleCheckboxChange("Femme")}/> Une pirate</label>
+        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Autre"} on:change={() => handleCheckboxChange("Autre")}/> Autre</label>
         </div>
 
         <button type="submit">
@@ -101,7 +116,7 @@
     h2 {
         text-align: center;
         color: #333;
-        font-weight: bold;
+        font-weight: normal;
         font-size: 22px;
     }
 
@@ -112,35 +127,58 @@
         margin-top: 20px;
     }
 
+    form p {
+        align-self: flex-start;
+        margin-left: 30%;
+    }
+
     label:not(.checkbox) {
         display: flex;
         flex-direction: column;
         margin-bottom: 10px;
-        width: 50%;
-        min-width: 350px;
-        padding: 20px;
+        width: 40%;
+        min-width: 380px;
+        max-width: 700px;
+        padding-bottom: 20px;
     }
 
     label.checkbox {
         margin-bottom: 5%;
     }
 
+    @media screen and (max-width: 450px) {
+        form p {
+            align-self: flex-start;
+            margin-left: 5%;
+        }
+    }
+
     @media screen and (min-width: 1000px) {
-        div.name {
-            display: flex;
-            justify-content: space-between;
+        label:not(.checkbox) {
+            min-width: 250px;
         }
 
-        div.name label {
-            width: 25%;
-            min-width: 260px;
+        .name {
+            display: flex;
+            flex-flow: row;
+            align-items: stretch;
+        }
+
+        #lastName {
+            flex: 0 1 auto;
+            width: 80%;
+        }
+
+        #firstName {
+            flex: 1 1 auto;
+            width: 80%;
         }
     }
 
     div.option {
         display: flex;
-        justify-content: space-between;
-        width: 50%;
+        justify-content: space-evenly;
+        width: 40%;
         min-width: 350px;
     }
 
@@ -199,6 +237,11 @@
         font-weight: bold;
         margin-left: 10px;
         margin-right: -10px;
+    }
+
+    .rouge {
+        color: #DE403E;
+        font-weight: bold;
     }
 
 </style>
