@@ -8,7 +8,7 @@ import {
 const recipeRouter = Router();
 
 recipeRouter.get("/id/:id", getRecipeByIdController);
-recipeRouter.get("/", getRecipesController);
+recipeRouter.get("/:page", getRecipesController);
 recipeRouter.get("/search", getRecipesByKeyWordController);
 recipeRouter.get("/filter", getRecipesByKeyWordController);
 

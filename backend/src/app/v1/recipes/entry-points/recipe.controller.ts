@@ -16,7 +16,8 @@ export const getRecipeByIdController = async (req: Request, res: Response) => {
 };
 
 export const getRecipesController = async (req: Request, res: Response) => {
-	const result = await getRecipes();
+	const page = parseInt(req.params.page, 10);
+	const result = await getRecipes(page);
 	res.send(result);
 };
 
