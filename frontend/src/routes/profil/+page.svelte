@@ -1,5 +1,9 @@
+<script>
+	import Modify from "../../components/modifyProfil.svelte";
+</script>
+
 <svelte:head>
 	<title>Profil | PirateCook</title>
 </svelte:head>
 
-<h1>Page permettant la modification et la suppression d'un utilisateur</h1>
+<Modify />
