@@ -38,8 +38,10 @@
 
     <form on:submit|preventDefault={handleSubmit}>
 
+        <div>
         <label for="email">
-            <input 
+        </label>
+        <input 
                 type="email"
                 id="email" 
                 bind:value={email} 
@@ -47,11 +49,12 @@
                 placeholder="Email*" 
                 autocomplete="username"
                 />
-        </label>
+        </div>
        
         <div class="name">
             <label for="lastName">
-                <input 
+            </label>
+            <input 
                     type="text" 
                     id="lastName" 
                     bind:value={lastName} 
@@ -59,10 +62,10 @@
                     placeholder="Nom*"
                     autocomplete="family-name"
                     />
-            </label>
 
             <label for="firstName">
-                <input 
+            </label>
+            <input 
                     type="text" 
                     id="firstName"
                     bind:value={firstName} 
@@ -70,11 +73,12 @@
                     placeholder="Prénom*"
                     autocomplete="given-name"
                     />
-            </label>
         </div>
 
+        <div>
         <label for="password">
-            <input 
+        </label>
+        <input 
                 type="password" 
                 id="password" 
                 bind:value={password} 
@@ -82,10 +86,12 @@
                 placeholder="Mot de passe*"
                 autocomplete="new-password"
                 />
-        </label>
+        </div>
 
+        <div>
         <label for="password">
-            <input
+        </label>
+        <input
                 type="password" 
                 id="confirmPassword" 
                 bind:value={confirmPassword} 
@@ -93,9 +99,11 @@
                 placeholder="Confirmer mot de passe*"
                 autocomplete="new-password"
                 />
-        </label>
+        </div>
 
+        <div>
         <p class="genre">Je suis* :</p>
+        </div>
 
         <div class="option">
         <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Homme"} on:change={() => handleCheckboxChange("Homme")} /> Un pirate</label>
@@ -127,37 +135,45 @@
         margin-top: 20px;
     }
 
-    form p {
-        align-self: flex-start;
-        margin-left: 30%;
+    .genre {
+        font-size: 18px;
+        /*augmenter transparence*/
+        opacity: 0.50;
+
+        margin-left: 1%;
+        margin-bottom: -20px;
     }
 
+    div {
+        margin-bottom: 10px;
+        width: 40%;
+        min-width: 350px;
+        max-width: 700px;
+        padding-bottom: 20px;
+    }
+
+    /*
     label:not(.checkbox) {
         display: flex;
         flex-direction: column;
         margin-bottom: 10px;
-        width: 40%;
-        min-width: 380px;
+        width: 50%;
+        min-width: 350px;
         max-width: 700px;
         padding-bottom: 20px;
-    }
+    }*/
 
     label.checkbox {
         margin-bottom: 5%;
     }
 
-    @media screen and (max-width: 450px) {
-        form p {
-            align-self: flex-start;
-            margin-left: 5%;
+    @media screen and (max-width: 1000px) {
+        #lastName {
+            margin-bottom: 30px;
         }
     }
 
     @media screen and (min-width: 1000px) {
-        label:not(.checkbox) {
-            min-width: 250px;
-        }
-
         .name {
             display: flex;
             flex-flow: row;
@@ -166,18 +182,20 @@
 
         #lastName {
             flex: 0 1 auto;
-            width: 80%;
+            width: 100%;
+
+            margin-right: 5%;
         }
 
         #firstName {
             flex: 1 1 auto;
-            width: 80%;
+            width: 100%;
         }
     }
 
     div.option {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         width: 40%;
         min-width: 350px;
     }
@@ -193,7 +211,9 @@
         /*padding du texte*/
         padding: 5px 15px;
         font-size: 16px;
-        outline: none;        
+        outline: none;   
+        
+        width: 100%;
     }
 
     /*rend le placeholder un peu plus transparent par défaut*/
