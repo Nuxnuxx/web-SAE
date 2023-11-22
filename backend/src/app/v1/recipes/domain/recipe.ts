@@ -3,7 +3,8 @@ import {
 	getRecipesByIdInDatabase,
 	getRecipesByKeyWordInDatabase,
 	getRecipesInDatabaseWithPagination,
-} from "../data-access.js";
+} from "../data-access/data-access.js";
+import { Filter } from "../recipe.js";
 
 export const getRecipeById = async (id: number) => {
 	const recipe = await getRecipesByIdInDatabase(id);
@@ -21,7 +22,7 @@ export const findRecipesByKeyWord = async (keyWordArray: string) => {
 	return recipes;
 };
 
-export const findRecipesByFilter = async (filter: string[]) => {
+export const findRecipesByFilter = async (filter: Filter) => {
 	//TODO: Implement pagination
 	const recipes = getRecipesByFilterInDatabase(filter);
 	return recipes;

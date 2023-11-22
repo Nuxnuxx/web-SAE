@@ -1,43 +1,90 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
 	findRecipesByFilter,
 	findRecipesByKeyWord,
 	getRecipeById,
 	getRecipes,
 } from "../domain/recipe.js";
+import { ApiError } from "../../../../libraries/error-handling/api-error.js";
+import { Filter } from "../recipe.js";
 
-//TODO: Try catch tout ca tout ca
-
-export const handleRecipeById = async (req: Request, res: Response) => {
+export const handleRecipeById = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	const { id } = req.params;
 	const parsedInt = parseInt(id, 10);
 
-	const result = await getRecipeById(parsedInt);
-
-	res.send(result);
+	try {
+		const result = await getRecipeById(parsedInt);
+		res.status(200).send(result);
+	} catch (err) {
+		const message =
+			err instanceof ApiError ? err.message : "Internal Server Error";
+		res.status(err instanceof ApiError ? err.httpCode : 500).send({
+			message,
+		});
+		next(err);
+	}
 };
 
-export const handleRecipes = async (req: Request, res: Response) => {
+export const handleRecipes = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	const page = parseInt(req.params.page, 10);
 
-	const result = await getRecipes(page);
-
-	res.send(result);
+	try {
+		const result = await getRecipes(page);
+		res.send(result);
+	} catch (err) {
+		const message =
+			err instanceof ApiError ? err.message : "Internal Server Error";
+		res.status(err instanceof ApiError ? err.httpCode : 500).send({
+			message,
+		});
+		next(err);
+	}
 };
 
-export const handleRecipeByKeyWord = async (req: Request, res: Response) => {
+export const handleRecipeByKeyWord = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	const keyWord = req.params.keyword;
 
-	const result = await findRecipesByKeyWord(keyWord);
-
-	res.send(result);
+	try {
+		const result = await findRecipesByKeyWord(keyWord);
+		res.send(result);
+	} catch (err) {
+		const message =
+			err instanceof ApiError ? err.message : "Internal Server Error";
+		res.status(err instanceof ApiError ? err.httpCode : 500).send({
+			message,
+		});
+		next(err);
+	}
 };
 
-export const handleRecipeByFilter = async (req: Request, res: Response) => {
-	//FIXME: filter not typed a string[]
-	const filter: any = req.query;
+export const handleRecipeByFilter = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const filter: Filter = req.query;
 
-	const result = await findRecipesByFilter(filter);
-
-	res.send(result);
+	try {
+		const result = await findRecipesByFilter(filter);
+		res.send(result);
+	} catch (err) {
+		const message =
+			err instanceof ApiError ? err.message : "Internal Server Error";
+		res.status(err instanceof ApiError ? err.httpCode : 500).send({
+			message,
+		});
+		next(err);
+	}
 };
