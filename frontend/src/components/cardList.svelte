@@ -21,7 +21,7 @@
 	}
 	@media (min-width: 768px) {
 		.list {
-			margin: 1rem 2rem;
+			margin: 2rem 4rem;
 			grid-template-columns: repeat(3, 1fr);
 		}
 	}
