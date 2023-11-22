@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>Profil | PirateCook</title>
+	<title>Profil | PirateCook</title>
 </svelte:head>
 
 <h1>Page permettant la modification et la suppression d'un utilisateur</h1>

@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>Authentification | PirateCook</title>
+	<title>Authentification | PirateCook</title>
 </svelte:head>
 
 <script>
