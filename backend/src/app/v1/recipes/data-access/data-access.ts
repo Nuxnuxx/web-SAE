@@ -40,11 +40,15 @@ export const getRecipesInDatabaseWithPagination = async (page_p: number) => {
 		);
 	}
 
+	const metadata = await getMetaDataInDatabase(page_p, query);
+
+	result.push({ metadata });
+
 	return result;
 };
 
 export const getRecipesByIdInDatabase = async (id: number) => {
-	const query = "MATCH (n) WHERE n.idRecipe = $idRecipe RETURN n";
+	const query = "MATCH (n:Recipe) WHERE n.idRecipe = $idRecipe RETURN n";
 	// need a string to match the data in the database
 	const idString: string = String(id);
 
@@ -74,17 +78,33 @@ export const getRecipesByIdInDatabase = async (id: number) => {
 	return result;
 };
 
-export const getRecipesByKeyWordInDatabase = async (keyWordArray: string) => {
+export const getRecipesByKeyWordInDatabase = async (
+	keyWordArray: string,
+	page_p: number
+) => {
+	const keyword = keyWordArray.split(" ");
+
 	const query = `
-        MATCH (n:Recipe)
-        WHERE n.name CONTAINS $keyWord
-        RETURN n
-				LIMIT 10
-    `;
+		MATCH (r:Recipe)
+		WHERE ANY(keyword IN $keyWords WHERE r.name CONTAINS keyword )
+		RETURN r
+		UNION
+		MATCH (r:Recipe)-[:INGREDIENTS]->(i:Ingredient)
+		WHERE ANY(keyword IN $keyWords WHERE i.name CONTAINS keyword )
+		RETURN r
+		SKIP $page
+		LIMIT $limit
+	`;
+
+	const currentPage = neo4j.int(page_p * PRODUCT_PER_PAGE);
 
 	let raw;
 	try {
-		raw = await database.run(query, { keyWord: keyWordArray });
+		raw = await database.run(query, {
+			keyWords: keyword,
+			page: currentPage,
+			limit: neo4j.int(PRODUCT_PER_PAGE),
+		});
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -104,6 +124,13 @@ export const getRecipesByKeyWordInDatabase = async (keyWordArray: string) => {
 			true
 		);
 	}
+
+	const metadata = await getMetaDataInDatabase(page_p, query, {
+		keyWords: keyword,
+	});
+
+	result.push({ metadata });
+
 	return result;
 };
 
@@ -157,5 +184,50 @@ export const getRecipesByFilterInDatabase = async (
 			true
 		);
 	}
+
+	const metadata = await getMetaDataInDatabase(page_p, query, {
+		...filter,
+		page: currentPage,
+	});
+
+	result.push({ metadata });
+
 	return result;
+};
+
+export const getMetaDataInDatabase = async (
+	page_p: number,
+	query: string,
+	params?: Object
+) => {
+	let finalQuery = query.replace(
+		/RETURN (\w+)/g,
+		"RETURN count($1) as total"
+	);
+
+	finalQuery = finalQuery.replace(/\s*SKIP \$page\s*LIMIT \$limit\s*/gm, "");
+
+	let totalRecords;
+	try {
+		totalRecords = await database.run(finalQuery, params);
+	} catch (err) {
+		throw new BaseError(
+			"INTERNAL SERVER ERROR",
+			HttpStatusCode.INTERNAL_SERVER,
+			`Error while fetching total recipes from database`,
+			true
+		);
+	}
+
+	const totalRecipes = totalRecords.records[0].get("total").toNumber();
+
+	const totalPages = Math.ceil(totalRecipes / PRODUCT_PER_PAGE);
+
+	const metadata = {
+		currentPage: page_p,
+		totalPages: totalPages,
+		totalRecipes: totalRecipes,
+	};
+
+	return metadata;
 };
