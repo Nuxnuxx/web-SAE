@@ -38,7 +38,7 @@ export const handleRecipes = async (
 
 	try {
 		const result = await getRecipes(page);
-		res.send(result);
+		res.status(200).send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -57,8 +57,8 @@ export const handleRecipeByKeyWord = async (
 	const keyWord = req.params.keyword;
 
 	try {
-		const result = await findRecipesByKeyWord(keyWord);
-		res.send(result);
+		const result = await findRecipesByKeyWord(keyWord, page);
+		res.status(200).send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -77,8 +77,8 @@ export const handleRecipeByFilter = async (
 	const filter: Filter = req.query;
 
 	try {
-		const result = await findRecipesByFilter(filter);
-		res.send(result);
+		const result = await findRecipesByFilter(filter, page);
+		res.status(200).send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
