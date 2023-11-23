@@ -1,9 +1,8 @@
 <svelte:head>
 	<title>Authentification | PirateCook</title>
-	<title>Authentification | PirateCook</title>
 </svelte:head>
 
-<script>
+<script lang='ts'>
     import Register from '../../components/register.svelte';
     import Login from '../../components/login.svelte';
 
@@ -11,7 +10,7 @@
 
     let bool = true;
 
-    function OnClick(event) {
+    function OnClick(event: any) {
         console.log(event.target.className)
         if (event.target.classList.contains("login")) {
             bool = true;
@@ -32,9 +31,9 @@
 </div>
 
 {#if selectedButton == 'login'}
-<Login />
+    <Login />
 {:else}
-<Register />
+    <Register />
 {/if}
 
 <style>
@@ -42,7 +41,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 20px;
+        margin: 20px 0 20px 0;
     }   
 
     button {

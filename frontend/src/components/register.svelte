@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-<script>
+<script lang="ts">
     let email = '';
     let firstName = '';
     let lastName = '';
@@ -18,29 +18,14 @@
         console.log('Confirm Password:', confirmPassword);
         console.log('Gender:', gender);
     }
- 
-    // function pour les checkbox pour n'en avoir qu'un seul de cocher
-    function handleCheckboxChange(genre) {
-        //récupérer les checkbox de option
-        const checkboxes = document.querySelectorAll('.option input[type="checkbox"]');
-
-        //décocher les checkbox qui ne sont pas celle qui a été coché
-        checkboxes.forEach(checkbox => {
-            if (checkbox.value !== genre) {
-                checkbox.checked = false;
-            }
-        });
-    }
 </script>
 
-<main>
-    <h2>Rejoignez nous, et trouver l'inspiration<br>culinaire qui <span class="rouge">vous</span> ressemble</h2>
+<h2>Rejoignez nous, et trouver l'inspiration<br>culinaire qui <span class="text-highlight">vous</span> ressemble</h2>
 
-    <form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={handleSubmit}>
 
-        <div>
-        <label for="email">
-        </label>
+    <div>
+        <label for="email"></label>
         <input 
                 type="email"
                 id="email" 
@@ -49,83 +34,105 @@
                 placeholder="Email*" 
                 autocomplete="username"
                 />
-        </div>
-       
-        <div class="name">
-            <label for="lastName">
-            </label>
-            <input 
-                    type="text" 
-                    id="lastName" 
-                    bind:value={lastName} 
-                    required 
-                    placeholder="Nom*"
-                    autocomplete="family-name"
-                    />
-
-            <label for="firstName">
-            </label>
-            <input 
-                    type="text" 
-                    id="firstName"
-                    bind:value={firstName} 
-                    required 
-                    placeholder="Prénom*"
-                    autocomplete="given-name"
-                    />
-        </div>
-
-        <div>
-        <label for="password">
-        </label>
+    </div>
+    
+    <div class="name">
+        <label for="lastName"></label>
         <input 
-                type="password" 
-                id="password" 
-                bind:value={password} 
+                type="text" 
+                id="lastName" 
+                bind:value={lastName} 
                 required 
-                placeholder="Mot de passe*"
-                autocomplete="new-password"
+                placeholder="Nom*"
+                autocomplete="family-name"
                 />
-        </div>
 
-        <div>
-        <label for="password">
-        </label>
-        <input
-                type="password" 
-                id="confirmPassword" 
-                bind:value={confirmPassword} 
+        <label for="firstName"></label>
+        <input 
+                type="text" 
+                id="firstName"
+                bind:value={firstName} 
                 required 
-                placeholder="Confirmer mot de passe*"
-                autocomplete="new-password"
+                placeholder="Prénom*"
+                autocomplete="given-name"
                 />
+    </div>
+
+    <div>
+    <label for="password">
+    </label>
+    <input 
+            type="password" 
+            id="password" 
+            bind:value={password} 
+            required 
+            placeholder="Mot de passe*"
+            autocomplete="new-password"
+            />
+    </div>
+
+    <div>
+    <label for="password">
+    </label>
+    <input
+            type="password" 
+            id="confirmPassword" 
+            bind:value={confirmPassword} 
+            required 
+            placeholder="Confirmer mot de passe*"
+            autocomplete="new-password"
+            />
+    </div>
+
+    <div>
+    <p class="genre">Je suis* :</p>
+    </div>
+
+    <div class="radio-container">
+        <div class="radio-wrapper">
+            <label class="radio-button">
+                <input id="male" name="radio-group" type="radio">
+                <span class="radio-checkmark"></span>
+                <span class="radio-label">Un pirate</span>
+            </label>
         </div>
-
-        <div>
-        <p class="genre">Je suis* :</p>
+        
+        <div class="radio-wrapper">
+            <label class="radio-button">
+                <input id="female" name="radio-group" type="radio">
+                <span class="radio-checkmark"></span>
+                <span class="radio-label">Une pirate</span>
+            </label>
         </div>
-
-        <div class="option">
-        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Homme"} on:change={() => handleCheckboxChange("Homme")} /> Un pirate</label>
-        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Femme"} on:change={() => handleCheckboxChange("Femme")}/> Une pirate</label>
-        <label class="checkbox"><input type="checkbox" bind:group={gender} value={"Autre"} on:change={() => handleCheckboxChange("Autre")}/> Autre</label>
+        
+        <div class="radio-wrapper">
+            <label class="radio-button">
+                <input id="other" name="radio-group" type="radio">
+                <span class="radio-checkmark"></span>
+                <span class="radio-label">Autre</span>
+            </label>
         </div>
+    </div>
 
-        <button type="submit">
-            Connexion
-		    <span class="material-symbols-rounded"> arrow_forward </span>
-	    </button>
-    </form>
-</main>
+    <button type="submit">
+        Connexion
+        <span class="material-symbols-rounded"> arrow_forward </span>
+    </button>
+</form>
 
 
 
-<style>
+<style lang="scss">
+
     h2 {
         text-align: center;
         color: #333;
         font-weight: normal;
         font-size: 22px;
+        .text-highlight {
+            color: #DE403E;
+            font-weight: bold;
+        }
     }
 
     form {
@@ -133,40 +140,139 @@
         flex-direction: column;
         align-items: center;
         margin-top: 20px;
+        
+        span{        
+            .material-symbols-rounded {
+                font-size: 20px;
+                font-weight: bold;
+                margin-left: 10px;
+                margin-right: -10px;
+            }
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #DE403E;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        div {
+            margin-bottom: 10px;
+            width: 40%;
+            min-width: 350px;
+            max-width: 700px;
+            padding-bottom: 20px;
+
+            .genre {
+                color:#939393;
+
+                margin-left: 1%;
+                margin-bottom: -20px;
+            }
+        }
+
+        input{
+            &:not([type=checkbox]) {
+                border: 1px solid #ccc;
+                border-radius: 3%;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+
+                /*padding du texte*/
+                padding: 5px 15px;
+                font-size: 16px;
+                outline: none;   
+                
+                width: 100%;
+            }
+            &:not([type=checkbox]) {
+                border: 1px solid #ccc;
+                border-radius: 3%;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+
+                /*padding du texte*/
+                padding: 5px 15px;
+                font-size: 16px;
+                outline: none;   
+                
+                width: 100%;
+            }
+            &::placeholder { opacity: 0.40;}
+
+            &::placeholder { transition:.5s;}
+
+            &:focus::placeholder { color:transparent;}
+            
+        }
+        
+        .radio-container {
+            display: flex;
+            justify-content: space-around;
+            color: #939393;
+
+            .radio-wrapper {
+                margin: 20px 0 20px 0;
+                min-width: fit-content;
+                display: flex;
+                justify-content: space-around;
+
+                .radio-button input[type="radio"] {
+                        display: none;
+                    }
+
+                .radio-button input[type="radio"]:checked ~ .radio-checkmark {
+                    border: 2px solid #DE403E;
+                }
+
+                .radio-button input[type="radio"]:checked ~ .radio-checkmark:before {
+                    transform: translate(-50%, -50%) scale(1);
+                }
+
+                .radio-button {
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+                    transition: all 0.2s ease-in-out;
+                    
+                    .radio-checkmark {
+                        display: inline-block;
+                        position: relative;
+                        width: 16px;
+                        height: 16px;
+                        margin-right: 10px;
+                        border: 2px solid #ccc;
+                        border-radius: 30%;
+                    }
+                    .radio-checkmark:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) scale(0);
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 30%;
+                        background-color: #DE403E;
+                        transition: all 0.2s ease-in-out;
+                    }
+                }
+                .radio-button:hover {
+                    transform: translateY(-2px);
+                }
+            }
+        }
     }
 
-    .genre {
-        font-size: 18px;
-        /*augmenter transparence*/
-        opacity: 0.50;
-
-        margin-left: 1%;
-        margin-bottom: -20px;
-    }
-
-    div {
-        margin-bottom: 10px;
-        width: 40%;
-        min-width: 350px;
-        max-width: 700px;
-        padding-bottom: 20px;
-    }
-
-    /*
-    label:not(.checkbox) {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-        width: 50%;
-        min-width: 350px;
-        max-width: 700px;
-        padding-bottom: 20px;
-    }*/
-
-    label.checkbox {
-        margin-bottom: 5%;
-    }
-
+    
     @media screen and (max-width: 1000px) {
         #lastName {
             margin-bottom: 30px;
@@ -191,77 +297,6 @@
             flex: 1 1 auto;
             width: 100%;
         }
-    }
-
-    div.option {
-        display: flex;
-        justify-content: space-between;
-        width: 40%;
-        min-width: 350px;
-    }
-
-
-    input:not([type=checkbox]) {
-        border: 1px solid #ccc;
-        border-radius: 3%;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-
-        /*padding du texte*/
-        padding: 5px 15px;
-        font-size: 16px;
-        outline: none;   
-        
-        width: 100%;
-    }
-
-    /*rend le placeholder un peu plus transparent par défaut*/
-    input::-webkit-input-placeholder { opacity: 0.40;}
-
-    /* ajoute de la transparence pour le placeholder lors du focus */
-    input::-webkit-input-placeholder { -webkit-transition:.5s;}
-    input:-moz-input-placeholder { -moz-transition:.5s;}
-    input::-moz-input-placeholder { -moz-transition:.5s;}
-    input:-ms-input-placeholder { -ms-transition:.5s;}
-
-    input:focus::-webkit-input-placeholder { color:transparent;}
-    input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
-    input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
-    input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
-
-    a{
-        text-decoration: none;
-        color: #9F9F9F;
-        text-decoration: underline;
-        font-size: 14px;
-        margin-top: -20px;
-        margin-bottom: 25px;
-        margin-right: -40%;
-    }
-
-    button {
-        padding: 10px 20px;
-        background-color: #DE403E;
-        color: #fff;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-    }
-
-    .material-symbols-rounded {
-        font-size: 20px;
-        font-weight: bold;
-        margin-left: 10px;
-        margin-right: -10px;
-    }
-
-    .rouge {
-        color: #DE403E;
-        font-weight: bold;
     }
 
 </style>
