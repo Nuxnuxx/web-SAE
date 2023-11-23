@@ -22,8 +22,7 @@ export const findRecipesByKeyWord = async (keyWordArray: string) => {
 	return recipes;
 };
 
-export const findRecipesByFilter = async (filter: Filter) => {
-	//TODO: Implement pagination
-	const recipes = getRecipesByFilterInDatabase(filter);
+export const findRecipesByFilter = async (filter: Filter, page: number) => {
+	const recipes = getRecipesByFilterInDatabase(filter, page);
 	return recipes;
 };

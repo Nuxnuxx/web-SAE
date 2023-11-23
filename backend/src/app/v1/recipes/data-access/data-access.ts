@@ -107,7 +107,10 @@ export const getRecipesByKeyWordInDatabase = async (keyWordArray: string) => {
 	return result;
 };
 
-export const getRecipesByFilterInDatabase = async (filter: Filter) => {
+export const getRecipesByFilterInDatabase = async (
+	filter: Filter,
+	page_p: number
+) => {
 	let query = "MATCH (r:Recipe) WHERE ";
 
 	const filters = Object.keys(filter).map((key) => {
@@ -118,11 +121,17 @@ export const getRecipesByFilterInDatabase = async (filter: Filter) => {
 	});
 
 	query += filters.join(" AND ");
-	query += " RETURN r";
+	query += " RETURN r SKIP $page LIMIT $limit";
+
+	const currentPage = neo4j.int(page_p * PRODUCT_PER_PAGE);
 
 	let raw;
 	try {
-		raw = await database.run(query, filter);
+		raw = await database.run(query, {
+			...filter,
+			page: currentPage,
+			limit: neo4j.int(PRODUCT_PER_PAGE),
+		});
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -138,7 +147,7 @@ export const getRecipesByFilterInDatabase = async (filter: Filter) => {
 			filter
 		)
 			.map((k) => {
-				return k + " : " + (filter as Record<string, unknown>)[k]; // Use type assertion here
+				return k + " : " + (filter as Record<string, Filter>)[k];
 			})
 			.join(", ")}`;
 		throw new ApiError(
