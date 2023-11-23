@@ -59,7 +59,7 @@
 		flex-direction: column;
 		align-items: center;
 		margin-top: 20px;
-		
+
 		label {
 			min-width: 350px;
 			max-width: 700px;
@@ -79,12 +79,12 @@
 				/*padding du texte*/
 				padding: 5px 15px;
 				font-size: 16px;
-				outline: none;	
+				outline: none;
 				&::placeholder {
 					opacity: 0.4;
 					transition: 0.5s;
 				}
-				
+
 				&:focus::placeholder {
 					color: transparent;
 				}
