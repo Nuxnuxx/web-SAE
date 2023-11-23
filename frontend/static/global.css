@@ -1,12 +1,12 @@
 @font-face {
     font-family: "Inter";
     src:
-        url("/fonts/Inter/Inter-VariableFont.ttf") format("truetype"),
+        url("src/lib/fonts/Inter/Inter-VariableFont.ttf") format("truetype"),
     }
 @font-face {
     font-family: "Leckerli One";
     src:
-        url("/fonts/Leckerli_One/LeckerliOne-Regular.ttf") format("truetype"),
+        url("src/lib/fonts/Leckerli_One/LeckerliOne-Regular.ttf") format("truetype"),
 }
 *{
     font-family: "Inter", sans-serif;
