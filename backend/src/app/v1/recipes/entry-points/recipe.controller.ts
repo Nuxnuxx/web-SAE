@@ -55,6 +55,7 @@ export const handleRecipeByKeyWord = async (
 	next: NextFunction
 ) => {
 	const keyWord = req.params.keyword;
+	const page = parseInt(req.params.page, 10);
 
 	try {
 		const result = await findRecipesByKeyWord(keyWord, page);
@@ -75,6 +76,7 @@ export const handleRecipeByFilter = async (
 	next: NextFunction
 ) => {
 	const filter: Filter = req.query;
+	const page: number = parseInt(req.params.page, 10);
 
 	try {
 		const result = await findRecipesByFilter(filter, page);

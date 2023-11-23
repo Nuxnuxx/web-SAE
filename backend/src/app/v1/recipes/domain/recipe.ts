@@ -16,9 +16,9 @@ export const getRecipes = async (page: number) => {
 	return recipes;
 };
 
-export const findRecipesByKeyWord = async (keyWordArray: string) => {
-	//TODO: implement with multiple keywords and pagination
-	const recipes = await getRecipesByKeyWordInDatabase(keyWordArray);
+export const findRecipesByKeyWord = async (keyWordArray: string, page: number) => {
+	//TODO: implement with multiple keywords and search in ingredient
+	const recipes = await getRecipesByKeyWordInDatabase(keyWordArray, page);
 	return recipes;
 };
 
