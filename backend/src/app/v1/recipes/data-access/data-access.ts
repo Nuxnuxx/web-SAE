@@ -88,6 +88,8 @@ export const getRecipesByKeyWordInDatabase = async (
 		MATCH (r:Recipe)
 		WHERE ANY(keyword IN $keyWords WHERE r.name CONTAINS keyword )
 		RETURN r
+		SKIP $page
+		LIMIT $limit
 		UNION
 		MATCH (r:Recipe)-[:INGREDIENTS]->(i:Ingredient)
 		WHERE ANY(keyword IN $keyWords WHERE i.name CONTAINS keyword )
@@ -206,6 +208,8 @@ export const getMetaDataInDatabase = async (
 	);
 
 	finalQuery = finalQuery.replace(/\s*SKIP \$page\s*LIMIT \$limit\s*/gm, "");
+
+	finalQuery = finalQuery.replace(/(UNION)/g, "\n$1");
 
 	let totalRecords;
 	try {
