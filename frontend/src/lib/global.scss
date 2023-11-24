@@ -1,0 +1,21 @@
+@font-face {
+	font-family: "Inter";
+	src: url("./fonts/Inter/Inter-VariableFont.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Leckerli One";
+	src: url("./fonts/Leckerli_One/LeckerliOne-Regular.ttf") format("truetype");
+}
+
+* {
+	font-family: "Inter", sans-serif;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+body {
+	margin: 0;
+}
+main {
+	margin-top: 7rem;
+}
