@@ -1,11 +1,11 @@
-<nav>
-	<h1>This is the header</h1>
-	<a href="/">Home</a>
-	<a href="/">About</a>
-	<a href="/">Settings</a>
-</nav>
+<script>
+	import Header from "../components/header.svelte";
+</script>
 
-<slot />
+<Header />
+<main>
+	<slot />
+</main>
 
 <nav>
 	<h1>This is the footer</h1>

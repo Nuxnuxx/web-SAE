@@ -9,4 +9,12 @@ declare global {
 	}
 }
 
+export interface Recipe {
+	img: string;
+	title: string;
+	nbLikes: number;
+	liked: boolean;
+	saved: boolean;
+}
+
 export {};
