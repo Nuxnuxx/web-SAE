@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LOGO from "$lib/img/LOGO.png";
 	import { onMount } from "svelte";
 
 	let user = false;
@@ -49,7 +50,7 @@
 </script>
 
 <nav bind:this={nav}>
-	<a href="/"><img alt="PirateCook" src="LOGO.png" /></a>
+	<a href="/"><img alt="PirateCook" src={LOGO} /></a>
 	<div class="nav__search">
 		<input placeholder="Rechercher..." type="search" />
 		<button class="material-symbols-rounded">search</button>
@@ -123,7 +124,8 @@
 				height: 1.3em;
 				width: 1.3em;
 				border-radius: 50em;
-				background: url(googlefont_icon_close.svg) no-repeat 50% 50%;
+				background: url("../lib/img/googlefont_icon_close.svg")
+					no-repeat 50% 50%;
 				background-size: contain;
 				opacity: 0;
 				pointer-events: none;

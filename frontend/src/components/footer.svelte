@@ -33,7 +33,7 @@
 		position: relative;
 		width: 100%;
 		aspect-ratio: 1920/250;
-		background: url(footer_shape.svg) no-repeat top left 50%;
+		background: url("../lib/img/footer_shape.svg") no-repeat top left 50%;
 		background-size: cover;
 		background-origin: border-box;
 
@@ -84,14 +84,16 @@
 					color: #f5f5f5;
 					&.dribbble__icon {
 						margin: auto;
-						background: url(dribbble_icon.svg) no-repeat 50% 50%;
+						background: url("../lib/img/dribbble_icon.svg")
+							no-repeat 50% 50%;
 						background-size: cover;
 						width: 1.75rem;
 						height: 1.75rem;
 					}
 					&.github__icon {
 						margin: auto;
-						background: url(github_icon.svg) no-repeat 50% 50%;
+						background: url("../lib/img/github_icon.svg") no-repeat
+							50% 50%;
 						background-size: cover;
 						width: 1.75rem;
 						height: 1.75rem;
