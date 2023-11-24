@@ -167,7 +167,7 @@ Cette approche architecturale permet une organisation claire des composantes du 
   - components : recipe/:id
     - Composant affichant une recette
 - Back
-  - /recipe?id=
+  - /recipe/id/:id
     - Récupère les informations d'une recette
 - Model
   - table recette
@@ -203,7 +203,7 @@ Cette approche architecturale permet une organisation claire des composantes du 
     - Composant affichant la liste des recettes avec une pagination
     - Paramètre : listRecipe (liste de recette transmis par la searchBar et/ou les filtres)
 - Back
-  - /recipes
+  - /recipe/page/:page
     - Récupère un nombre X de recettes (pour pagination exemple : 13)
 - Model
   - table recette
@@ -225,7 +225,7 @@ Cette approche architecturale permet une organisation claire des composantes du 
   - Components : searchBar
   - Composant avec un input permettant aux utilisateurs de saisir des mots-clés pour rechercher des recettes
 - Back
-  - /search?mots-clés
+  - /search/:keyword
   - Reçoit les mots-clés saisis par l'utilisateur et demande à la base de données de retourner les résultats correspondants
 - Model
 - Table recette
