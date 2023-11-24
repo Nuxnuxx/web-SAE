@@ -10,7 +10,6 @@
 </svelte:head>
 
 <div class="background">
-
 	<div class="container">
 		{#if modify}
 			<Modify />
@@ -19,7 +18,6 @@
 		{/if}
 	</div>
 </div>
-
 
 <style>
 	.background {

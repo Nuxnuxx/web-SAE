@@ -23,7 +23,7 @@
 	<div class="card">
 		<!--image de profil-->
 		<div class="card__img">
-			<img src="https://picsum.photos/200" alt="profile picture"/>
+			<img src="https://picsum.photos/200" alt="profile picture" />
 		</div>
 
 		<form on:submit|preventDefault={handleSubmit} class="card__form">
@@ -98,15 +98,14 @@
 
 <style lang="scss">
 	.card {
-		border : 1px solid #ccc;
+		border: 1px solid #ccc;
 		border-radius: 20px;
 		width: auto;
 		/*ne peux pas etre plus petit que les enfants*/
 		overflow: auto;
 		border-radius: 20px;
-		background: #F5F5F5;
-		box-shadow: 0px 0px 10px 0px #DCDCDC;
-
+		background: #f5f5f5;
+		box-shadow: 0px 0px 10px 0px #dcdcdc;
 
 		.card__img {
 			width: 25%;
@@ -125,7 +124,7 @@
 				vertical-align: middle;
 			}
 		}
-	
+
 		.card__form {
 			display: flex;
 			flex-direction: column;
@@ -137,10 +136,9 @@
 				padding-bottom: 10px;
 			}
 
-			.form__field{	
+			.form__field {
 				border: 1px solid #ccc; /* Couleur de la bordure */
 				border-radius: 20px; /* Rayon des coins arrondis */
-				
 			}
 
 			.form__legend {
@@ -148,7 +146,7 @@
 				margin-left: 10px;
 				opacity: 0.3;
 			}
-		
+
 			.form__label {
 				display: flex;
 				flex-direction: column;
@@ -159,19 +157,18 @@
 
 			.form__input {
 				border: none;
-				background: #F5F5F5;
+				background: #f5f5f5;
 				outline: none;
 			}
 
 			.form__input::placeholder {
-					opacity: 0.4;
-				}
+				opacity: 0.4;
+			}
 
 			.form__button {
 				margin-bottom: 30px;
 				margin-left: 20%;
 				margin-right: 20%;
-
 
 				padding: 10px 20px;
 				background-color: #de403e;
@@ -196,7 +193,6 @@
 			}
 		}
 	}
-
 
 	.material-symbols-rounded {
 		font-variation-settings:
