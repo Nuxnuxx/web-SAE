@@ -26,7 +26,7 @@
 	}
 
 	.container {
-		padding-top: 2%;
+		padding-top: 1%;
 		padding-bottom: 3%;
 		margin-left: 5%;
 		width: 40%;

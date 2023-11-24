@@ -1,53 +1,54 @@
 <script>
-</script><l<link 
-    rel="stylesheet" 
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+</script>
+
+<l<link
+	rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
 />
 
 <main>
 	<div class="card">
 		<!--image de profil-->
 		<div class="card__img">
-			<img src="https://picsum.photos/200" alt="profile picture"/>
+			<img src="https://picsum.photos/200" alt="profile picture" />
 		</div>
-        
-        <div class="card__content">
-            <div class="content__nom">
-                <p>Mister P.</p>
-            </div>
 
-            <div class="content__localisation">
-                <span class="material-symbols-rounded localisation__icon">
-                    location_on
-                    </span>
-                <p>France</p>
-            </div>
+		<div class="card__content">
+			<div class="content__nom">
+				<p>Mister P.</p>
+			</div>
 
-            <button type="submit" class="content__button">
-                <span class="material-symbols-rounded button__icon">
-                    edit
-                    </span>
-                <span class="button__text">Modifier votre profil</span>
-            </button>
+			<div class="content__localisation">
+				<span class="material-symbols-rounded localisation__icon">
+					location_on
+				</span>
+				<p>France</p>
+			</div>
 
-            <div class="content__deconnexion">
-                <p>Déconnexion</p>
-            </div>
-        </div>
+			<button type="submit" class="content__button">
+				<span class="material-symbols-rounded button__icon">
+					edit
+				</span>
+				<span class="button__text">Modifier votre profil</span>
+			</button>
+
+			<div class="content__deconnexion">
+				<a href="auth">Déconnexion</a>
+			</div>
+		</div>
 	</div>
 </main>
 
 <style lang="scss">
 	.card {
-		border : 1px solid #ccc;
+		border: 1px solid #ccc;
 		border-radius: 20px;
 		width: auto;
 		/*ne peux pas etre plus petit que les enfants*/
 		overflow: auto;
 		border-radius: 20px;
-		background: #F5F5F5;
-		box-shadow: 0px 0px 10px 0px #DCDCDC;
-
+		background: #f5f5f5;
+		box-shadow: 0px 0px 10px 0px #dcdcdc;
 
 		.card__img {
 			width: 25%;
@@ -66,7 +67,7 @@
 				vertical-align: middle;
 			}
 		}
-	
+
 		.card__content {
 			display: flex;
 			flex-direction: column;
@@ -84,31 +85,34 @@
 				}
 			}
 
-            .content__localisation {
-                display: flex;
-                padding-bottom: 10px;
+			.content__localisation {
+				display: flex;
+				padding-bottom: 10px;
 				margin-top: -30px;
 				opacity: 0.2;
 				font-size: 10px;
-
-            }
+			}
 
 			.content__button {
-				margin-bottom: 30px;
 				margin-left: 20%;
 				margin-right: 20%;
+				margin-bottom: 2%;
 
-
-				padding: 10px 20px;
+				padding: 5px 15px;
 				background-color: #de403e;
 				color: #fff;
 				border: none;
-				border-radius: 20px;
+				border-radius: 10px;
 				cursor: pointer;
 				font-size: 15px;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+
+				
+				.material-symbols-rounded {
+					font-variation-settings: "FILL" 1;
+				}
 
 				@media screen and (max-width: 1150px) {
 					font-size: 16px;
@@ -120,30 +124,23 @@
 					}
 				}
 
-				.button__icon {			
+				.button__icon {
 					margin-left: auto;
 					margin-right: auto;
 				}
 			}
 
-            .content__deconnexion {
-                padding-bottom: 10px;
-            }
+			.content__deconnexion {
+				padding-bottom: 10px;
+				text-decoration: underline;
+				margin-bottom: 10%;
+
+				a {
+					text-decoration: none;
+					color: #333;
+				}
+
+			}
 		}
 	}
-
-    .material-symbols-rounded {
-        font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24;
-    }
-l-symbols-rounded {
-        font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24;
-    }
 </style>
