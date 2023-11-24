@@ -11,12 +11,6 @@
 	};
 </script>
 
-<!-- link need to be replaced by a local style-->
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
-
 <div class="card">
 	<div class="card__img">
 		<img src={data.img} alt={data.title} />
