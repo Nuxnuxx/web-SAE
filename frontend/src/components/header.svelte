@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	let user = true;
+	let user = false;
 
 	/////////////////////
 	// Header behavior //
@@ -15,14 +15,14 @@
 	// get nav element
 	let nav: HTMLElement;
 	onMount(() => {
-		if (nav) {
+		if (nav.style) {
 			// get header height
 			const headerHeight = nav.offsetHeight;
 			// get scroll position
 			let scrollPos = 0;
 
 			setInterval(function () {
-				if (didScroll) {
+				if (didScroll && nav.style) {
 					hasScrolled();
 					didScroll = false;
 				}
