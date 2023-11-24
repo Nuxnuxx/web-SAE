@@ -1,10 +1,9 @@
 export interface Recipe {
-	id: number;
+	idRecipe: number;
 	name: string;
-	urlImage: string;
-	numberLike: bigInt;
-	userLike?: boolean;
-	userList?: boolean;
+	price: string;
+	quantity: string;
+	difficulty: string;
 }
 
 export interface Filter {

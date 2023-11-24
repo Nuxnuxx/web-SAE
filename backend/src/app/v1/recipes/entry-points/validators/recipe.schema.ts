@@ -35,11 +35,11 @@ export const schemaFilterQuery = yup.object().shape({
 				key === "price"
 					? yup.string().oneOf(Object.values(Price)).notRequired()
 					: key === "difficulty"
-					  ? yup
-								.string()
-								.oneOf(Object.values(Difficulty))
-								.notRequired()
-					  : yup.string().notRequired(),
+					? yup
+							.string()
+							.oneOf(Object.values(Difficulty))
+							.notRequired()
+					: yup.string().notRequired(),
 		}),
 		{}
 	),

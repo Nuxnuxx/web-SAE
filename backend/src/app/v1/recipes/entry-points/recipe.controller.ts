@@ -13,12 +13,21 @@ export const handleRecipeById = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { id } = req.params;
-	const parsedInt = parseInt(id, 10);
-
 	try {
-		const result = await getRecipeById(parsedInt);
-		res.status(200).send(result);
+		const { id } = req.params;
+		const parsedInt = parseInt(id, 10);
+
+		try {
+			const result = await getRecipeById(parsedInt);
+			res.status(200).send(result);
+		} catch (err) {
+			const message =
+				err instanceof ApiError ? err.message : "Internal Server Error";
+			res.status(err instanceof ApiError ? err.httpCode : 500).send({
+				message,
+			});
+			next(err);
+		}
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
