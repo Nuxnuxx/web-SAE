@@ -1,16 +1,21 @@
 import { Router } from "express";
 import {
-	deleteProfilController,
-	loginController,
-	modifyProfilController,
-	registerController,
+	handleDeleteProfil,
+	handleLogin,
+	handleModifyProfil,
+	// handleDeleteProfil,
+	// handleLogin,
+	// handleModifyProfil,
+	handleRegister,
 } from "./auth.controller.js";
+import { validate } from "./validators/auth.validator.js";
+import { schemaRegisterBody } from "./validators/auth.schema.js";
 
 const authRouter = Router();
 
-authRouter.post("/register", registerController);
-authRouter.get("/login", loginController);
-authRouter.put("/profil", modifyProfilController);
-authRouter.delete("/profil", deleteProfilController);
+authRouter.post("/register", validate(schemaRegisterBody), handleRegister);
+authRouter.get("/login", handleLogin);
+authRouter.put("/profil", handleModifyProfil);
+authRouter.delete("/profil", handleDeleteProfil);
 
 export default authRouter;
