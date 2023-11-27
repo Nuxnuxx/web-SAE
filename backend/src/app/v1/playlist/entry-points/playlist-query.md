@@ -25,7 +25,13 @@ CREATE (u)-[:A_UNE]->(p)
 ### Parameters : idplaylist : number , namePlaylist : string
 
 -   fetch the id and check that it belongs to the user email
+Match (p:Playlist) where p.idPlaylist = '19' 
+match (u:User) where u.mail='Toni.Brown@gmail.com'
+with p,u 
+match (u)-[:A_UNE]->(p)
+return u,p
 -   modify the list name of the specific idPlaylist
+   match (p:Playlist{idPlaylist:100}) SET p.name = 'nouveau nom'
 
 ## Delete list
 
@@ -33,10 +39,12 @@ CREATE (u)-[:A_UNE]->(p)
 
 -   fetch the id and check that it belongs to the user email
 -   delete the playlist with the id
+  match (p:Playlist{idPlaylist:100}) DELETE p
 
 ## Display List
 
 ### Parameters : idplaylist : number
 
+MATCH (u:User{mail:'Amanda.Bernard@gmail.com'}) MATCH (p:Playlist) MATCH (u)-[:A_UNE]->(p) return u,p
 -   fetch the id and check that it belongs to the user email
 -   modify the list name of the specific idPlaylist
