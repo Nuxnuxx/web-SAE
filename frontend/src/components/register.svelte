@@ -18,11 +18,6 @@
 	}
 </script>
 
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
-
 <h2
 	>Rejoignez nous, et trouver l'inspiration<br />culinaire qui
 	<span class="text-highlight">vous</span> ressemble</h2
