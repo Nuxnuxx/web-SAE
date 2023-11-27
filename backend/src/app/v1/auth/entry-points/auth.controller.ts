@@ -1,33 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import {
-	findRecipesByFilter,
-	findRecipesByKeyWord,
-	getRecipeById,
-	getRecipes,
-} from "../domain/recipe.js";
+	loginUser,
+	registerUser,
+	modifyUser,
+	deleteUser,
+} from "../domain/auth.js";
 import { ApiError } from "../../../../libraries/error-handling/api-error.js";
-import { Filter } from "../recipe.js";
 
-export const handleRecipeById = async (
+export const handleRegister = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	try {
-		const { id } = req.params;
-		const parsedInt = parseInt(id, 10);
+	const user = {
+		name: req.body.name,
+		email: req.body.email,
+		password: req.body.password,
+	};
 
-		try {
-			const result = await getRecipeById(parsedInt);
-			res.status(200).send(result);
-		} catch (err) {
-			const message =
-				err instanceof ApiError ? err.message : "Internal Server Error";
-			res.status(err instanceof ApiError ? err.httpCode : 500).send({
-				message,
-			});
-			next(err);
-		}
+	try {
+		const register = await registerUser(user);
+		res.status(200).send(register);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -38,16 +31,16 @@ export const handleRecipeById = async (
 	}
 };
 
-export const handleRecipes = async (
+export const handleLogin = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const page = parseInt(req.params.page, 10);
+	const user = req.body;
 
 	try {
-		const result = await getRecipes(page);
-		res.status(200).send(result);
+		const login = await loginUser(user);
+		res.status(200).send(login);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -58,17 +51,16 @@ export const handleRecipes = async (
 	}
 };
 
-export const handleRecipeByKeyWord = async (
+export const handleModifyProfil = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const keyWord = req.params.keyword;
-	const page = parseInt(req.params.page, 10);
+	const user = req.body;
 
 	try {
-		const result = await findRecipesByKeyWord(keyWord, page);
-		res.status(200).send(result);
+		const modify = await modifyUser(user);
+		res.status(200).send(modify);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -79,17 +71,16 @@ export const handleRecipeByKeyWord = async (
 	}
 };
 
-export const handleRecipeByFilter = async (
+export const handleDeleteProfil = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const filter: Filter = req.query;
-	const page: number = parseInt(req.params.page, 10);
+	const user = req.body;
 
 	try {
-		const result = await findRecipesByFilter(filter, page);
-		res.status(200).send(result);
+		const deleteProfil = await deleteUser(user);
+		res.status(200).send(deleteProfil);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
