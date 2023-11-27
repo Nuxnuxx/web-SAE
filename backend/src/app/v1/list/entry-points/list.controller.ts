@@ -28,11 +28,24 @@ export const handleModifyList = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { nameList, idList } = req.query;
+	const nameList = req.query.namelist;
+	const idList = req.query.idlist;
+
+	//INFO: A enlever quand le schema de verification sera la
+	if (typeof idList !== "string") {
+		throw new ApiError(
+			"Id is not a string",
+			"ID_IS_NOT_A_STRING",
+			400,
+			true
+		);
+	}
+
+	const parsedId = parseInt(idList, 10);
 
 	try {
 		//@ts-ignore
-		const result = await modifyList(idList, nameList, req.user.mail);
+		const result = await modifyList(parsedId, nameList, req.user.email);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =
@@ -49,11 +62,22 @@ export const handleDeleteList = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { idList } = req.query;
+	const idList = req.query.idlist;
+
+	//INFO: A enlever quand le schema de verification sera la sera la
+	if (typeof idList !== "string") {
+		throw new ApiError(
+			"Id is not a string",
+			"ID_IS_NOT_A_STRING",
+			400,
+			true
+		);
+	}
+	const parsedId = parseInt(idList, 10);
 
 	try {
 		//@ts-ignore
-		const result = await deleteList(idList, req.user.email);
+		const result = await deleteList(parsedId, req.user.email);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =
@@ -70,11 +94,9 @@ export const handleGetList = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { idList } = req.query;
-
 	try {
 		//@ts-ignore
-		const result = await getList(idList, req.user.email);
+		const result = await getList(req.user.email);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =
