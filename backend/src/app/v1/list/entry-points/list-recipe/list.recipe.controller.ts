@@ -12,11 +12,23 @@ export const handleAddRecipeLiked = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { idRecipe } = req.query;
+	const idRecipe = req.query.idrecipe;
+
+	// INFO: A enlever quand le schema de verification sera la
+	if (typeof idRecipe !== "string") {
+		throw new ApiError(
+			"Id is not a string",
+			"ID_IS_NOT_A_STRING",
+			400,
+			true
+		);
+	}
+
+	const parsedId = parseInt(idRecipe, 10);
 
 	try {
 		//@ts-ignore
-		const result = await createRecipeLiked(idRecipe, req.user.email);
+		const result = await createRecipeLiked(parsedId, req.user.email);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =
@@ -33,11 +45,21 @@ export const handleAddRecipeList = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { idRecipe, idList } = req.query;
+	const idRecipe = req.query.idrecipe;
+	const idList = req.query.idlist;
+
+	//@ts-ignore
+	const parsedIdRecipe = parseInt(idRecipe, 10);
+	//@ts-ignore
+	const parsedIdList = parseInt(idList, 10);
 
 	try {
 		//@ts-ignore
-		const result = await createRecipeList(idRecipe, idList, req.user.email);
+		const result = await createRecipeList(
+			parsedIdRecipe,
+			parsedIdList,
+			req.user.email
+		);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =
@@ -54,11 +76,13 @@ export const handleGetRecipeList = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { id } = req.query;
+	const id = req.query.id;
+
+	const parsedId = parseInt(id, 10);
 
 	try {
 		//@ts-ignore
-		const result = await getRecipesList(id, req.user.email);
+		const result = await getRecipesList(parsedId, req.user.email);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =
@@ -75,11 +99,38 @@ export const handleDeleteRecipeList = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { id } = req.query;
+	const idList = req.query.idlist;
+	const idRecipe = req.query.idrecipe;
+
+	//INFO: A enlever quand le schema de verification sera la
+	if (typeof idList !== "string") {
+		throw new ApiError(
+			"Id is not a string",
+			"ID_IS_NOT_A_STRING",
+			400,
+			true
+		);
+	}
+
+	//INFO: A enlever quand le schema de verification sera la
+	if (typeof idRecipe !== "string") {
+		throw new ApiError(
+			"Id is not a string",
+			"ID_IS_NOT_A_STRING",
+			400,
+			true
+		);
+	}
+
+	const parsedIdList = parseInt(idList);
+	const parsedIdRecipe = parseInt(idRecipe);
 
 	try {
-		//@ts-ignore
-		const result = await deleteRecipeList(id, req.user.email);
+		const result = await deleteRecipeList(
+			parsedIdList,
+			parsedIdRecipe,
+			req.user.email
+		);
 		res.status(200).send(result);
 	} catch (err) {
 		const message =

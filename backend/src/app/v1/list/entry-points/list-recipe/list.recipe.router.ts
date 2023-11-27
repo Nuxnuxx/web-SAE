@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { handleAddRecipeLiked, handleAddRecipeList, handleDeleteRecipeList, handleGetRecipeList } from "./list.recipe.controller.js";
+import {
+	handleAddRecipeLiked,
+	handleAddRecipeList,
+	handleDeleteRecipeList,
+	handleGetRecipeList,
+} from "./list.recipe.controller.js";
 
 const listRecipeRouter = Router();
 
+// FIXME: Aucune requete marche mashallah
 listRecipeRouter.post("/addlike", handleAddRecipeLiked);
 listRecipeRouter.post("/addlist", handleAddRecipeList);
 listRecipeRouter.get("/list", handleGetRecipeList);
