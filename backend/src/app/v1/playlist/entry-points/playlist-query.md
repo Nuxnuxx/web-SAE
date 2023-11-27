@@ -6,6 +6,20 @@
 
 -   Create a list for the user with the specific email
 
+MERGE (id:UniqueId {name: 'Playlist'})
+ON CREATE SET id.count = 100
+ON MATCH SET id.count = id.count + 1
+
+WITH id.count AS uid
+CREATE (p:Playlist {idPlaylist: uid, name: 'salutBg'})
+
+
+WITH p, '0' AS userIdValue
+MATCH (u:User {idUser: userIdValue})
+
+// Créer un lien entre le nœud Playlist et le nœud User
+CREATE (u)-[:A_UNE]->(p)
+
 ## Modify List
 
 ### Parameters : idplaylist : number , namePlaylist : string
