@@ -1,5 +1,5 @@
 <script>
-	import Show from "../../components/showProfile.svelte";
+	import Modify from "../../../components/modifyProfil.svelte";
 </script>
 
 <svelte:head>
@@ -8,7 +8,7 @@
 
 <div class="background">
 	<div class="container">
-		<Show />
+		<Modify />
 	</div>
 </div>
 

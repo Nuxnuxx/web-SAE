@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<l<link
+<link
 	rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
 />
@@ -19,18 +19,18 @@
 			</div>
 
 			<div class="content__localisation">
-				<span class="material-symbols-rounded localisation__icon">
+				<span class="material-symbols-rounded">
 					location_on
 				</span>
 				<p>France</p>
 			</div>
 
-			<button type="submit" class="content__button">
+			<a type="button" class="content__button" href="/profil/modify">
 				<span class="material-symbols-rounded button__icon">
 					edit
 				</span>
 				<span class="button__text">Modifier votre profil</span>
-			</button>
+			</a>
 
 			<div class="content__deconnexion">
 				<a href="auth">Déconnexion</a>
@@ -91,6 +91,10 @@
 				margin-top: -30px;
 				opacity: 0.2;
 				font-size: 10px;
+
+				.material-symbols-rounded {
+					font-variation-settings: 'FILL' 0;
+				}
 			}
 
 			.content__button {
@@ -108,8 +112,8 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+				text-decoration: none;
 
-				
 				.material-symbols-rounded {
 					font-variation-settings: "FILL" 1;
 				}
@@ -139,7 +143,6 @@
 					text-decoration: none;
 					color: #333;
 				}
-
 			}
 		}
 	}

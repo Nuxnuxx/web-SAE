@@ -11,6 +11,9 @@
 		console.log("Last Name:", lastName);
 		console.log("Email:", email);
 		console.log("Password:", password);
+
+		// href to /profil
+		window.location.href = "/profil";
 	}
 </script>
 
@@ -26,7 +29,7 @@
 			<img src="https://picsum.photos/200" alt="profile picture" />
 		</div>
 
-		<form on:submit|preventDefault={handleSubmit} class="card__form">
+		<form on:submit|preventDefault={handleSubmit} class="card__form" action="/profil">
 			<div class="form__div">
 				<fieldset class="form__field">
 					<legend class="form__legend">Prénom</legend>
@@ -34,7 +37,6 @@
 						type="text"
 						id="firstName"
 						bind:value={firstName}
-						required
 						placeholder="Damn"
 						class="form__input"
 					/>
@@ -49,7 +51,6 @@
 						type="text"
 						id="lastName"
 						bind:value={lastName}
-						required
 						placeholder="Mister P."
 						class="form__input"
 					/>
@@ -65,7 +66,6 @@
 						name="email"
 						id="email"
 						bind:value={email}
-						required
 						placeholder="lasauce@gmail.com"
 						class="form__input"
 					/>
@@ -80,7 +80,6 @@
 						type="password"
 						id="password"
 						bind:value={password}
-						required
 						placeholder="oui"
 						class="form__input"
 					/>
@@ -151,14 +150,12 @@
 				display: flex;
 				flex-direction: column;
 				margin-bottom: 10px;
-				/*min-width: 80%;*/
-				/*width selon taille de l'écran*/
 			}
 
 			.form__input {
 				border: none;
 				background: #f5f5f5;
-				outline: none;
+				
 			}
 
 			.form__input::placeholder {
