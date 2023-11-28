@@ -7,7 +7,6 @@
 
 <div class={rating_like ? "selector rating_like" : "selector"}>
 	{#each data as item, i (i)}
-		<!-- {#each data as item, i (length-i)} -->
 		<input
 			value={length - i}
 			id="selector-{item}{length - i}"

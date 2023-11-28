@@ -89,7 +89,7 @@
 			</button>
 		{:else if currentQuestion === 3}
 			<h2>
-				Et pour les <span class="rouge">épices</span> ?
+				Et pour les <span class="highlight">épices</span> ?
 			</h2>
 			<Selector
 				data={["fire_truck", "local_fire_department", "block"]}
