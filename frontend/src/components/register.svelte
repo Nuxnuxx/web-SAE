@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { sendRegister } from "$lib/api/auth-request";
 
 	let email = "";
 	let firstName = "";
@@ -10,24 +11,15 @@
 
 	async function handleRegister() {
 		try {
-			const name = firstName + " " + lastName;
-			const result = await fetch(
-				"http://localhost:5000/api/v1/auth/register",
-				{
-					method: "POST",
-					body: JSON.stringify({ name, email, password }),
-					headers: {
-						"Content-type": "application/json",
-					},
-				}
+			const result = await sendRegister(
+				firstName,
+				lastName,
+				email,
+				password
 			);
-
-			if (result.ok) {
-				const data = await result.json();
-				localStorage.setItem("user", JSON.stringify(data));
+			if (result) {
+				localStorage.setItem("user", JSON.stringify(result));
 				goto("/");
-			} else {
-				throw new Error("What is this shit");
 			}
 		} catch (err) {
 			console.log(err);

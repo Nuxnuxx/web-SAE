@@ -1,28 +1,16 @@
-<script>
+<script lang="ts">
 	import { goto } from "$app/navigation";
+	import { sendLogin } from "$lib/api/auth-request";
 
 	let email = "";
 	let password = "";
 
 	async function handleLogin() {
 		try {
-			const result = await fetch(
-				"http://localhost:5000/api/v1/auth/login",
-				{
-					method: "POST",
-					body: JSON.stringify({ email, password }),
-					headers: {
-						"Content-type": "application/json",
-					},
-				}
-			);
-
-			if (result.ok) {
-				const data = await result.json();
-				localStorage.setItem("user", JSON.stringify(data));
+			const result = await sendLogin(email, password);
+			if (result) {
+				localStorage.setItem("user", JSON.stringify(result));
 				goto("/");
-			} else {
-				throw new Error("What is this shit");
 			}
 		} catch (err) {
 			console.log(err);
