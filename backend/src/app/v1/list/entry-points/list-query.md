@@ -18,7 +18,7 @@ CREATE (u)-[:A_UNE]->(p)
 Match (p:Playlist) where p.idPlaylist = '19' match (u:User) where u.mail='Toni.Brown@gmail.com' with p,u match (u)-[:A_UNE]->(p) return u,p
 -   modify the list name of the specific idlist
 match (p:Playlist{idPlaylist:100}) SET p.name = 'nouveau nom'
-## Delete list
+## Delete list FIXME
 
 ### Parameters : idplaylist : number
 
@@ -37,26 +37,26 @@ IDEM
 MATCH (u:User{mail:'Amanda.Bernard@gmail.com'}) MATCH (p:Playlist) MATCH (u)-[:A_UNE]->(p) return u,p
 ## Create recipe in liked
 
-### Paramaters : idRecipe : number
+### Paramaters : idRecipe : number FIXME
 
 - add the recipe to liked list
   Match (p:Playlist{name:'liked'})  match (u:User) where u.mail='Toni.Brown@gmail.com' MATch (u)-[:A_UNE]->(p)   Match (r:Recipe{idRecipe:'16'})with p,u,r CREATE (r)-[:est_dans]->(p) 
 
 ## Add recipe in a list
 
-### Paramaters : idRecipe : number
+### Paramaters : idRecipe : number FIXME
 
 - add the recipe to list
 - Match (p:Playlist{idPlaylist:'18'})  match (u:User) where u.mail='Toni.Brown@gmail.com' MATch (u)-[:A_UNE]->(p)   Match (r:Recipe{idRecipe:'16'})with p,u,r CREATE (r)-[:est_dans]->(p) 
 
 ## Get all Recipes in a list
 
-### Parameters : idList : number
+### Parameters : idList : number FIXME
 
 - get all recipe from a playlist
   MATCH (r:Recipe)-[:est_dans]->(p:Playlist{idPlaylist:'0'}) return r
 
-## Delete one recipe from a list
+## Delete one recipe from a list FIXME
 
 ### Parameters : idrecipe: number , idlist : number
 
