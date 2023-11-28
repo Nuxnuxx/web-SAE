@@ -1,9 +1,9 @@
 # Parameters : email of user for each
 ### POUR CHNAGER EN INT :
-- MATCH (n:Ingredient) FOREACH (node IN [1] | SET n.idIngredient = toInteger(n.idIngredient))
-- MATCH (n:Recipe) FOREACH (node IN [1] | SET n.idRecipe = toInteger(n.idRecipe))
-- MATCH (n:Playlist) FOREACH (node IN [1] | SET n.idPlaylist = toInteger(n.idPlaylist))
-- MATCH (n:User) FOREACH (node IN [1] | SET n.idUser= toInteger(n.idUser))
+MATCH (n:Ingredient) FOREACH (node IN [1] | SET n.idIngredient = toInteger(n.idIngredient))
+MATCH (n:Recipe) FOREACH (node IN [1] | SET n.idRecipe = toInteger(n.idRecipe))
+MATCH (n:Playlist) FOREACH (node IN [1] | SET n.idPlaylist = toInteger(n.idPlaylist))
+MATCH (n:User) FOREACH (node IN [1] | SET n.idUser= toInteger(n.idUser))
 ## Create List
 
 ### Parameters : namelist : string

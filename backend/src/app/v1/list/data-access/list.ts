@@ -146,9 +146,8 @@ export const modifyListInDatabase = async (id: number, name: string) => {
 };
 
 export const deleteListInDatabase = async (id: number) => {
-	//FIXME: Paulo fixing this query tonight at 11/27/2023
 	const query = `
-		MATCH (p:Playlist{idPlaylist:$id}) DELETE p
+		MATCH (p:Playlist{idPlaylist:$id}) MATCH ()-[l:A_UNE]->(p) MATCH ()-[l2:est_dans]->(p) delete l,l2,p
 	`;
 
 	try {

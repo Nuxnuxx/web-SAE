@@ -1,5 +1,5 @@
 import {
-	createRecipeListInDatabase,
+	createRecipeInListInDatabase,
 	deleteRecipeListInDatabase,
 	createRecipeInLikedInDatabase,
 	getRecipesListInDatabase,
@@ -17,7 +17,7 @@ export const createRecipeList = async (
 	email: string
 ) => {
 	await checkListBelongToUser(idList, email);
-	const result = await createRecipeListInDatabase(idList, idRecipe, email);
+	const result = await createRecipeInListInDatabase(idRecipe, idList, email);
 	return result;
 };
 

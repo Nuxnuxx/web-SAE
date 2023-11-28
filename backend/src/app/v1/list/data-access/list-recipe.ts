@@ -41,17 +41,18 @@ export const createRecipeInLikedInDatabase = async (
 	}
 };
 
-export const createRecipeListInDatabase = async (
+export const createRecipeInListInDatabase = async (
 	idRecipe: number,
 	idList: number,
 	email: string
 ) => {
 	const query = `
-		MATCH (p:Playlist{idPlaylist:$idList})  
-		MATCH (u:User) where u.mail=$email 
-		MATCH (u)-[:A_UNE]->(p)   
-		MATCH (r:Recipe{idRecipe:$idRecipe}) with p,u,r 
-		CREATE (r)-[:est_dans]->(p) 
+		MATCH (p:Playlist{idPlaylist:$idList})
+		MATCH (u:User) WHERE u.mail = $email
+		MATCH (u)-[:A_UNE]->(p)
+		MATCH (r:Recipe{idRecipe: $idRecipe})
+		CREATE (r)-[:est_dans]->(p)
+
 	`;
 
 	try {
@@ -63,7 +64,7 @@ export const createRecipeListInDatabase = async (
 
 		const stats: QueryStatistics = raw.summary.updateStatistics;
 		if (stats.containsUpdates()) {
-			return { message: "Playlist has been created" };
+			return { message: `Recipe has been created in list ${idList}` };
 		} else {
 			throw new BaseError(
 				`Error while modifying user in database`,
@@ -74,7 +75,7 @@ export const createRecipeListInDatabase = async (
 		}
 	} catch (err) {
 		throw new BaseError(
-			`Error while fetching playlist from database with email : ${email}`,
+			`Error while fetching recipe from database with idList : ${idList}`,
 			500,
 			"INTERNAL SERVER ERROR",
 			true
@@ -87,8 +88,7 @@ export const deleteRecipeListInDatabase = async (
 	idRecipe: number
 ) => {
 	const query = `
-		MATCH (p:Playlist{idPlaylist:$idList})-[r:EST_DANS]->(r:Recipe{idRecipe:$idRecipe})
-		DELETE r
+		MATCH (r:Recipe{idRecipe:$idRecipe})-[l:est_dans]->(p:Playlist{idPlaylist:$idList}) delete l
 	`;
 
 	try {
@@ -98,6 +98,7 @@ export const deleteRecipeListInDatabase = async (
 		});
 
 		const stats: QueryStatistics = raw.summary.updateStatistics;
+
 		if (stats.containsUpdates()) {
 			return { message: "Recipe has been deleted from playlist" };
 		} else {
@@ -131,16 +132,7 @@ export const getRecipesListInDatabase = async (id: number) => {
 		const result = raw.records.map((record) => {
 			return record.get("r").properties;
 		});
-		if (result.length > 0) {
-			return result;
-		} else {
-			throw new BaseError(
-				`Error while getting recipe from list in database`,
-				500,
-				"INTERNAL SERVER ERROR",
-				true
-			);
-		}
+		return result;
 	} catch (err) {
 		throw new BaseError(
 			`Error while fetching playlist from database with id : ${id}`,

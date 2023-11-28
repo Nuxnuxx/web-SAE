@@ -44,15 +44,11 @@ export const handleAddRecipeList = async (
 	//@ts-ignore
 	const parsedIdList = parseInt(idList, 10);
 
-	if (req.user === undefined) {
-		throw new ApiError("User is undefined", "USER_IS_UNDEFINED", 400, true);
-	}
-
 	try {
-		//@ts-ignore
 		const result = await createRecipeList(
 			parsedIdRecipe,
 			parsedIdList,
+			//@ts-ignore
 			req.user.email
 		);
 		res.status(200).send(result);
@@ -73,22 +69,11 @@ export const handleGetRecipeList = async (
 ) => {
 	const id = req.query.id;
 
-	if (typeof id !== "string") {
-		throw new ApiError(
-			"Id is not a string",
-			"ID_IS_NOT_A_STRING",
-			400,
-			true
-		);
-	}
-
+	//@ts-ignore
 	const parsedId = parseInt(id, 10);
 
-	if (req.user === undefined) {
-		throw new ApiError("User is undefined", "USER_IS_UNDEFINED", 400, true);
-	}
-
 	try {
+		//@ts-ignore
 		const result = await getRecipesList(parsedId, req.user.email);
 		res.status(200).send(result);
 	} catch (err) {

@@ -15,22 +15,24 @@ import {
 
 const listRecipeRouter = Router();
 
-// FIXME: Aucune requete marche mashallah
 listRecipeRouter.post(
 	"/addlike",
 	validate(schemaCreateRecipeLikedQuery, "query"),
 	handleAddRecipeLiked
 );
+
 listRecipeRouter.post(
 	"/addlist",
 	validate(schemaCreateRecipeListQuery, "query"),
 	handleAddRecipeList
 );
+
 listRecipeRouter.get(
 	"/list",
 	validate(schemaGetRecipeListQuery, "query"),
 	handleGetRecipeList
 );
+
 listRecipeRouter.delete(
 	"/list",
 	validate(schemaDeleteRecipeListQuery, "query"),
