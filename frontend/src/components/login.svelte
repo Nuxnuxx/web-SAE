@@ -4,11 +4,29 @@
 	let email = "";
 	let password = "";
 
-	function handleLogin() {
-		// TODO:Ajoutez ici la logique de connexion
-		console.log("Email:", email);
-		console.log("Mot de passe:", password);
-		goto("/");
+	async function handleLogin() {
+		try {
+			const result = await fetch(
+				"http://localhost:5000/api/v1/auth/login",
+				{
+					method: "POST",
+					body: JSON.stringify({ email, password }),
+					headers: {
+						"Content-type": "application/json",
+					},
+				}
+			);
+
+			if (result.ok) {
+				const data = await result.json();
+				localStorage.setItem("user", JSON.stringify(data));
+				goto("/");
+			} else {
+				throw new Error("What is this shit");
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	}
 </script>
 

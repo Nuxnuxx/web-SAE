@@ -1,13 +1,10 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import LOGO from "$lib/img/LOGO.png";
+	import userStore from "../store";
 	import { onMount } from "svelte";
 
-	let user = false;
-
-	/////////////////////
-	// Header behavior //
-	/////////////////////
-	// altern between nav-up and nav-down classes on nav element on scroll down in svelte
+	let user = $userStore;
 
 	let didScroll: boolean = false;
 	let lastScrollTop = 0;
@@ -16,6 +13,12 @@
 	// get nav element
 	let nav: HTMLElement;
 	onMount(() => {
+		const userData = localStorage.getItem("userData");
+
+		if (userData) {
+			userStore.set(JSON.parse(userData));
+		}
+
 		if (nav.style) {
 			// get header height
 			const headerHeight = nav.offsetHeight;
@@ -42,7 +45,6 @@
 				scrollPos > lastScrollTop && scrollPos > headerHeight
 					? (nav.style.cssText = "top : -" + headerHeight + "px;")
 					: (nav.style.cssText = "top : 0;");
-
 				lastScrollTop = scrollPos;
 			}
 		}
@@ -65,7 +67,7 @@
 			>
 		</div>
 	{:else}
-		<button class="nav__login">
+		<button on:click={() => goto("/auth")} class="nav__login">
 			<span class="material-symbols-rounded">person</span>
 			Connexion
 		</button>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
 	let email = "";
 	let firstName = "";
 	let lastName = "";
@@ -6,15 +8,30 @@
 	let confirmPassword = "";
 	let gender = "";
 
-	function handleSubmit() {
-		// Handle form submission here
-		console.log("Form submitted");
-		console.log("Email:", email);
-		console.log("First Name:", firstName);
-		console.log("Last Name:", lastName);
-		console.log("Password:", password);
-		console.log("Confirm Password:", confirmPassword);
-		console.log("Gender:", gender);
+	async function handleRegister() {
+		try {
+			const name = firstName + " " + lastName;
+			const result = await fetch(
+				"http://localhost:5000/api/v1/auth/register",
+				{
+					method: "POST",
+					body: JSON.stringify({ name, email, password }),
+					headers: {
+						"Content-type": "application/json",
+					},
+				}
+			);
+
+			if (result.ok) {
+				const data = await result.json();
+				localStorage.setItem("user", JSON.stringify(data));
+				goto("/");
+			} else {
+				throw new Error("What is this shit");
+			}
+		} catch (err) {
+			console.log(err);
+		}
 	}
 </script>
 
@@ -23,7 +40,7 @@
 	<span class="text-highlight">vous</span> ressemble</h2
 >
 
-<form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={handleRegister}>
 	<div>
 		<label for="email"></label>
 		<input
