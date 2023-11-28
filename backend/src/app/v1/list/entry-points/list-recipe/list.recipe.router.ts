@@ -5,13 +5,36 @@ import {
 	handleDeleteRecipeList,
 	handleGetRecipeList,
 } from "./list.recipe.controller.js";
+import { validate } from "./validators/list-recipe.validator.js";
+import {
+	schemaCreateRecipeLikedQuery,
+	schemaCreateRecipeListQuery,
+	schemaDeleteRecipeListQuery,
+	schemaGetRecipeListQuery,
+} from "./validators/list-recipe.schema.js";
 
 const listRecipeRouter = Router();
 
 // FIXME: Aucune requete marche mashallah
-listRecipeRouter.post("/addlike", handleAddRecipeLiked);
-listRecipeRouter.post("/addlist", handleAddRecipeList);
-listRecipeRouter.get("/list", handleGetRecipeList);
-listRecipeRouter.delete("/list", handleDeleteRecipeList);
+listRecipeRouter.post(
+	"/addlike",
+	validate(schemaCreateRecipeLikedQuery, "query"),
+	handleAddRecipeLiked
+);
+listRecipeRouter.post(
+	"/addlist",
+	validate(schemaCreateRecipeListQuery, "query"),
+	handleAddRecipeList
+);
+listRecipeRouter.get(
+	"/list",
+	validate(schemaGetRecipeListQuery, "query"),
+	handleGetRecipeList
+);
+listRecipeRouter.delete(
+	"/list",
+	validate(schemaDeleteRecipeListQuery, "query"),
+	handleDeleteRecipeList
+);
 
 export default listRecipeRouter;

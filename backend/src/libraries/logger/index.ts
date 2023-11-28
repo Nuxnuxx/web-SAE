@@ -18,7 +18,7 @@ const logger = pino({
 
 export class Logging {
 	logError(error: Error) {
-		logger.error(error.message);
+		logger.error(error);
 	}
 }
 const logging = new Logging();

@@ -31,16 +31,7 @@ export const handleModifyList = async (
 	const nameList = req.query.namelist;
 	const idList = req.query.idlist;
 
-	//INFO: A enlever quand le schema de verification sera la
-	if (typeof idList !== "string") {
-		throw new ApiError(
-			"Id is not a string",
-			"ID_IS_NOT_A_STRING",
-			400,
-			true
-		);
-	}
-
+	//@ts-ignore
 	const parsedId = parseInt(idList, 10);
 
 	try {
@@ -64,15 +55,7 @@ export const handleDeleteList = async (
 ) => {
 	const idList = req.query.idlist;
 
-	//INFO: A enlever quand le schema de verification sera la sera la
-	if (typeof idList !== "string") {
-		throw new ApiError(
-			"Id is not a string",
-			"ID_IS_NOT_A_STRING",
-			400,
-			true
-		);
-	}
+	//@ts-ignore
 	const parsedId = parseInt(idList, 10);
 
 	try {

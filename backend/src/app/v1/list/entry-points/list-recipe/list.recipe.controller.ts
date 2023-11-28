@@ -14,16 +14,7 @@ export const handleAddRecipeLiked = async (
 ) => {
 	const idRecipe = req.query.idrecipe;
 
-	// INFO: A enlever quand le schema de verification sera la
-	if (typeof idRecipe !== "string") {
-		throw new ApiError(
-			"Id is not a string",
-			"ID_IS_NOT_A_STRING",
-			400,
-			true
-		);
-	}
-
+	//@ts-ignore
 	const parsedId = parseInt(idRecipe, 10);
 
 	try {
@@ -53,6 +44,10 @@ export const handleAddRecipeList = async (
 	//@ts-ignore
 	const parsedIdList = parseInt(idList, 10);
 
+	if (req.user === undefined) {
+		throw new ApiError("User is undefined", "USER_IS_UNDEFINED", 400, true);
+	}
+
 	try {
 		//@ts-ignore
 		const result = await createRecipeList(
@@ -78,10 +73,22 @@ export const handleGetRecipeList = async (
 ) => {
 	const id = req.query.id;
 
+	if (typeof id !== "string") {
+		throw new ApiError(
+			"Id is not a string",
+			"ID_IS_NOT_A_STRING",
+			400,
+			true
+		);
+	}
+
 	const parsedId = parseInt(id, 10);
 
+	if (req.user === undefined) {
+		throw new ApiError("User is undefined", "USER_IS_UNDEFINED", 400, true);
+	}
+
 	try {
-		//@ts-ignore
 		const result = await getRecipesList(parsedId, req.user.email);
 		res.status(200).send(result);
 	} catch (err) {
@@ -102,33 +109,16 @@ export const handleDeleteRecipeList = async (
 	const idList = req.query.idlist;
 	const idRecipe = req.query.idrecipe;
 
-	//INFO: A enlever quand le schema de verification sera la
-	if (typeof idList !== "string") {
-		throw new ApiError(
-			"Id is not a string",
-			"ID_IS_NOT_A_STRING",
-			400,
-			true
-		);
-	}
-
-	//INFO: A enlever quand le schema de verification sera la
-	if (typeof idRecipe !== "string") {
-		throw new ApiError(
-			"Id is not a string",
-			"ID_IS_NOT_A_STRING",
-			400,
-			true
-		);
-	}
-
-	const parsedIdList = parseInt(idList);
-	const parsedIdRecipe = parseInt(idRecipe);
+	//@ts-ignore
+	const parsedIdList = parseInt(idList, 10);
+	//@ts-ignore
+	const parsedIdRecipe = parseInt(idRecipe, 10);
 
 	try {
 		const result = await deleteRecipeList(
 			parsedIdList,
 			parsedIdRecipe,
+			//@ts-ignore
 			req.user.email
 		);
 		res.status(200).send(result);
