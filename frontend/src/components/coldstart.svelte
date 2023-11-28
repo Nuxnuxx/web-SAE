@@ -1,172 +1,110 @@
 <script lang="ts">
-  let currentQuestion = 0;
-  let answers = [];
+    import Selector from "./selector.svelte";
 
-  const questions = [
-    "Nous allons maintenant vous poser quelque<br><span class='rouge'>questions</span> pour apprendre à vous connaître.",
-    "Quelle tranche de <span class='rouge'>prix</span> préférez vous ?",
-    "Avec quel niveau de <span class='rouge'>difficulté</span> êtes vous familier ?",
-    "Et pour les <span class='rouge'>épices</span> ?",
-    "Pour finir, fait nous savoir ce que tu aimes en<br>choisissant <span class='rouge'>au moins 3</span> recettes."
-  ];
-
-  const options = [
-    [], // pas de choix
-    [
-      { label: "€", selected: false, colorful: false, id: 1 },
-      { label: "€", selected: false, colorful: false, id: 2 },
-      { label: "€", selected: false, colorful: false, id: 3 },
-      { label: "€", selected: false, colorful: false, id: 4 },
-      { label: "€", selected: false, colorful: false, id: 5 },
-    ], // Options pour la Question 2
-    [
-      { label: "<span class='material-symbols-rounded'>sentiment_satisfied</span>", selected: false, colorful: false, id: 1},
-      { label: "<span class='material-symbols-rounded'>sentiment_calm</span", selected: false, colorful: false, id: 2},
-      { label: "<span class='material-symbols-rounded'>sentiment_content</span", selected: false, colorful: false, id: 3},
-      { label: "<span class='material-symbols-rounded'>sentiment_neutral</span", selected: false, colorful: false, id: 4},
-      { label: "<span class='material-symbols-rounded'>mood_bad</span>", selected: false, colorful: false, id: 5},
-    ],
-    [
-      { label: "<span class='material-symbols-rounded'>block</span>", selected: false, colorful: false},
-      { label: "<span class='material-symbols-rounded'>local_fire_department</span", selected: false, colorful: false},
-      { label: "<span class='material-symbols-rounded'>fire_truck</span", selected: false, colorful: false},
-    ],
-    //prendre des recipeCard de recipeCard.svelte
-    [
-        { label: "Poulet au curry", selected: false, colorful: false},
-        { label: "Boeuf", selected: false, colorful: false},
-        { label: "Poisson", selected: false, colorful: false},
-    ]
-  ]
-
-  function handleNext() {
-    currentQuestion++;
-    console.log(currentQuestion)
-  }
-
-  function handlePass() {
-    window.location.href = "/";
-  }
-
-  function handleSubmit() {
-    // Send answers to the server
-  }
-
-  function handleOptionClick(index: number) {
-    options[currentQuestion][index].selected = !options[currentQuestion][index].selected;
-    // enlève les autres selected
-    options[currentQuestion].forEach((option, i) => {
-        if (i !== index) {
-            option.selected = false;
-        }
-    });
-
-    updateColorfulIcons(index);
-  }
-
-  function updateColorfulIcons(index: number) {
-    const id = options[currentQuestion][index].id;
-
-    if(id !== undefined){
-        options[currentQuestion].forEach((option, i) => {
-            if (i <= index && i > index - id) {
-                option.colorful = true;
-            } else {
-                option.colorful = false;
-            }
-        });
+    let currentQuestion = 0;
+    let answers: number[] = [];
+    
+    function SubmitEvent() {
+        // Send answers to the server
     }
-    else{
-        options[currentQuestion].forEach((option, i) => {
-            if (i === index) {
-                option.colorful = true;
-            } else {
-                option.colorful = false;
-            }
-        });
-    }
-  }
-
 </script>
 
 <main>
     <div class="container">
-        {#if currentQuestion < questions.length - 1 && currentQuestion !== 0}
-            <h1>{@html questions[currentQuestion]}</h1>
-
-            <div class="container__options">
-                {#if options[currentQuestion].length > 0}
-                    {#each options[currentQuestion] as { label, selected, colorful }, index}
-                        <button on:click={() => handleOptionClick(index)} class={colorful ? 'colorful' : 'noColorful'}>{@html label}</button>
-                    {/each}
-                {/if}
-            </div>
-
-            <button class="container__buttonNext" on:click={handleNext}
-                ><span class="buttonNext__text">Suivant</span>
-                <span class="material-symbols-rounded"> arrow_forward </span>
+        {#if currentQuestion === 0}
+            <h2>Nous allons maintenant vous poser quelque
+                <span class='highlight'>questions</span> 
+                pour apprendre à vous connaître.
+            </h2>
+            <button class="container__buttonNext" on:click={()=>{currentQuestion++}}>
+                <span class="buttonNext__text">Suivant</span><span class="material-symbols-rounded"> arrow_forward </span>
             </button>
-        {:else if currentQuestion === 0}
-            <h1>{@html questions[currentQuestion]}</h1>
-            <button class="container__buttonNext" on:click={handleNext}
-                ><span class="buttonNext__text">Suivant</span>
-                <span class="material-symbols-rounded"> arrow_forward </span>
+            <a class="container__buttonPass" href="/">Passez cette étape</a>
+            
+        {:else if currentQuestion === 1}
+            <h2>
+                Quelle tranche de 
+                <span class='highlight'>
+                    prix
+                </span> 
+                préférez vous ?
+            </h2>
+            <Selector 
+                data={
+                ["euro_symbol",
+                "euro_symbol",
+                "euro_symbol",
+                "euro_symbol",
+                "euro_symbol"]
+                }
+                rating_like={true} 
+                bind:selected={answers[1]}
+            />
+            <button class="container__buttonNext" on:click={()=>{currentQuestion++}}>
+                <span class="buttonNext__text">Suivant</span><span class="material-symbols-rounded"> arrow_forward </span>
             </button>
-            <button class="container__buttonPass" on:click={handlePass}>Passez cette étape</button>
+        {:else if currentQuestion === 2}
+            <h2>
+                Avec quel niveau de
+                <span class='highlight'>difficulté</span> 
+                êtes vous familier ?
+            </h2>
+            <Selector 
+                data={
+                    ["mood_bad",
+                    "sentiment_neutral", 
+                    "sentiment_content", 
+                    "sentiment_calm", 
+                    "sentiment_satisfied"]
+                } 
+                bind:selected={answers[2]}
+            />
+            <button class="container__buttonNext" on:click={()=>{currentQuestion++}}>
+                <span class="buttonNext__text">Suivant</span><span class="material-symbols-rounded"> arrow_forward </span>
+            </button>
+        {:else if currentQuestion === 3}
+            <h2>
+                Et pour les <span class='rouge'>épices</span> ?
+            </h2>
+            <Selector 
+                data={
+                    ["fire_truck",
+                    "local_fire_department", 
+                    "block"]
+                } 
+                bind:selected={answers[3]}
+            />
+            <button class="container__buttonNext" on:click={()=>{currentQuestion++}}>
+                <span class="buttonNext__text">Suivant</span><span class="material-symbols-rounded"> arrow_forward </span>
+            </button>
         {:else}
-            <h1>{@html questions[currentQuestion]}</h1>
+            <h2>
+                Pour finir, fait nous savoir ce que tu aimes en choisissant 
+                <span class='highlight'>au moins 3</span> 
+                recettes.
+            </h2>
 
-            <div class="container__options">
-                {#if options[currentQuestion].length > 0}
-                    {#each options[currentQuestion] as { label, selected, colorful }, index}
-                        <button on:click={() => handleOptionClick(index)} class={colorful ? 'colorful' : 'noColorful'}>{@html label}</button>
-                    {/each}
-                {/if}
-            </div>
-
-            <button on:click={handleSubmit}>Submit</button>
+            <button class="container__buttonNext" on:click={()=>{SubmitEvent}}>
+                <span>Terminer</span>
+            </button>
         {/if}
     </div>
 </main>
 
 
 <style lang="scss">
-
+    h2{
+        font-size: 2rem;
+        text-align: center;
+        font-weight: 400;
+    }
     .container {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
 
-        margin-bottom: 10%;
-        margin-left: 20%;
-        margin-right: 20%;
-
-        .container__options {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: 20px;
-            margin-bottom: 20px;
-
-            button {
-                /*all unset puis charger les styles*/
-                all: unset;
-                font-size: 40px;
-                cursor: pointer;
-
-                /*si pas colorful*/
-                &.noColorful {
-                    opacity: 0.2;
-                }
-
-                /*si colorful*/
-                &.colorful {
-                    color: #82D3E6; /* Couleur pour les icônes en couleurs */
-                    opacity: 1;
-                }
-            }
-        }
+        margin: 10%;
 
         .container__buttonNext {
             padding: 10px 50px;
@@ -186,14 +124,13 @@
 
         .container__buttonPass {
             margin-top: 10px;
-            border: none;
-            background-color: transparent;
-            opacity: 0.4;
+            color: #939393;
             text-decoration: underline;
         }
     }
 
-    .rouge {
-        color: red;
+    .highlight {
+        color: #de403e;
+        font-weight: bold;
     }
 </style>
