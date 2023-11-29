@@ -142,7 +142,7 @@
 
 		.container__buttonNext {
 			padding: 10px 50px;
-			background-color: #de403e;
+			background-color: var(--primary-color);
 			color: #fff;
 			border: none;
 			border-radius: 20px;
@@ -164,7 +164,7 @@
 	}
 
 	.highlight {
-		color: #de403e;
+		color: var(--primary-color);
 		font-weight: bold;
 	}
 </style>

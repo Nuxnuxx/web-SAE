@@ -125,7 +125,7 @@
 		font-weight: normal;
 		font-size: 22px;
 		.text-highlight {
-			color: #de403e;
+			color: var(--primary-color);
 			font-weight: bold;
 		}
 	}
@@ -147,7 +147,7 @@
 
 		button {
 			padding: 10px 20px;
-			background-color: #de403e;
+			background-color: var(--primary-color);
 			color: #fff;
 			border: none;
 			border-radius: 20px;
@@ -230,7 +230,7 @@
 				}
 
 				.radio-button input[type="radio"]:checked ~ .radio-checkmark {
-					border: 2px solid #de403e;
+					border: 2px solid var(--primary-color);
 				}
 
 				.radio-button
@@ -263,7 +263,7 @@
 						width: 8px;
 						height: 8px;
 						border-radius: 30%;
-						background-color: #de403e;
+						background-color: var(--primary-color);
 						transition: all 0.2s ease-in-out;
 					}
 				}

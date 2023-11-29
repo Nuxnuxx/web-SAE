@@ -25,7 +25,7 @@
 		& input:checked ~ label,
 		& label:hover,
 		& label:hover ~ label {
-			color: #82d3e6;
+			color: var(--secondary-color);
 			transition: color 0.3s;
 		}
 	}
@@ -53,7 +53,7 @@
 
 		& input:checked + label,
 		& label:hover {
-			color: #82d3e6;
+			color: var(--secondary-color);
 			transition: color 0.3s;
 		}
 	}

@@ -150,11 +150,11 @@
 	}
 
 	.material-symbols-rounded.red {
-		color: #f93362;
+		color: var(--light-primary-color);
 	}
 
 	.material-symbols-rounded.green {
-		color: #40d133;
+		color: var(--last-color);
 	}
 
 	@media (min-width: 768px) {

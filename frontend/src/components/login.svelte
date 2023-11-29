@@ -102,7 +102,7 @@
 
 		button {
 			padding: 10px 20px;
-			background-color: #de403e;
+			background-color: var(--primary-color);
 			color: #fff;
 			border: none;
 			border-radius: 20px;
