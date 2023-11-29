@@ -1,10 +1,12 @@
-export const sendLogin = async (email: string, password: string) => {
+import type { User } from "./auth-types";
+
+export const sendLogin = async (data: User) => {
 	try {
 		const result = await fetch(
 			`${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
 			{
 				method: "POST",
-				body: JSON.stringify({ email, password }),
+				body: JSON.stringify({ ...data }),
 				headers: {
 					"Content-type": "application/json",
 				},
@@ -16,39 +18,32 @@ export const sendLogin = async (email: string, password: string) => {
 			return data;
 		} else {
 			const { message } = await result.json();
-			return message;
+			throw new Error(message);
 		}
 	} catch (err) {
 		throw err;
 	}
 };
 
-export const sendRegister = async (
-	firstName: string,
-	lastName: string,
-	email: string,
-	password: string
-) => {
+export const sendRegister = async (data: User) => {
 	try {
-		const name = firstName + " " + lastName;
 		const result = await fetch(
-			"http://localhost:5000/api/v1/auth/register",
+			`${import.meta.env.VITE_API_URL}/api/v1/auth/register`,
 			{
 				method: "POST",
-				body: JSON.stringify({ name, email, password }),
-				headers: {
-					"Content-type": "application/json",
-				},
+				body: JSON.stringify({ ...data }),
+				headers: { "Content-type": "application/json" },
 			}
 		);
 
-		if (result.ok) {
+		if (result.status == 200) {
 			const data = await result.json();
 			return data;
 		} else {
-			throw new Error("What is this shit");
+			const { message } = await result.json();
+			throw new Error(message);
 		}
 	} catch (err) {
-		throw new Error("Doesnt work this shitty api");
+		throw err;
 	}
 };

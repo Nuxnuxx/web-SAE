@@ -7,7 +7,6 @@
 	let bool = true;
 
 	function OnClick(event: any) {
-		console.log(event.target.className);
 		if (event.target.classList.contains("login")) {
 			bool = true;
 			selectedButton = "login";
