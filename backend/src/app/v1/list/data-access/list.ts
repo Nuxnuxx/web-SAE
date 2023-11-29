@@ -147,7 +147,7 @@ export const modifyListInDatabase = async (id: number, name: string) => {
 
 export const deleteListInDatabase = async (id: number) => {
 	const query = `
-		MATCH (p:Playlist{idPlaylist:$id}) MATCH ()-[l:A_UNE]->(p) MATCH ()-[l2:est_dans]->(p) delete l,l2,p
+		MATCH (p:Playlist{idPlaylist:$id}) MATCH ()-[l:A_UNE]->(p) OPTIONAL MATCH ()-[l2:est_dans]->(p) delete l,l2,p
 	`;
 
 	try {
