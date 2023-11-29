@@ -18,18 +18,18 @@
 				pour apprendre à vous connaître.
 			</h2>
 			<button
-				class="container__buttonNext"
+				class="button"
 				on:click={() => {
 					currentQuestion++;
 				}}
 			>
-				<span class="buttonNext__text">Suivant</span><span
+				<span class="buttonnext__text">Suivant</span><span
 					class="material-symbols-rounded"
 				>
 					arrow_forward
 				</span>
 			</button>
-			<a class="container__buttonPass" href="/">Passez cette étape</a>
+			<a class="container__buttonpass" href="/">Passez cette étape</a>
 		{:else if currentQuestion === 1}
 			<h2>
 				Quelle tranche de
@@ -48,12 +48,12 @@
 				bind:selected={answers[1]}
 			/>
 			<button
-				class="container__buttonNext"
+				class="button"
 				on:click={() => {
 					currentQuestion++;
 				}}
 			>
-				<span class="buttonNext__text">Suivant</span><span
+				<span class="buttonnext__text">Suivant</span><span
 					class="material-symbols-rounded"
 				>
 					arrow_forward
@@ -76,12 +76,12 @@
 				bind:selected={answers[2]}
 			/>
 			<button
-				class="container__buttonNext"
+				class="button"
 				on:click={() => {
 					currentQuestion++;
 				}}
 			>
-				<span class="buttonNext__text">Suivant</span><span
+				<span class="buttonnext__text">Suivant</span><span
 					class="material-symbols-rounded"
 				>
 					arrow_forward
@@ -96,12 +96,12 @@
 				bind:selected={answers[3]}
 			/>
 			<button
-				class="container__buttonNext"
+				class="button"
 				on:click={() => {
 					currentQuestion++;
 				}}
 			>
-				<span class="buttonNext__text">Suivant</span><span
+				<span class="buttonnext__text">Suivant</span><span
 					class="material-symbols-rounded"
 				>
 					arrow_forward
@@ -115,7 +115,7 @@
 			</h2>
 
 			<button
-				class="container__buttonNext"
+				class="button"
 				on:click={() => {
 					SubmitEvent;
 				}}
@@ -132,6 +132,7 @@
 		text-align: center;
 		font-weight: 400;
 	}
+
 	.container {
 		display: flex;
 		flex-direction: column;
@@ -140,7 +141,13 @@
 
 		margin: 10%;
 
-		.container__buttonNext {
+		.container__buttonpass {
+			margin-top: 10px;
+			color: var(--light-black-color);
+			text-decoration: underline;
+		}
+
+		.button {
 			padding: 10px 50px;
 			background-color: var(--primary-color);
 			color: #fff;
@@ -151,20 +158,9 @@
 			display: flex;
 			align-items: center;
 
-			.buttonNext__text {
+			.buttonnext__text {
 				margin-right: 10px;
 			}
 		}
-
-		.container__buttonPass {
-			margin-top: 10px;
-			color: #939393;
-			text-decoration: underline;
-		}
-	}
-
-	.highlight {
-		color: var(--primary-color);
-		font-weight: bold;
 	}
 </style>

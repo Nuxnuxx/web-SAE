@@ -71,12 +71,11 @@
 		flex-direction: column;
 		border-radius: 1.5vh;
 		overflow: hidden;
-		// box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
 		.card__img {
 			width: 100%;
 			height: 70%;
-			border-radius: 5px;
+			border-radius: 0.3rem;
 			overflow: hidden;
 
 			img {

@@ -20,7 +20,7 @@
 
 <h2
 	>Rejoignez nous, et trouver l'inspiration<br />culinaire qui
-	<span class="text-highlight">vous</span> ressemble</h2
+	<span class="highlight">vous</span> ressemble</h2
 >
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -37,25 +37,29 @@
 	</div>
 
 	<div class="name">
-		<label for="lastName"></label>
-		<input
-			type="text"
-			id="lastName"
-			bind:value={lastName}
-			required
-			placeholder="Nom*"
-			autocomplete="family-name"
-		/>
+		<div>
+			<label for="lastName"></label>
+			<input
+				type="text"
+				id="lastName"
+				bind:value={lastName}
+				required
+				placeholder="Nom*"
+				autocomplete="family-name"
+			/>
+		</div>
 
-		<label for="firstName"></label>
-		<input
-			type="text"
-			id="firstName"
-			bind:value={firstName}
-			required
-			placeholder="Prénom*"
-			autocomplete="given-name"
-		/>
+		<div>
+			<label for="firstName"></label>
+			<input
+				type="text"
+				id="firstName"
+				bind:value={firstName}
+				required
+				placeholder="Prénom*"
+				autocomplete="given-name"
+			/>
+		</div>
 	</div>
 
 	<div>
@@ -121,91 +125,66 @@
 <style lang="scss">
 	h2 {
 		text-align: center;
-		color: #333;
+		color: var(--black-color);
 		font-weight: normal;
-		font-size: 22px;
-		.text-highlight {
-			color: var(--primary-color);
-			font-weight: bold;
-		}
+		font-size: 1.4rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
+		row-gap: 1rem;
+		width: 40%;
+		margin: 0 auto;
+		min-width: 350px;
+		max-width: 700px;
 
 		span {
 			.material-symbols-rounded {
-				font-size: 20px;
+				font-size: 1.2rem;
 				font-weight: bold;
-				margin-left: 10px;
-				margin-right: -10px;
 			}
 		}
 
 		button {
-			padding: 10px 20px;
-			background-color: var(--primary-color);
-			color: #fff;
-			border: none;
-			border-radius: 20px;
-			cursor: pointer;
-			font-size: 16px;
 			display: flex;
 			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 1rem;
+			border-radius: 2rem;
+			background-color: var(--primary-color);
+			color: var(--white-color);
+			font-size: 1rem;
+			border: none;
+			cursor: pointer;
+		}
+
+		.genre {
+			color: var(--light-black-color);
 		}
 
 		div {
-			margin-bottom: 10px;
-			width: 40%;
-			min-width: 350px;
-			max-width: 700px;
-			padding-bottom: 20px;
-
-			.genre {
-				color: #939393;
-
-				margin-left: 1%;
-				margin-bottom: -20px;
-			}
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 		}
 
 		input {
 			&:not([type="checkbox"]) {
 				border: 1px solid #ccc;
-				border-radius: 3%;
 				border-top: none;
 				border-left: none;
 				border-right: none;
 
-				/*padding du texte*/
-				padding: 5px 15px;
-				font-size: 16px;
+				padding: 0.5rem 1rem;
 				outline: none;
 
-				width: 100%;
-			}
-			&:not([type="checkbox"]) {
-				border: 1px solid #ccc;
-				border-radius: 3%;
-				border-top: none;
-				border-left: none;
-				border-right: none;
-
-				/*padding du texte*/
-				padding: 5px 15px;
-				font-size: 16px;
-				outline: none;
-
-				width: 100%;
+				width: 80%;
 			}
 			&::placeholder {
 				opacity: 0.4;
-			}
-
-			&::placeholder {
 				transition: 0.5s;
 			}
 
@@ -214,10 +193,17 @@
 			}
 		}
 
+		.name {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+
 		.radio-container {
 			display: flex;
+			flex-direction: row;
 			justify-content: space-around;
-			color: #939393;
+			color: var(--light-black-color);
 
 			.radio-wrapper {
 				margin: 20px 0 20px 0;
@@ -271,32 +257,6 @@
 					transform: translateY(-2px);
 				}
 			}
-		}
-	}
-
-	@media screen and (max-width: 1000px) {
-		#lastName {
-			margin-bottom: 30px;
-		}
-	}
-
-	@media screen and (min-width: 1000px) {
-		.name {
-			display: flex;
-			flex-flow: row;
-			align-items: stretch;
-		}
-
-		#lastName {
-			flex: 0 1 auto;
-			width: 100%;
-
-			margin-right: 5%;
-		}
-
-		#firstName {
-			flex: 1 1 auto;
-			width: 100%;
 		}
 	}
 </style>
