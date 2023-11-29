@@ -4,7 +4,7 @@
 	import userStore from "../store";
 	import { onMount } from "svelte";
 
-	let user = $userStore;
+	let user = false;
 
 	let didScroll: boolean = false;
 	let lastScrollTop = 0;
@@ -13,7 +13,7 @@
 	// get nav element
 	let nav: HTMLElement;
 	onMount(() => {
-		const userData = localStorage.getItem("userData");
+		const userData = localStorage.getItem("user");
 
 		if (userData) {
 			userStore.set(JSON.parse(userData));
@@ -59,6 +59,7 @@
 	</div>
 	{#if user}
 		<div class="nav__iconwrapper">
+			<button on:click={() => localStorage.clear()}>LOGOUT</button>
 			<a href="/playlist" class="nav__iconwrapper__icon"
 				><span class="material-symbols-rounded">book_2</span></a
 			>

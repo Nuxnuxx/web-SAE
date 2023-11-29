@@ -16,6 +16,7 @@
 		gender: "",
 	};
 
+	//TODO: Gestion du gender dans la bd
 	async function handleRegister() {
 		try {
 			await schemaRegister.validate(registerValues, {
@@ -199,7 +200,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
 
 		span {
 			.material-symbols-rounded {
