@@ -1,11 +1,11 @@
 <script>
 	export let data;
+
+	import Recipe from '../../../components/recipe.svelte';
 </script>
 
 <svelte:head>
 	<title>Recette {data.slug} | PirateCook</title>
 </svelte:head>
 
-<h1>This is the recipe page</h1>
-
-<h1>Data : {data.slug}</h1>
+<Recipe />
