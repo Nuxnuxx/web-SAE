@@ -1,46 +1,73 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { sendLogin } from "$lib/api/auth-request";
+	import { schemaLogin } from "$lib/api/auth-schema";
+	import type { ErrorsRegister } from "$lib/api/auth-types";
+	import * as yup from "yup";
 
-	let email = "";
-	let password = "";
+	let errors: ErrorsRegister = {};
+
+	let loginValues = {
+		email: "",
+		password: "",
+	};
 
 	async function handleLogin() {
 		try {
-			const result = await sendLogin(email, password);
+			await schemaLogin.validate(loginValues, {
+				abortEarly: false,
+			});
+			const result = await sendLogin(loginValues);
 			if (result) {
 				localStorage.setItem("user", JSON.stringify(result));
 				goto("/");
 			}
 		} catch (err) {
-			console.log(err);
+			if (err instanceof yup.ValidationError) {
+				errors = err.inner.reduce((acc, err) => {
+					const key = String(err.path);
+					return { ...acc, [key]: err.message };
+				}, {});
+			} else {
+				if (err instanceof Error) {
+					errors = { server: err.message };
+				}
+			}
 		}
 	}
 </script>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
+{#if errors.server}
+	<span class="error">{errors.server}</span>
+{/if}
+
 <form on:submit|preventDefault={handleLogin}>
 	<label for="email">
 		<input
 			id="email"
-			type="email"
-			bind:value={email}
-			required
+			type="text"
+			bind:value={loginValues.email}
 			placeholder="Email"
 			autocomplete="username"
 		/>
+		{#if errors.email}
+			<span class="error">{errors.email}</span>
+		{/if}
 	</label>
 
 	<label for="password">
 		<input
 			id="password"
 			type="password"
-			bind:value={password}
-			required
+			bind:value={loginValues.password}
 			placeholder="Mot de passe"
 			autocomplete="current-password"
 		/>
+		{#if errors.password}
+			<span class="error">{errors.password}</span>
+		{/if}
 	</label>
 
 	<!-- TODO: Ajouter un lien vers la page de réinitialisation du mot de passe -->

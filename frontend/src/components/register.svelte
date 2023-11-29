@@ -1,28 +1,49 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { sendRegister } from "$lib/api/auth-request";
+	import { schemaRegister } from "$lib/api/auth-schema";
+	import type { ErrorsRegister } from "$lib/api/auth-types";
+	import * as yup from "yup";
 
-	let email = "";
-	let firstName = "";
-	let lastName = "";
-	let password = "";
-	let confirmPassword = "";
-	let gender = "";
+	let errors: ErrorsRegister = {};
+
+	let registerValues = {
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+		gender: "",
+	};
 
 	async function handleRegister() {
 		try {
-			const result = await sendRegister(
-				firstName,
-				lastName,
-				email,
-				password
-			);
+			await schemaRegister.validate(registerValues, {
+				abortEarly: false,
+			});
+			const finalValues = {
+				name: `${registerValues.firstName} ${registerValues.lastName}`,
+				email: registerValues.email,
+				password: registerValues.password,
+			};
+			const result = await sendRegister(finalValues);
+			errors = {};
 			if (result) {
 				localStorage.setItem("user", JSON.stringify(result));
 				goto("/");
 			}
 		} catch (err) {
-			console.log(err);
+			if (err instanceof yup.ValidationError) {
+				errors = err.inner.reduce((acc, err) => {
+					const key = String(err.path);
+					return { ...acc, [key]: err.message };
+				}, {});
+			} else {
+				if (err instanceof Error) {
+					errors = { server: err.message };
+					console.log(errors);
+				}
+			}
 		}
 	}
 </script>
@@ -32,39 +53,49 @@
 	<span class="text-highlight">vous</span> ressemble</h2
 >
 
+{#if errors.server}
+	<span class="error">{errors.server}</span>
+{/if}
+
 <form on:submit|preventDefault={handleRegister}>
 	<div>
 		<label for="email"></label>
 		<input
-			type="email"
+			type="text"
 			id="email"
-			bind:value={email}
-			required
+			bind:value={registerValues.email}
 			placeholder="Email*"
 			autocomplete="username"
 		/>
+		{#if errors.email}
+			<span class="error">{errors.email}</span>
+		{/if}
 	</div>
 
 	<div class="name">
-		<label for="lastName"></label>
-		<input
-			type="text"
-			id="lastName"
-			bind:value={lastName}
-			required
-			placeholder="Nom*"
-			autocomplete="family-name"
-		/>
-
 		<label for="firstName"></label>
 		<input
 			type="text"
 			id="firstName"
-			bind:value={firstName}
-			required
+			bind:value={registerValues.firstName}
 			placeholder="Prénom*"
 			autocomplete="given-name"
 		/>
+		{#if errors.firstName}
+			<span class="error">{errors.firstName}</span>
+		{/if}
+
+		<label for="lastName"></label>
+		<input
+			type="text"
+			id="lastName"
+			bind:value={registerValues.lastName}
+			placeholder="Nom*"
+			autocomplete="family-name"
+		/>
+		{#if errors.lastName}
+			<span class="error">{errors.lastName}</span>
+		{/if}
 	</div>
 
 	<div>
@@ -72,11 +103,13 @@
 		<input
 			type="password"
 			id="password"
-			bind:value={password}
-			required
+			bind:value={registerValues.password}
 			placeholder="Mot de passe*"
 			autocomplete="new-password"
 		/>
+		{#if errors.password}
+			<span class="error">{errors.password}</span>
+		{/if}
 	</div>
 
 	<div>
@@ -84,11 +117,13 @@
 		<input
 			type="password"
 			id="confirmPassword"
-			bind:value={confirmPassword}
-			required
+			bind:value={registerValues.confirmPassword}
 			placeholder="Confirmer mot de passe*"
 			autocomplete="new-password"
 		/>
+		{#if errors.confirmPassword}
+			<span class="error">{errors.confirmPassword}</span>
+		{/if}
 	</div>
 
 	<div>
@@ -98,7 +133,13 @@
 	<div class="radio-container">
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="male" name="radio-group" type="radio" />
+				<input
+					id="male"
+					name="radio-group"
+					bind:group={registerValues.gender}
+					type="radio"
+					value="male"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Un pirate</span>
 			</label>
@@ -106,7 +147,13 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="female" name="radio-group" type="radio" />
+				<input
+					id="female"
+					name="radio-group"
+					bind:group={registerValues.gender}
+					type="radio"
+					value="female"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Une pirate</span>
 			</label>
@@ -114,12 +161,21 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="other" name="radio-group" type="radio" />
+				<input
+					id="other"
+					name="radio-group"
+					bind:group={registerValues.gender}
+					type="radio"
+					value="other"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Autre</span>
 			</label>
 		</div>
 	</div>
+	{#if errors.gender}
+		<span class="error">{errors.gender}</span>
+	{/if}
 
 	<button type="submit">
 		Connexion
