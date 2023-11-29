@@ -187,6 +187,7 @@
 		// LAPTOP
 
 		footer {
+			margin-top: 4rem;
 			.bubble__wrapper {
 				.big__bubble {
 					outline: #82d3e6 0.4rem solid;
