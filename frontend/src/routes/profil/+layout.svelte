@@ -1,18 +1,37 @@
 <script lang="ts">
-	// let array = ["burger","buritto","cake","carrot","coffee","cookies","croissant","cup cake","donut",
-	//             "egg and bacon","eggplant","float","fries","hot dog","ice cream","lolipop round",
-	//             "lolipop swirl","macaroon","meat","pancake","pizza","popsicle","pretzel","steak",
-	//             "sushi caviar","taco"];
-	// // select randomly one item in array
-	// let random = Math.floor(Math.random() * array.length);
-	// let food = array[random] + ".png";
-	// let FoodImage: string;
-	// import foodFolder from "$lib/img/profile/food/";
-	// import(`${foodFolder}${food}`).then(module => {
-	//     FoodImage = module.default;
-	// });
+	let array = [
+		"burger",
+		"buritto",
+		"cake",
+		"carrot",
+		"coffee",
+		"cookies",
+		"croissant",
+		"cup cake",
+		"donut",
+		"egg and bacon",
+		"eggplant",
+		"float",
+		"fries",
+		"hot dog",
+		"ice cream",
+		"lolipop round",
+		"lolipop swirl",
+		"macaroon",
+		"meat",
+		"pancake",
+		"pizza",
+		"popsicle",
+		"pretzel",
+		"steak",
+		"sushi caviar",
+		"taco",
+	];
 
-	import FoodImage from "$lib/img/profile/food/coffee.png";
+	let random = Math.floor(Math.random() * array.length);
+	let food = array[random];
+
+	const imageUrl = new URL(`./food/${food}.png`, import.meta.url).href;
 </script>
 
 <svelte:head>
@@ -20,8 +39,8 @@
 </svelte:head>
 
 <div class="background">
-	<img src={FoodImage} class="foodimage foodimage__small" alt="fun display" />
-	<img src={FoodImage} class="foodimage foodimage__big" alt="fun display" />
+	<img src={imageUrl} class="foodimage foodimage__small" alt="fun display" />
+	<img src={imageUrl} class="foodimage foodimage__big" alt="fun display" />
 	<div class="container">
 		<slot />
 	</div>
