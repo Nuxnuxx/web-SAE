@@ -49,16 +49,16 @@
 <style lang="scss">
 	h2 {
 		text-align: center;
-		color: #333;
+		color: var(--black-color);
 		font-weight: normal;
-		font-size: 22px;
+		font-size: 1.4rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
+		row-gap: 1rem;
 
 		label {
 			min-width: 350px;
@@ -66,19 +66,15 @@
 			width: 40%;
 			display: flex;
 			flex-direction: column;
-			margin-bottom: 10px;
-			padding: 20px;
+			padding: 1rem 0;
 
 			input {
-				border: 1px solid #ccc;
-				border-radius: 3%;
+				border-bottom: 1px solid var(--light-secondary-color);
 				border-top: none;
 				border-left: none;
 				border-right: none;
 
-				/*padding du texte*/
-				padding: 5px 15px;
-				font-size: 16px;
+				padding: 0.5rem 1rem;
 				outline: none;
 				&::placeholder {
 					opacity: 0.4;
@@ -92,31 +88,27 @@
 		}
 		a {
 			text-decoration: none;
-			color: #9f9f9f;
+			color: var(--light-black-color);
 			text-decoration: underline;
-			font-size: 14px;
-			margin-top: -20px;
-			margin-bottom: 25px;
-			margin-right: -40%;
+			font-size: 0.9rem;
 		}
 
 		button {
-			padding: 10px 20px;
-			background-color: #de403e;
-			color: #fff;
-			border: none;
-			border-radius: 20px;
-			cursor: pointer;
-			font-size: 16px;
 			display: flex;
 			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 1rem;
+			border-radius: 2rem;
+			background-color: var(--primary-color);
+			color: var(--white-color);
+			font-size: 1rem;
+			border: none;
+			cursor: pointer;
 		}
 
 		.material-symbols-rounded {
-			font-size: 20px;
+			font-size: 1.2rem;
 			font-weight: bold;
-			margin-left: 10px;
-			margin-right: -10px;
 		}
 	}
 </style>

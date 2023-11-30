@@ -49,15 +49,13 @@ export const getRecipesInDatabaseWithPagination = async (page_p: number) => {
 
 export const getRecipesByIdInDatabase = async (id: number) => {
 	const query = "MATCH (n:Recipe) WHERE n.idRecipe = $idRecipe RETURN n";
-	// need a string to match the data in the database
-	const idString: string = String(id);
 
 	let raw;
 	try {
-		raw = await database.run(query, { idRecipe: idString });
+		raw = await database.run(query, { idRecipe: id });
 	} catch (err) {
 		throw new BaseError(
-			`Error while fetching recipe from database with id : ${idString}`,
+			`Error while fetching recipe from database with id : ${id}`,
 			HttpStatusCode.INTERNAL_SERVER,
 			"INTERNAL SERVER ERROR",
 			true
