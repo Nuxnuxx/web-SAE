@@ -1,7 +1,12 @@
 <script>
-	let email = "";
-	let firstName = "";
-	let lastName = "";
+	import Input from "./input.svelte";
+
+	//TODO: get user data from backend
+	import profileImg from "$lib/img/profile/food/coffee.png";
+	let email = "1234@gmail.com";
+	let firstName = "John";
+	let lastName = "Doe";
+	// This should stay empty
 	let password = "";
 
 	function handleSubmit() {
@@ -17,75 +22,42 @@
 	}
 </script>
 
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
-
 <main>
 	<div class="card">
 		<!--image de profil-->
 		<div class="card__img">
-			<img src="https://picsum.photos/200" alt="profile picture" />
+			<img src={profileImg} alt="profile" />
 		</div>
 
-		<form on:submit|preventDefault={handleSubmit} class="card__form" action="/profil">
-			<div class="form__div">
-				<fieldset class="form__field">
-					<legend class="form__legend">Prénom</legend>
-					<input
-						type="text"
-						id="firstName"
-						bind:value={firstName}
-						placeholder="Damn"
-						class="form__input"
-					/>
-					<label for="firstName" class="form__label"> </label>
-				</fieldset>
-			</div>
-
-			<div class="form__div">
-				<fieldset class="form__field">
-					<legend class="form__legend">Nom</legend>
-					<input
-						type="text"
-						id="lastName"
-						bind:value={lastName}
-						placeholder="Mister P."
-						class="form__input"
-					/>
-					<label for="lastName" class="form__label"></label>
-				</fieldset>
-			</div>
-
-			<div class="form__div">
-				<fieldset class="form__field">
-					<legend class="form__legend">Mail</legend>
-					<input
-						type="email"
-						name="email"
-						id="email"
-						bind:value={email}
-						placeholder="lasauce@gmail.com"
-						class="form__input"
-					/>
-					<label for="email" class="form__label"></label>
-				</fieldset>
-			</div>
-
-			<div class="form__div">
-				<fieldset class="form__field">
-					<legend class="form__legend">Mot de passe</legend>
-					<input
-						type="password"
-						id="password"
-						bind:value={password}
-						placeholder="oui"
-						class="form__input"
-					/>
-					<label for="password" class="form__label"></label>
-				</fieldset>
-			</div>
+		<form
+			on:submit|preventDefault={handleSubmit}
+			class="card__form"
+			action="/profil"
+		>
+			<Input
+				name="firstName"
+				placeholder="First name"
+				secure={false}
+				bind:value={firstName}
+			/>
+			<Input
+				name="lastName"
+				placeholder="Last name"
+				secure={false}
+				bind:value={lastName}
+			/>
+			<Input
+				name="email"
+				placeholder="Email"
+				secure={false}
+				bind:value={email}
+			/>
+			<Input
+				name="password"
+				placeholder="Password"
+				secure={true}
+				bind:value={password}
+			/>
 
 			<button type="submit" class="form__button">
 				<span class="button__text">Sauvegarder</span>
@@ -97,25 +69,30 @@
 
 <style lang="scss">
 	.card {
-		border: 1px solid #ccc;
-		border-radius: 20px;
+		margin-bottom: 1rem;
 		width: auto;
 		/*ne peux pas etre plus petit que les enfants*/
 		overflow: auto;
-		border-radius: 20px;
-		background: #f5f5f5;
+		border-radius: 1rem;
+		background: #fff;
 		box-shadow: 0px 0px 10px 0px #dcdcdc;
+
+		.card__form {
+			margin: 0 4rem;
+		}
 
 		.card__img {
 			width: 25%;
 			height: 100%;
 			border-radius: 100%;
 			overflow: hidden;
-			margin-top: 40px;
-			/*centrer l'image*/
-			margin-left: auto;
-			margin-right: auto;
-
+			margin: 3rem auto;
+			margin: 3rem auto 1rem auto;
+			background: linear-gradient(
+				160deg,
+				#d282e6 0%,
+				rgba(210, 130, 230, 0.25) 69.92%
+			);
 			img {
 				width: 100%;
 				height: 100%;
@@ -123,83 +100,25 @@
 				vertical-align: middle;
 			}
 		}
+		.form__button {
+			margin: 1.5rem auto;
 
-		.card__form {
+			padding: 10px 20px;
+			background-color: #de403e;
+			color: #fff;
+			border: none;
+			border-radius: 20px;
+			cursor: pointer;
+			font-size: 20px;
 			display: flex;
-			flex-direction: column;
-			margin-right: 20%;
-			margin-left: 20%;
-			margin-top: 20px;
+			align-items: center;
+			justify-content: space-between;
 
-			.form__div {
-				padding-bottom: 10px;
-			}
-
-			.form__field {
-				border: 1px solid #ccc; /* Couleur de la bordure */
-				border-radius: 20px; /* Rayon des coins arrondis */
-			}
-
-			.form__legend {
-				/*décaler vers la droite*/
-				margin-left: 10px;
-				opacity: 0.3;
-			}
-
-			.form__label {
-				display: flex;
-				flex-direction: column;
-				margin-bottom: 10px;
-			}
-
-			.form__input {
-				border: none;
-				background: #f5f5f5;
-				
-			}
-
-			.form__input::placeholder {
-				opacity: 0.4;
-			}
-
-			.form__button {
-				margin-bottom: 30px;
-				margin-left: 20%;
-				margin-right: 20%;
-
-				padding: 10px 20px;
-				background-color: #de403e;
-				color: #fff;
-				border: none;
-				border-radius: 20px;
-				cursor: pointer;
-				font-size: 20px;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				@media screen and (max-width: 1150px) {
-					font-size: 16px;
-				}
-
-				.button__text {
-					@media screen and (max-width: 1100px) {
-						display: none;
-					}
-				}
+			@media screen and (max-width: 1150px) {
+				font-size: 16px;
+				margin-right: auto;
+				margin-left: auto;
 			}
 		}
-	}
-
-	.material-symbols-rounded {
-		font-variation-settings:
-			"FILL" 0,
-			"wght" 400,
-			"GRAD" 0,
-			"opsz" 24;
-
-		font-weight: bold;
-		margin-left: auto;
-		margin-right: auto;
 	}
 </style>

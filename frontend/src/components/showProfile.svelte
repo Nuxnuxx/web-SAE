@@ -1,28 +1,26 @@
 <script>
+	//TODO: get user data from backend
+	import profileImg from "$lib/img/profile/food/coffee.png";
+	let firstName = "John";
+	let lastName = "Doe";
+	let location = "France";
 </script>
-
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
 
 <main>
 	<div class="card">
 		<!--image de profil-->
 		<div class="card__img">
-			<img src="https://picsum.photos/200" alt="profile picture" />
+			<img src={profileImg} alt="profile" />
 		</div>
 
 		<div class="card__content">
-			<div class="content__nom">
-				<p>Mister P.</p>
+			<div class="content__name">
+				<p>{firstName + " " + lastName}</p>
 			</div>
 
 			<div class="content__localisation">
-				<span class="material-symbols-rounded">
-					location_on
-				</span>
-				<p>France</p>
+				<span class="material-symbols-rounded"> location_on </span>
+				<span>{location}</span>
 			</div>
 
 			<a type="button" class="content__button" href="/profil/modify">
@@ -33,6 +31,7 @@
 			</a>
 
 			<div class="content__deconnexion">
+				<!-- TODO: link to disconnect -->
 				<a href="auth">Déconnexion</a>
 			</div>
 		</div>
@@ -40,14 +39,16 @@
 </main>
 
 <style lang="scss">
+	p {
+		margin: 0;
+	}
 	.card {
-		border: 1px solid #ccc;
-		border-radius: 20px;
+		margin-bottom: 7rem;
 		width: auto;
 		/*ne peux pas etre plus petit que les enfants*/
 		overflow: auto;
-		border-radius: 20px;
-		background: #f5f5f5;
+		border-radius: 1rem;
+		background: #fff;
 		box-shadow: 0px 0px 10px 0px #dcdcdc;
 
 		.card__img {
@@ -55,11 +56,12 @@
 			height: 100%;
 			border-radius: 100%;
 			overflow: hidden;
-			margin-top: 40px;
-			/*centrer l'image*/
-			margin-left: auto;
-			margin-right: auto;
-
+			margin: 3rem auto 1rem auto;
+			background: linear-gradient(
+				160deg,
+				#d282e6 0%,
+				rgba(210, 130, 230, 0.25) 69.92%
+			);
 			img {
 				width: 100%;
 				height: 100%;
@@ -75,34 +77,24 @@
 			margin-right: 20%;
 			margin-left: 20%;
 
-			.content__nom {
-				padding-bottom: 10px;
-				margin-top: -15px;
-
+			.content__name {
 				p {
-					font-size: 20px;
+					font-size: 2rem;
 					font-weight: bold;
 				}
 			}
 
 			.content__localisation {
 				display: flex;
-				padding-bottom: 10px;
-				margin-top: -30px;
-				opacity: 0.2;
-				font-size: 10px;
-
-				.material-symbols-rounded {
-					font-variation-settings: 'FILL' 0;
-				}
+				align-items: center;
+				margin-bottom: 1.5rem;
+				color: #dcdcdc;
+				font-size: 1rem;
 			}
 
 			.content__button {
-				margin-left: 20%;
-				margin-right: 20%;
-				margin-bottom: 2%;
+				padding: 0.4rem;
 
-				padding: 5px 15px;
 				background-color: #de403e;
 				color: #fff;
 				border: none;
@@ -113,10 +105,6 @@
 				align-items: center;
 				justify-content: space-between;
 				text-decoration: none;
-
-				.material-symbols-rounded {
-					font-variation-settings: "FILL" 1;
-				}
 
 				@media screen and (max-width: 1150px) {
 					font-size: 16px;
@@ -135,13 +123,11 @@
 			}
 
 			.content__deconnexion {
-				padding-bottom: 10px;
-				text-decoration: underline;
-				margin-bottom: 10%;
+				margin-top: 0.2rem;
+				margin-bottom: 3rem;
 
 				a {
-					text-decoration: none;
-					color: #333;
+					color: #dcdcdc;
 				}
 			}
 		}
