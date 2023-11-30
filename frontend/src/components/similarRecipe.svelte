@@ -4,25 +4,29 @@
 
     import type { Recipe } from "../app";
     import RecipeCard from '../components/recipeCard.svelte';
+	import { onDestroy } from 'svelte';
     export let listRecipe: Recipe[];
 
     register();
 </script>
 
-<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
+<!--
+    TODO : custom navigation arrow next
+-->
 
 <div class="carousel">
     <swiper-container slides-per-view="2" speed="500" loop="true" css-mode="true"
     navigation="true"
-    breakpoints={{
+    >
+    <!-- Breakpoints me met une erreur dans le fichier swiper-core.mjs
+        breakpoints={{
         600: {
           slidesPerView: 3,
         },
         768: {
           slidesPerView: 4,
         },
-      }}
-    >
+      }}-->
         {#each listRecipe as recipe}
             <swiper-slide>
                 <div class="carousel__slide">
