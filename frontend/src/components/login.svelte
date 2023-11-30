@@ -37,7 +37,7 @@
 		/>
 	</label>
 
-	<!-- TODO: link to a proper page -->
+	<!-- TODO: Ajouter un lien vers la page de réinitialisation du mot de passe -->
 	<a href="/">Mot de passe oublié ?</a>
 
 	<button type="submit"
@@ -46,103 +46,69 @@
 	</button>
 </form>
 
-<style>
+<style lang="scss">
 	h2 {
 		text-align: center;
-		color: #333;
-		font-weight: bold;
-		font-size: 22px;
+		color: var(--black-color);
+		font-weight: normal;
+		font-size: 1.4rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
-	}
+		row-gap: 1rem;
 
-	label {
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 10px;
-		/*min-width: 80%;*/
-		/*width selon taille de l'écran*/
-		width: 50%;
-		min-width: 350px;
-		padding: 20px;
-	}
+		label {
+			min-width: 350px;
+			max-width: 700px;
+			width: 40%;
+			display: flex;
+			flex-direction: column;
+			padding: 1rem 0;
 
-	input {
-		border: 1px solid #ccc;
-		border-radius: 3%;
-		border-top: none;
-		border-left: none;
-		border-right: none;
+			input {
+				border-bottom: 1px solid var(--light-secondary-color);
+				border-top: none;
+				border-left: none;
+				border-right: none;
 
-		/*padding du texte*/
-		padding: 5px 15px;
-		font-size: 16px;
-		outline: none;
-	}
+				padding: 0.5rem 1rem;
+				outline: none;
+				&::placeholder {
+					opacity: 0.4;
+					transition: 0.5s;
+				}
 
-	/*rend le placeholder un peu plus transparent par défaut*/
-	input::-webkit-input-placeholder {
-		opacity: 0.4;
-	}
+				&:focus::placeholder {
+					color: transparent;
+				}
+			}
+		}
+		a {
+			text-decoration: none;
+			color: var(--light-black-color);
+			text-decoration: underline;
+			font-size: 0.9rem;
+		}
 
-	/* ajoute de la transparence pour le placeholder lors du focus */
-	input::-webkit-input-placeholder {
-		-webkit-transition: 0.5s;
-	}
-	input:-moz-input-placeholder {
-		-moz-transition: 0.5s;
-	}
-	input::-moz-input-placeholder {
-		-moz-transition: 0.5s;
-	}
-	input:-ms-input-placeholder {
-		-ms-transition: 0.5s;
-	}
+		button {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 1rem;
+			border-radius: 2rem;
+			background-color: var(--primary-color);
+			color: var(--white-color);
+			font-size: 1rem;
+			border: none;
+			cursor: pointer;
+		}
 
-	input:focus::-webkit-input-placeholder {
-		color: transparent;
-	}
-	input:focus:-moz-placeholder {
-		color: transparent;
-	} /* FF 4-18 */
-	input:focus::-moz-placeholder {
-		color: transparent;
-	} /* FF 19+ */
-	input:focus:-ms-input-placeholder {
-		color: transparent;
-	} /* IE 10+ */
-
-	a {
-		text-decoration: none;
-		color: #9f9f9f;
-		text-decoration: underline;
-		font-size: 14px;
-		margin-top: -20px;
-		margin-bottom: 25px;
-		margin-right: -40%;
-	}
-
-	button {
-		padding: 10px 20px;
-		background-color: #de403e;
-		color: #fff;
-		border: none;
-		border-radius: 20px;
-		cursor: pointer;
-		font-size: 16px;
-		display: flex;
-		align-items: center;
-	}
-
-	.material-symbols-rounded {
-		font-size: 20px;
-		font-weight: bold;
-		margin-left: 10px;
-		margin-right: -10px;
+		.material-symbols-rounded {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
 	}
 </style>
