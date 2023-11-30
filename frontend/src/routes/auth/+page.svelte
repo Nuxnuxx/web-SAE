@@ -42,7 +42,7 @@
 	<Register />
 {/if}
 
-<style>
+<style lang="scss">
 	.auth {
 		display: flex;
 		flex-direction: column;
@@ -56,6 +56,7 @@
 		border-left: none;
 		border-right: none;
 		background-color: transparent;
+		cursor: pointer;
 
 		border-bottom: 2px solid #000;
 

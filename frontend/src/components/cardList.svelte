@@ -11,7 +11,7 @@
 	{/each}
 </div>
 
-<style>
+<style lang="scss">
 	.list {
 		margin: 1rem;
 		display: grid;
