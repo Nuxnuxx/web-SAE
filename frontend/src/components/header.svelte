@@ -155,7 +155,7 @@
 			gap: 2rem;
 			.nav__iconwrapper__icon {
 				display: contents;
-				color: #000;
+				color: var(--white-color);
 				:hover {
 					color: var(--primary-color);
 				}
@@ -197,13 +197,6 @@
 				img {
 					height: 3.5rem;
 				}
-			}
-		}
-	}
-	@media (min-width: 1024px) {
-		nav {
-			.nav__search {
-				display: flex;
 			}
 		}
 	}

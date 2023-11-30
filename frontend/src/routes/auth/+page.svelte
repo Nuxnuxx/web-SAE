@@ -43,7 +43,7 @@
 	<Register />
 {/if}
 
-<style>
+<style lang="scss">
 	.auth {
 		display: flex;
 		flex-direction: column;

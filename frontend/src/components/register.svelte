@@ -197,6 +197,14 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+
+			div {
+				width: fit-content;
+				align-items: inherit;
+			}
+			input {
+				width: 55%;
+			}
 		}
 
 		.radio-container {
