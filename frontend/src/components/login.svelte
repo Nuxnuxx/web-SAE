@@ -37,7 +37,8 @@
 		/>
 	</label>
 
-	<a href="#">Mot de passe oublié ?</a>
+	<!-- TODO: link to a proper page -->
+	<a href="/">Mot de passe oublié ?</a>
 
 	<button type="submit"
 		>Connexion

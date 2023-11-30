@@ -1,8 +1,16 @@
-<script>
+<script lang="ts">
+	import { goto } from "$app/navigation";
 	import Input from "./input.svelte";
 
 	//TODO: get user data from backend
-	import profileImg from "$lib/img/profile/food/ice cream.png";
+	export let food: string = "";
+	export let backgroundColor: string = "";
+
+	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
+	const profileImg = new URL(
+		`../routes/profil/food/${food}.png`,
+		import.meta.url
+	).href;
 	let email = "1234@gmail.com";
 	let firstName = "John";
 	let lastName = "Doe";
@@ -18,14 +26,14 @@
 		console.log("Password:", password);
 
 		// href to /profil
-		window.location.href = "/profil";
+		goto("/profil");
 	}
 </script>
 
 <main>
 	<div class="card">
 		<!--image de profil-->
-		<div class="card__img">
+		<div class="card__img" style="--theme-color: {backgroundColor}">
 			<img src={profileImg} alt="profile" />
 		</div>
 
@@ -89,8 +97,8 @@
 			margin: 3rem auto 1rem auto;
 			background: linear-gradient(
 				160deg,
-				#d282e6 0%,
-				rgba(210, 130, 230, 0.25) 69.92%
+				hsl(var(--theme-color)) 0%,
+				hsla(var(--theme-color), 0.25) 69.92%
 			);
 			img {
 				width: 100%;

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { setContext } from "svelte";
+
 	let array = [
 		"burger",
 		"buritto",
@@ -30,13 +32,14 @@
 
 	let random = Math.floor(Math.random() * array.length);
 	let food = array[random];
-
+	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
 	const FoodImage = new URL(`./food/${food}.png`, import.meta.url).href;
-
-	let backgroundColor: string = "#d282e6";
+	let backgroundColor: string;
 	// change backgroundColor randomly while keeping same hue
 	random = Math.floor(Math.random() * 100);
-	backgroundColor = `hsl(${random}, 100%, 80%)`;
+	backgroundColor = `${random}, 100%, 80%`;
+
+	setContext("user", { food, backgroundColor });
 </script>
 
 <svelte:head>
@@ -55,7 +58,7 @@
 	.background {
 		background: linear-gradient(
 			160deg,
-			var(--theme-color) 0%,
+			hsl(var(--theme-color)) 0%,
 			rgba(210, 130, 230, 0) 60%
 		);
 	}
@@ -73,8 +76,8 @@
 
 		&.foodimage__big {
 			top: 7rem;
-			right: 4rem;
-			height: 80%;
+			right: 5rem;
+			height: 70%;
 			object-fit: cover;
 		}
 	}
