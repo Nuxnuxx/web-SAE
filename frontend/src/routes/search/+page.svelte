@@ -8,4 +8,13 @@
 
 <h1>Permet de chercher des recherche selon SearchBar / Filter</h1>
 
-<Filter />
+<div class="filter">
+	<Filter />
+</div>
+
+<style lang="scss">
+	.filter {
+		width: 50%;
+		margin: 0 auto;
+	}
+</style>
