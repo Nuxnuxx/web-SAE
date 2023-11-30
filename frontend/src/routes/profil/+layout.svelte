@@ -31,16 +31,21 @@
 	let random = Math.floor(Math.random() * array.length);
 	let food = array[random];
 
-	const imageUrl = new URL(`./food/${food}.png`, import.meta.url).href;
+	const FoodImage = new URL(`./food/${food}.png`, import.meta.url).href;
+
+	let backgroundColor: string = "#d282e6";
+	// change backgroundColor randomly while keeping same hue
+	random = Math.floor(Math.random() * 100);
+	backgroundColor = `hsl(${random}, 100%, 80%)`;
 </script>
 
 <svelte:head>
 	<title>Profil | PirateCook</title>
 </svelte:head>
 
-<div class="background">
-	<img src={imageUrl} class="foodimage foodimage__small" alt="fun display" />
-	<img src={imageUrl} class="foodimage foodimage__big" alt="fun display" />
+<div class="background" style="--theme-color: {backgroundColor}">
+	<img src={FoodImage} class="foodimage foodimage__small" alt="fun display" />
+	<img src={FoodImage} class="foodimage foodimage__big" alt="fun display" />
 	<div class="container">
 		<slot />
 	</div>
@@ -50,7 +55,7 @@
 	.background {
 		background: linear-gradient(
 			160deg,
-			#d282e6 0%,
+			var(--theme-color) 0%,
 			rgba(210, 130, 230, 0) 60%
 		);
 	}

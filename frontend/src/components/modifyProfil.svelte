@@ -2,7 +2,7 @@
 	import Input from "./input.svelte";
 
 	//TODO: get user data from backend
-	import profileImg from "$lib/img/profile/food/coffee.png";
+	import profileImg from "$lib/img/profile/food/ice cream.png";
 	let email = "1234@gmail.com";
 	let firstName = "John";
 	let lastName = "Doe";
@@ -86,7 +86,6 @@
 			height: 100%;
 			border-radius: 100%;
 			overflow: hidden;
-			margin: 3rem auto;
 			margin: 3rem auto 1rem auto;
 			background: linear-gradient(
 				160deg,

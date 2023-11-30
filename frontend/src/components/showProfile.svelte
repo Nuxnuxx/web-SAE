@@ -1,5 +1,6 @@
 <script>
 	//TODO: get user data from backend
+	import profileImg from "$lib/img/profile/food/ice cream.png";
 	let firstName = "John";
 	let lastName = "Doe";
 	let location = "France";
