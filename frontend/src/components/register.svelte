@@ -74,29 +74,33 @@
 	</div>
 
 	<div class="name">
-		<label for="firstName"></label>
-		<input
-			type="text"
-			id="firstName"
-			bind:value={registerValues.firstName}
-			placeholder="Prénom*"
-			autocomplete="given-name"
-		/>
-		{#if errors.firstName}
-			<span class="error">{errors.firstName}</span>
-		{/if}
+		<div>
+			<label for="firstName"></label>
+			<input
+				type="text"
+				id="firstName"
+				bind:value={registerValues.firstName}
+				placeholder="Prénom*"
+				autocomplete="given-name"
+			/>
+			{#if errors.firstName}
+				<span class="error">{errors.firstName}</span>
+			{/if}
+		</div>
 
-		<label for="lastName"></label>
-		<input
-			type="text"
-			id="lastName"
-			bind:value={registerValues.lastName}
-			placeholder="Nom*"
-			autocomplete="family-name"
-		/>
-		{#if errors.lastName}
-			<span class="error">{errors.lastName}</span>
-		{/if}
+		<div>
+			<label for="lastName"></label>
+			<input
+				type="text"
+				id="lastName"
+				bind:value={registerValues.lastName}
+				placeholder="Nom*"
+				autocomplete="family-name"
+			/>
+			{#if errors.lastName}
+				<span class="error">{errors.lastName}</span>
+			{/if}
+		</div>
 	</div>
 
 	<div>
@@ -193,6 +197,9 @@
 	}
 
 	form {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		row-gap: 1rem;
 		width: 40%;
 		margin: 0 auto;
@@ -208,6 +215,7 @@
 
 		button {
 			display: flex;
+			margin: 0 auto;
 			align-items: center;
 			gap: 0.5rem;
 			padding: 0.5rem 1rem;
@@ -232,7 +240,7 @@
 
 		input {
 			&:not([type="checkbox"]) {
-				border: 1px solid #ccc;
+				border-bottom: 1px solid var(--light-secondary-color);
 				border-top: none;
 				border-left: none;
 				border-right: none;

@@ -49,7 +49,7 @@
 			id="email"
 			type="text"
 			bind:value={loginValues.email}
-			placeholder="Email"
+			placeholder="Email*"
 			autocomplete="username"
 		/>
 		{#if errors.email}
@@ -62,7 +62,7 @@
 			id="password"
 			type="password"
 			bind:value={loginValues.password}
-			placeholder="Mot de passe"
+			placeholder="Mot de passe*"
 			autocomplete="current-password"
 		/>
 		{#if errors.password}
@@ -85,27 +85,32 @@
 		color: var(--black-color);
 		font-weight: normal;
 		font-size: 1.4rem;
+		width: 80%;
+		margin: 0 auto;
+		margin-bottom: 2.8rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		row-gap: 1rem;
+		margin: 0 auto;
+		row-gap: 1.5rem;
+		width: 40%;
+		min-width: 350px;
+		max-width: 700px;
 
 		label {
-			min-width: 350px;
-			max-width: 700px;
-			width: 40%;
+			width: 100%;
 			display: flex;
 			flex-direction: column;
-			padding: 1rem 0;
-
+			align-items: center;
 			input {
 				border-bottom: 1px solid var(--light-secondary-color);
 				border-top: none;
 				border-left: none;
 				border-right: none;
+				width: 80%;
 
 				padding: 0.5rem 1rem;
 				outline: none;
