@@ -12,7 +12,7 @@ export const handleCreateList = async (
 	try {
 		//@ts-ignore
 		const result = await createList(nameList, req.user.email);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -37,7 +37,7 @@ export const handleModifyList = async (
 	try {
 		//@ts-ignore
 		const result = await modifyList(parsedId, nameList, req.user.email);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -61,7 +61,7 @@ export const handleDeleteList = async (
 	try {
 		//@ts-ignore
 		const result = await deleteList(parsedId, req.user.email);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -80,7 +80,7 @@ export const handleGetList = async (
 	try {
 		//@ts-ignore
 		const result = await getList(req.user.email);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";

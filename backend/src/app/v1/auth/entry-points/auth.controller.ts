@@ -20,7 +20,7 @@ export const handleRegister = async (
 
 	try {
 		const register = await registerUser(user);
-		res.status(200).send(register);
+		res.status(200).type("json").send(register);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -40,7 +40,7 @@ export const handleLogin = async (
 
 	try {
 		const login = await loginUser(user);
-		res.status(200).send(login);
+		res.status(200).type("json").send(login);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -60,7 +60,7 @@ export const handleModifyProfil = async (
 
 	try {
 		const modify = await modifyUser(user);
-		res.status(200).send(modify);
+		res.status(200).type("json").send(modify);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -80,7 +80,7 @@ export const handleDeleteProfil = async (
 
 	try {
 		const deleteProfil = await deleteUser(user);
-		res.status(200).send(deleteProfil);
+		res.status(200).type("json").send(deleteProfil);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";

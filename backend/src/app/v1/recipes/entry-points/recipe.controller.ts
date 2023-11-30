@@ -19,7 +19,7 @@ export const handleRecipeById = async (
 
 		try {
 			const result = await getRecipeById(parsedInt);
-			res.status(200).send(result);
+			res.status(200).type("json").send(result);
 		} catch (err) {
 			const message =
 				err instanceof ApiError ? err.message : "Internal Server Error";
@@ -51,15 +51,15 @@ export const handleRecipes = async (
 
 	try {
 		const result = await getRecipes(page);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
 		res.status(err instanceof ApiError ? err.httpCode : 500)
 			.type("json")
 			.send({
-			message,
-		});
+				message,
+			});
 		next(err);
 	}
 };
@@ -74,15 +74,15 @@ export const handleRecipeByKeyWord = async (
 
 	try {
 		const result = await findRecipesByKeyWord(keyWord, page);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
 		res.status(err instanceof ApiError ? err.httpCode : 500)
 			.type("json")
 			.send({
-			message,
-		});
+				message,
+			});
 		next(err);
 	}
 };
@@ -97,15 +97,15 @@ export const handleRecipeByFilter = async (
 
 	try {
 		const result = await findRecipesByFilter(filter, page);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
 		res.status(err instanceof ApiError ? err.httpCode : 500)
 			.type("json")
 			.send({
-			message,
-		});
+				message,
+			});
 		next(err);
 	}
 };

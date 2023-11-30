@@ -20,7 +20,7 @@ export const handleAddRecipeLiked = async (
 	try {
 		//@ts-ignore
 		const result = await createRecipeLiked(parsedId, req.user.email);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -51,7 +51,7 @@ export const handleAddRecipeList = async (
 			//@ts-ignore
 			req.user.email
 		);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -75,7 +75,7 @@ export const handleGetRecipeList = async (
 	try {
 		//@ts-ignore
 		const result = await getRecipesList(parsedId, req.user.email);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
@@ -106,7 +106,7 @@ export const handleDeleteRecipeList = async (
 			//@ts-ignore
 			req.user.email
 		);
-		res.status(200).send(result);
+		res.status(200).type("json").send(result);
 	} catch (err) {
 		const message =
 			err instanceof ApiError ? err.message : "Internal Server Error";
