@@ -9,3 +9,9 @@
 </main>
 
 <Footer />
+
+<style lang="scss">
+	main {
+		min-height: 100vh;
+	}
+</style>

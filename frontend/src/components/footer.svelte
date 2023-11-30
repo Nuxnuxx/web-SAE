@@ -46,12 +46,12 @@
 
 			.big__bubble {
 				border: none;
-				outline: #82d3e6 0.2rem solid;
+				outline: var(--secondary-color) 0.2rem solid;
 				outline-offset: -0.1rem; // needed to have seamless border
 				width: 3rem;
 				height: 3rem;
 				aspect-ratio: 1/1;
-				background: #82d3e6;
+				background: var(--secondary-color);
 				border-radius: 50%;
 				display: flex;
 				justify-content: center;
@@ -59,7 +59,7 @@
 				cursor: pointer;
 				span {
 					font-size: 2rem;
-					color: #f5f5f5;
+					color: var(--white-color);
 				}
 			}
 
@@ -67,7 +67,7 @@
 				width: 2.25rem;
 				height: 2.25rem;
 				aspect-ratio: 1/1;
-				background: #82d3e6;
+				background: var(--secondary-color);
 				border-radius: 50%;
 				display: flex;
 				justify-content: center;
@@ -81,7 +81,7 @@
 					margin-top: 0.5rem;
 				}
 				span {
-					color: #f5f5f5;
+					color: var(--white-color);
 					&.dribbble__icon {
 						margin: auto;
 						background: url("../lib/img/dribbble_icon.svg")
@@ -104,7 +104,7 @@
 
 		p {
 			margin: 0.2rem;
-			color: #f5f5f5;
+			color: var(--white-color);
 			&.flavor__text {
 				margin-left: 2rem;
 				font-size: 0.6rem;
@@ -116,7 +116,7 @@
 				margin: 0;
 			}
 			.red__highlight {
-				color: #de403e;
+				color: var(--primary-color);
 				font-weight: bold;
 			}
 			.styled__font {
@@ -129,7 +129,7 @@
 		footer {
 			.bubble__wrapper {
 				.big__bubble {
-					outline: #82d3e6 0.3rem solid;
+					outline: var(--secondary-color) 0.3rem solid;
 					outline-offset: -0.1rem; // needed to have seamless border
 					width: 4.5rem;
 					height: 4.5rem;
@@ -162,7 +162,7 @@
 				}
 			}
 			p {
-				color: #f5f5f5;
+				color: var(--white-color);
 				&.flavor__text {
 					margin-left: 2rem;
 					font-size: 1.5rem;
@@ -174,7 +174,7 @@
 					margin: 0;
 				}
 				.red__highlight {
-					color: #de403e;
+					color: var(--primary-color);
 					font-weight: bold;
 				}
 				.styled__font {
@@ -187,9 +187,10 @@
 		// LAPTOP
 
 		footer {
+			margin-top: 4rem;
 			.bubble__wrapper {
 				.big__bubble {
-					outline: #82d3e6 0.4rem solid;
+					outline: var(--secondary-color) 0.4rem solid;
 					outline-offset: -0.1rem; // needed to have seamless border
 					width: 6rem;
 					height: 6rem;
