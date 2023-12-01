@@ -66,7 +66,7 @@ export const getRecipesByIdInDatabase = async (id: number) => {
 
 	if (result == null || result == undefined || result.length == 0) {
 		throw new ApiError(
-			`Recipe with id ${idString} not found`,
+			`Recipe with id ${id} not found`,
 			"NOT FOUND",
 			HttpStatusCode.NOT_FOUND,
 			true
