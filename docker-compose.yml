@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+  backendgo:
+    build: ./backend-go
+    restart: always
+    ports: 
+      - 3001:3001
   backend:
     build: ./backend
     restart: always
