@@ -20,7 +20,7 @@ type Neo4jStore struct {
 
 func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 
-	db, err := neo4j.NewDriverWithContext("neo4j://localhost:7687", neo4j.BasicAuth("neo4j", "Wawa02290", ""))
+	db, err := neo4j.NewDriverWithContext("neo4j://localhost:7687", neo4j.BasicAuth("neo4j", "Wawa02290.", ""))
 
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *Neo4jStore) GetRecipeById(id int) (any, error) {
 			MATCH (recipe:Recipe {idRecipe: $id})
 			MATCH (recipe)-[:CONTAINS]->(step:Step)
 			MATCH (recipe)-[:INGREDIENTS]->(ingredient:Ingredient)
-			RETURN DISTINCT recipe, step, ingredient
+			RETURN recipe, ingredient, step
 			ORDER BY step.step ASC;
 		`,
 		map[string]interface{}{
@@ -131,7 +131,7 @@ func (s *Neo4jStore) GetRecipes(page int, query url.Values) ([]RecipeDetail, err
 		return nil, err
 	}
 
-	return nil, nil
+	return nil, err
 }
 
 func extractProperty(record neo4j.Record, key string, propertyName string) interface{} {
@@ -151,8 +151,9 @@ func createRecipeDetail(record neo4j.Record, key string) RecipeDetail {
 func createRecipeStep(record []*neo4j.Record, key string) RecipeStep {
 	recipe := make(RecipeStep)
 	for _, r := range record {
-		recipeStep := extractProperty(*r, key, "step").(int64)
-		recipe[recipeStep] = struct {
+		recipeId := extractProperty(*r, key, "step").(int64)
+
+		recipe[recipeId] = struct {
 			Step string
 		}{
 			Step: extractProperty(*r, key, "name").(string),
@@ -166,6 +167,7 @@ func createRecipeIngredient(record []*neo4j.Record, key string) RecipeIngredient
 
 	for _, r := range record {
 		recipeId := extractProperty(*r, key, "idIngredient").(int64)
+
 		recipe[recipeId] = IngredientInfo{
 			Name:       extractProperty(*r, key, "name").(string),
 			URLPicture: extractProperty(*r, key, "urlPicture").(string),
