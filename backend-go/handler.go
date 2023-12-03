@@ -61,25 +61,26 @@ func (s *APIServer) handleGetRecipe(w http.ResponseWriter, r *http.Request) erro
 }
 
 func (s *APIServer) handleRecipes(w http.ResponseWriter, r *http.Request) error {
+	// vars from web are always a string need to convert it to Integer
 	page, err := strconv.Atoi(mux.Vars(r)["page"])
 
 	if err != nil {
 		return writeJSON(w, http.StatusBadRequest, "Please give a id")
 	}
 
-	query := r.URL.Query()
-
-	if query != nil {
-		resp, err := s.store.GetRecipes(page, query)
+	// if queries present then filter the recipe
+	if query := r.URL.Query(); len(query) > 0 {
+		resp, err := s.store.GetRecipesWithFilter(page, query)
 
 		if err != nil {
-			return writeJSON(w, http.StatusInternalServerError, ApiError{Error: err.Error()})
+			fmt.Println(err)
+			return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
 		}
 
 		return writeJSON(w, http.StatusOK, resp)
 	}
 
-	resp, err := s.store.GetRecipes(page, nil)
+	resp, err := s.store.GetRecipes(page)
 
 	if err != nil {
 		return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
@@ -10,7 +11,8 @@ import (
 type Storage interface {
 	CreateAccount(*Account) error
 	GetRecipeById(int) (any, error)
-	GetRecipes(int, url.Values) ([]RecipeDetail, error)
+	GetRecipes(int) ([]RecipeDetail, error)
+	GetRecipesWithFilter(int, url.Values) ([]RecipeDetail, error)
 }
 
 type Neo4jStore struct {
@@ -98,12 +100,48 @@ func (s *Neo4jStore) GetRecipeById(id int) (any, error) {
 	return nil, err
 }
 
-func (s *Neo4jStore) GetRecipes(page int, query url.Values) ([]RecipeDetail, error) {
+func (s *Neo4jStore) GetRecipes(page int) ([]RecipeDetail, error) {
+
 	resp, err := s.db.Run(s.ctx, "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit",
 		map[string]interface{}{
 			"page":  page * 10,
-			"limit": 11,
+			"limit": 10,
 		},
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	if resp.Next(s.ctx) {
+		// create a array of recipes
+		recipeList := make([]RecipeDetail, 0)
+
+		for resp.Next(s.ctx) {
+			recipe := createRecipeDetail(*resp.Record(), "n")
+
+			recipeList = append(recipeList, recipe)
+		}
+
+		return recipeList, nil
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, err
+}
+
+func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) ([]RecipeDetail, error) {
+	queryString, params := buildQueryAndParams(query, page)
+
+	resp, err := s.db.Run(s.ctx, queryString,
+		params,
 	)
 
 	if err != nil {
@@ -184,4 +222,41 @@ func createRecipe(record []*neo4j.Record, key []string) Recipe {
 		RecipeStep:        createRecipeStep(record, key[1]),
 		RecipeIngredients: createRecipeIngredient(record, key[2]),
 	}
+}
+
+func buildQueryAndParams(query url.Values, page int) (string, map[string]interface{}) {
+	queryString := "MATCH (n:Recipe) WHERE"
+	values := url.Values{}
+
+	for key := range query {
+		if key == "name" {
+			values.Add(key, fmt.Sprintf("n.%s CONTAINS $%s", key, key))
+		} else {
+			values.Add(key, fmt.Sprintf("n.%s = $%s", key, key))
+		}
+	}
+
+	i := 0
+	for _, value := range values {
+
+		if i == len(values)-1 {
+			queryString += " " + value[0]
+			break
+		}
+		queryString += " " + value[0] + " AND"
+		i++
+	}
+
+	queryString += " RETURN n SKIP $page LIMIT $limit"
+
+	params := map[string]interface{}{
+		"page":  page * 10,
+		"limit": 10,
+	}
+
+	for key, value := range query {
+		params[key] = value[0]
+	}
+
+	return queryString, params
 }
