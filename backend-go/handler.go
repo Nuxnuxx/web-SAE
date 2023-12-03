@@ -53,6 +53,7 @@ func (s *APIServer) handleGetRecipe(w http.ResponseWriter, r *http.Request) erro
 	resp, err := s.store.GetRecipeById(id)
 
 	if err != nil {
+		fmt.Println(err)
 		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
 	}
 

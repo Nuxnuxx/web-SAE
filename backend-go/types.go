@@ -2,8 +2,21 @@ package main
 
 import "golang.org/x/crypto/bcrypt"
 
-type RecipeStep struct {
+type Recipe struct {
+	RecipeDetail      RecipeDetail
+	RecipeStep        RecipeStep
+	RecipeIngredients RecipeIngredients
+}
 
+type IngredientInfo struct {
+	Name       string
+	URLPicture string
+}
+
+type RecipeIngredients map[int64]IngredientInfo
+
+type RecipeStep map[int64]struct {
+	Step string
 }
 
 type RecipeDetail struct {
@@ -11,7 +24,7 @@ type RecipeDetail struct {
 	Quantity   string `json:"quantity"`
 	Price      string `json:"price"`
 	Name       string `json:"name"`
-	IdRecipe   int64 `json:"idrecipe"`
+	IdRecipe   int64  `json:"idrecipe"`
 }
 
 type LoginRequest struct {

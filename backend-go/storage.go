@@ -64,7 +64,8 @@ func (s *Neo4jStore) GetRecipeById(id int) (any, error) {
 			MATCH (recipe:Recipe {idRecipe: $id})
 			MATCH (recipe)-[:CONTAINS]->(step:Step)
 			MATCH (recipe)-[:INGREDIENTS]->(ingredient:Ingredient)
-			RETURN DISTINCT recipe, step, ingredient;
+			RETURN DISTINCT recipe, step, ingredient
+			ORDER BY step.step ASC;
 		`,
 		map[string]interface{}{
 			"id": id},
@@ -79,14 +80,19 @@ func (s *Neo4jStore) GetRecipeById(id int) (any, error) {
 	}
 
 	if resp.Next(s.ctx) {
-		// recipe := createRecipe(*resp.Record())
-		result, err := resp.Collect(s.ctx)
+		data, err := resp.Collect(s.ctx)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return result, nil
+		recipe := createRecipe(data, []string{"recipe", "step", "ingredient"})
+
+		if err != nil {
+			return nil, err
+		}
+
+		return recipe, nil
 	}
 
 	return nil, err
@@ -96,7 +102,7 @@ func (s *Neo4jStore) GetRecipes(page int, query url.Values) ([]RecipeDetail, err
 	resp, err := s.db.Run(s.ctx, "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit",
 		map[string]interface{}{
 			"page":  page * 10,
-			"limit": 10,
+			"limit": 11,
 		},
 	)
 
@@ -113,7 +119,7 @@ func (s *Neo4jStore) GetRecipes(page int, query url.Values) ([]RecipeDetail, err
 		recipeList := make([]RecipeDetail, 0)
 
 		for resp.Next(s.ctx) {
-			recipe := createRecipe(*resp.Record(), "n")
+			recipe := createRecipeDetail(*resp.Record(), "n")
 
 			recipeList = append(recipeList, recipe)
 		}
@@ -132,12 +138,48 @@ func extractProperty(record neo4j.Record, key string, propertyName string) inter
 	return record.AsMap()[key].(neo4j.Node).Props[propertyName]
 }
 
-func createRecipe(record neo4j.Record, key string) RecipeDetail {
+func createRecipeDetail(record neo4j.Record, key string) RecipeDetail {
 	return RecipeDetail{
 		Difficulty: extractProperty(record, key, "difficulty").(string),
 		Quantity:   extractProperty(record, key, "quantity").(string),
 		Price:      extractProperty(record, key, "price").(string),
 		Name:       extractProperty(record, key, "name").(string),
 		IdRecipe:   extractProperty(record, key, "idRecipe").(int64),
+	}
+}
+
+func createRecipeStep(record []*neo4j.Record, key string) RecipeStep {
+	recipe := make(RecipeStep)
+	for _, r := range record {
+		recipeStep := extractProperty(*r, key, "step").(int64)
+		recipe[recipeStep] = struct {
+			Step string
+		}{
+			Step: extractProperty(*r, key, "name").(string),
+		}
+	}
+	return recipe
+}
+
+func createRecipeIngredient(record []*neo4j.Record, key string) RecipeIngredients {
+	recipe := make(RecipeIngredients)
+
+	for _, r := range record {
+		recipeId := extractProperty(*r, key, "idIngredient").(int64)
+		recipe[recipeId] = IngredientInfo{
+			Name:       extractProperty(*r, key, "name").(string),
+			URLPicture: extractProperty(*r, key, "urlPicture").(string),
+		}
+	}
+
+	return recipe
+}
+
+func createRecipe(record []*neo4j.Record, key []string) Recipe {
+	detailRecord := record[0]
+	return Recipe{
+		RecipeDetail:      createRecipeDetail(*detailRecord, key[0]),
+		RecipeStep:        createRecipeStep(record, key[1]),
+		RecipeIngredients: createRecipeIngredient(record, key[2]),
 	}
 }
