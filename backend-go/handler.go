@@ -13,12 +13,33 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 	if r.Method != "POST" {
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
+
 	var req LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		return err
 	}
 
-	return writeJSON(w, http.StatusOK, req)
+	if err := s.store.FindAccountByMail(req.Mail); err == nil {
+		permissionDenied(w)
+	}
+
+	account, err := s.store.Login(req)
+
+	if err != nil {
+		permissionDenied(w)
+	}
+
+	token, err := createJWT(account)
+
+	if err != nil {
+		permissionDenied(w)
+	}
+
+	finalResponse := APIResponse{
+		Result: token,
+	}
+
+	return writeJSON(w, http.StatusOK, finalResponse)
 }
 
 func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error {
@@ -28,9 +49,12 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
-	account, err := newAccount(req.FirstName, req.LastName, req.Mail, req.Password)
+	account, err := NewAccount(req.FirstName, req.LastName, req.Mail, req.Password)
 
 	if err != nil {
+		return err
+	}
+	if err := s.store.FindAccountByMail(account.Mail); err != nil {
 		return err
 	}
 
@@ -40,7 +64,11 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 
 	token, err := createJWT(account)
 
-	return writeJSON(w, http.StatusOK, token)
+	finalResult := APIResponse{
+		Result: token,
+	}
+
+	return writeJSON(w, http.StatusOK, finalResult)
 }
 
 func (s *APIServer) handleGetRecipe(w http.ResponseWriter, r *http.Request) error {

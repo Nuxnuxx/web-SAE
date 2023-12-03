@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewAccount(t *testing.T) {
-	acc, err := newAccount("a", "b", "saucisse@gmail.com", "wow")
+	acc, err := NewAccount("a", "b", "saucisse@gmail.com", "wow")
 	assert.Nil(t, err)
 
 	fmt.Println(acc)

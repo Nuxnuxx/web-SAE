@@ -2,14 +2,18 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 	"strings"
 
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Storage interface {
 	CreateAccount(*Account) error
+	FindAccountByMail(string) error
+	Login(LoginRequest) (*Account, error)
 	GetRecipeById(int) (*APIResponse, error)
 	GetRecipes(int) (*APIResponse, error)
 	GetRecipesWithFilter(int, url.Values) (*APIResponse, error)
@@ -41,12 +45,38 @@ func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 	}, nil
 }
 
+func (s *Neo4jStore) FindAccountByMail(mail string) error {
+	query := "MATCH (u:User {mail: $mail}) RETURN u"
+
+	resp, err := s.db.Run(s.ctx, query,
+		map[string]interface{}{
+			"mail": mail},
+	)
+
+	if err != nil {
+
+		return err
+	}
+
+	if resp.Err() != nil {
+		return err
+	}
+
+	if resp.Next(s.ctx) {
+		return fmt.Errorf("Email found")
+	}
+
+	return nil
+}
+
 func (s *Neo4jStore) CreateAccount(acc *Account) error {
 
-	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail}) RETURN u",
+	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password}) RETURN u",
 		map[string]interface{}{
-			"name": acc.FirstName + " " + acc.LastName,
-			"mail": acc.Mail},
+			"name":     acc.FirstName + " " + acc.LastName,
+			"mail":     acc.Mail,
+			"password": acc.EncryptedPassword,
+		},
 	)
 
 	if err != nil {
@@ -58,7 +88,37 @@ func (s *Neo4jStore) CreateAccount(acc *Account) error {
 	}
 
 	return nil
+}
 
+func (s *Neo4jStore) Login(req LoginRequest) (*Account, error) {
+	query := "MATCH (u:User {mail: $mail}) RETURN u"
+
+	resp, err := s.db.Run(s.ctx, query,
+		map[string]interface{}{
+			"mail": req.Mail},
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	if resp.Next(s.ctx) {
+		data := extractProperty(*resp.Record(), "u", "password").(string)
+
+		if err := bcrypt.CompareHashAndPassword([]byte(data), []byte(req.Password)); err != nil {
+			return nil, fmt.Errorf("Invalid Credentials")
+		}
+
+		account := CreateAccount(*resp.Record(), "u")
+
+		return &account, nil
+	}
+
+	return nil, err
 }
 
 func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {

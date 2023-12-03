@@ -1,7 +1,5 @@
 package main
 
-import "golang.org/x/crypto/bcrypt"
-
 type Pagination struct {
 	CurrentPage int `json:"currentPage"`
 	TotalPage   int `json:"totalPage"`
@@ -52,24 +50,11 @@ type CreateAccountRequest struct {
 }
 
 type Account struct {
-	IdUser            int    `json:"idUser"`
+	IdUser            int64    `json:"idUser"`
 	FirstName         string `json:"firstName"`
 	LastName          string `json:"lastName"`
 	Gender            string `json:"gender"`
 	Price             string `json:"price"`
 	EncryptedPassword string `json:"-"`
 	Mail              string `json:"mail"`
-}
-
-func newAccount(firstName, lastName, mail, password string) (*Account, error) {
-	encpw, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return nil, err
-	}
-	return &Account{
-		FirstName:         firstName,
-		LastName:          lastName,
-		Mail:              mail,
-		EncryptedPassword: string(encpw),
-	}, nil
 }
