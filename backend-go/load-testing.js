@@ -7,8 +7,13 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get("http://localhost:3000/recipe/2");
+  const res = http.get("http://localhost:3001/recipe/2");
   check(res, {
+    "is status 200": (r) => r.status === 200,
+  });
+
+  const res2 = http.get("http://localhost:3001/recipe/page/3");
+  check(res2, {
     "is status 200": (r) => r.status === 200,
   });
   sleep(1);
