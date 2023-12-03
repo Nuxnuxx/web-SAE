@@ -2,17 +2,18 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 type Storage interface {
 	CreateAccount(*Account) error
-	GetRecipeById(int) (any, error)
-	GetRecipes(int) ([]RecipeDetail, error)
-	GetRecipesWithFilter(int, url.Values) ([]RecipeDetail, error)
+	GetRecipeById(int) (*APIResponse, error)
+	GetRecipes(int) (*APIResponse, error)
+	GetRecipesWithFilter(int, url.Values) (*APIResponse, error)
+	GetMetadata(int, string, map[string]interface{}) (*Pagination, error)
 }
 
 type Neo4jStore struct {
@@ -60,17 +61,22 @@ func (s *Neo4jStore) CreateAccount(acc *Account) error {
 
 }
 
-func (s *Neo4jStore) GetRecipeById(id int) (any, error) {
+func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 
-	resp, err := s.db.Run(s.ctx, `
+	query := `
 			MATCH (recipe:Recipe {idRecipe: $id})
 			MATCH (recipe)-[:CONTAINS]->(step:Step)
 			MATCH (recipe)-[:INGREDIENTS]->(ingredient:Ingredient)
 			RETURN recipe, ingredient, step
 			ORDER BY step.step ASC;
-		`,
-		map[string]interface{}{
-			"id": id},
+	`
+
+	params := map[string]interface{}{
+		"id": id,
+	}
+
+	resp, err := s.db.Run(s.ctx, query,
+		params,
 	)
 
 	if err != nil {
@@ -94,19 +100,26 @@ func (s *Neo4jStore) GetRecipeById(id int) (any, error) {
 			return nil, err
 		}
 
-		return recipe, nil
+		finalResult := APIResponse{
+			Result: recipe,
+		}
+
+		return &finalResult, nil
 	}
 
 	return nil, err
 }
 
-func (s *Neo4jStore) GetRecipes(page int) ([]RecipeDetail, error) {
+func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
+	query := "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit"
 
-	resp, err := s.db.Run(s.ctx, "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit",
-		map[string]interface{}{
-			"page":  page * 10,
-			"limit": 10,
-		},
+	params := map[string]interface{}{
+		"page":  page * 10,
+		"limit": 10,
+	}
+
+	resp, err := s.db.Run(s.ctx, query,
+		params,
 	)
 
 	if err != nil {
@@ -122,12 +135,23 @@ func (s *Neo4jStore) GetRecipes(page int) ([]RecipeDetail, error) {
 		recipeList := make([]RecipeDetail, 0)
 
 		for resp.Next(s.ctx) {
-			recipe := createRecipeDetail(*resp.Record(), "n")
+			recipe := CreateRecipeDetail(*resp.Record(), "n")
 
 			recipeList = append(recipeList, recipe)
 		}
 
-		return recipeList, nil
+		recipePagination, err := s.GetMetadata(page, query, params)
+
+		if err != nil {
+			return nil, err
+		}
+
+		finalResult := APIResponse{
+			Result:     recipeList,
+			Pagination: recipePagination,
+		}
+
+		return &finalResult, nil
 	}
 
 	if err != nil {
@@ -137,7 +161,7 @@ func (s *Neo4jStore) GetRecipes(page int) ([]RecipeDetail, error) {
 	return nil, err
 }
 
-func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) ([]RecipeDetail, error) {
+func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIResponse, error) {
 	queryString, params := buildQueryAndParams(query, page)
 
 	resp, err := s.db.Run(s.ctx, queryString,
@@ -157,12 +181,23 @@ func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) ([]RecipeD
 		recipeList := make([]RecipeDetail, 0)
 
 		for resp.Next(s.ctx) {
-			recipe := createRecipeDetail(*resp.Record(), "n")
+			recipe := CreateRecipeDetail(*resp.Record(), "n")
 
 			recipeList = append(recipeList, recipe)
 		}
 
-		return recipeList, nil
+		recipePagination, err := s.GetMetadata(page, queryString, params)
+
+		if err != nil {
+			return nil, err
+		}
+
+		finalResult := APIResponse{
+			Result:     recipeList,
+			Pagination: recipePagination,
+		}
+
+		return &finalResult, nil
 	}
 
 	if err != nil {
@@ -172,91 +207,32 @@ func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) ([]RecipeD
 	return nil, err
 }
 
-func extractProperty(record neo4j.Record, key string, propertyName string) interface{} {
-	return record.AsMap()[key].(neo4j.Node).Props[propertyName]
-}
+func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]interface{}) (*Pagination, error) {
 
-func createRecipeDetail(record neo4j.Record, key string) RecipeDetail {
-	return RecipeDetail{
-		Difficulty: extractProperty(record, key, "difficulty").(string),
-		Quantity:   extractProperty(record, key, "quantity").(string),
-		Price:      extractProperty(record, key, "price").(string),
-		Name:       extractProperty(record, key, "name").(string),
-		IdRecipe:   extractProperty(record, key, "idRecipe").(int64),
-	}
-}
+	query = strings.ReplaceAll(query, "RETURN n", "RETURN count(n) as total")
 
-func createRecipeStep(record []*neo4j.Record, key string) RecipeStep {
-	recipe := make(RecipeStep)
-	for _, r := range record {
-		recipeId := extractProperty(*r, key, "step").(int64)
+	query = strings.ReplaceAll(query, "SKIP $page LIMIT $limit", "")
 
-		recipe[recipeId] = struct {
-			Step string
-		}{
-			Step: extractProperty(*r, key, "name").(string),
-		}
-	}
-	return recipe
-}
+	query = strings.ReplaceAll(query, "UNION", "\n$1")
 
-func createRecipeIngredient(record []*neo4j.Record, key string) RecipeIngredients {
-	recipe := make(RecipeIngredients)
+	resp, err := s.db.Run(s.ctx, query,
+		params,
+	)
 
-	for _, r := range record {
-		recipeId := extractProperty(*r, key, "idIngredient").(int64)
-
-		recipe[recipeId] = IngredientInfo{
-			Name:       extractProperty(*r, key, "name").(string),
-			URLPicture: extractProperty(*r, key, "urlPicture").(string),
-		}
+	if err != nil {
+		return nil, err
 	}
 
-	return recipe
-}
-
-func createRecipe(record []*neo4j.Record, key []string) Recipe {
-	detailRecord := record[0]
-	return Recipe{
-		RecipeDetail:      createRecipeDetail(*detailRecord, key[0]),
-		RecipeStep:        createRecipeStep(record, key[1]),
-		RecipeIngredients: createRecipeIngredient(record, key[2]),
-	}
-}
-
-func buildQueryAndParams(query url.Values, page int) (string, map[string]interface{}) {
-	queryString := "MATCH (n:Recipe) WHERE"
-	values := url.Values{}
-
-	for key := range query {
-		if key == "name" {
-			values.Add(key, fmt.Sprintf("n.%s CONTAINS $%s", key, key))
-		} else {
-			values.Add(key, fmt.Sprintf("n.%s = $%s", key, key))
-		}
+	if resp.Err() != nil {
+		return nil, err
 	}
 
-	i := 0
-	for _, value := range values {
+	if resp.Next(s.ctx) {
+		data := resp.Record().AsMap()["total"].(int64)
 
-		if i == len(values)-1 {
-			queryString += " " + value[0]
-			break
-		}
-		queryString += " " + value[0] + " AND"
-		i++
+		pagination := CreatePagination(data, page)
+		return &pagination, nil
 	}
 
-	queryString += " RETURN n SKIP $page LIMIT $limit"
-
-	params := map[string]interface{}{
-		"page":  page * 10,
-		"limit": 10,
-	}
-
-	for key, value := range query {
-		params[key] = value[0]
-	}
-
-	return queryString, params
+	return nil, nil
 }

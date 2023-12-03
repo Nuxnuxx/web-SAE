@@ -56,7 +56,6 @@ func (s *APIServer) handleGetRecipe(w http.ResponseWriter, r *http.Request) erro
 		fmt.Println(err)
 		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
 	}
-
 	return writeJSON(w, http.StatusOK, resp)
 }
 

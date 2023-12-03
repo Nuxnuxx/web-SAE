@@ -2,15 +2,26 @@ package main
 
 import "golang.org/x/crypto/bcrypt"
 
+type Pagination struct {
+	CurrentPage int `json:"currentPage"`
+	TotalPage   int `json:"totalPage"`
+	TotalResult int `json:"totalResult"`
+}
+
+type APIResponse struct {
+	Result     interface{} `json:"result"`
+	Pagination *Pagination  `json:"metadata,omitempty"`
+}
+
 type Recipe struct {
-	RecipeDetail      RecipeDetail
-	RecipeStep        RecipeStep
-	RecipeIngredients RecipeIngredients
+	RecipeDetail      RecipeDetail      `json:"recipeDetail"`
+	RecipeStep        RecipeStep        `json:"recipeStep"`
+	RecipeIngredients RecipeIngredients `json:"recipeIngredients"`
 }
 
 type IngredientInfo struct {
-	Name       string
-	URLPicture string
+	Name       string `json:"name"`
+	URLPicture string `json:"urlPicture"`
 }
 
 type RecipeIngredients map[int64]IngredientInfo
@@ -21,10 +32,11 @@ type RecipeStep map[int64]struct {
 
 type RecipeDetail struct {
 	Difficulty string `json:"difficulty"`
+	Images     string `json:"images"`
 	Quantity   string `json:"quantity"`
 	Price      string `json:"price"`
 	Name       string `json:"name"`
-	IdRecipe   int64  `json:"idrecipe"`
+	IdRecipe   int64  `json:"idRecipe"`
 }
 
 type LoginRequest struct {
