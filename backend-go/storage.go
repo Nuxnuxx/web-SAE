@@ -240,6 +240,7 @@ func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 	query := "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit"
 
+	//FIXME:Sending 9 beside the 10 result we originally needed to have
 	params := map[string]interface{}{
 		"page":  page * 10,
 		"limit": 10,

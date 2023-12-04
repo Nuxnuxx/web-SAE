@@ -105,6 +105,7 @@ func buildQueryAndParams(query url.Values, page int) (string, map[string]interfa
 
 	queryString += " RETURN n SKIP $page LIMIT $limit"
 
+	//FIXME:Sending 9 beside the 10 result we originally needed to have
 	params := map[string]interface{}{
 		"page":  page * 10,
 		"limit": 10,
