@@ -9,6 +9,64 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) error {
+	var req UpdateProfilRequest
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		return err
+	}
+
+	account, err := NewAccount(r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
+
+	if err != nil {
+		return err
+	}
+
+	//FIXME: need to check if the account exists and the current password is correct
+
+	if err := s.store.UpdateAccount(account); err != nil {
+		return err
+	}
+
+	token, err := createJWT(account)
+
+	if err != nil {
+		return err
+	}
+
+	response := APIResponse{
+		Result: token,
+	}
+
+	return writeJSON(w, http.StatusOK, response)
+}
+
+func (s *APIServer) handleDeleteProfil(w http.ResponseWriter, r *http.Request) error {
+	if err := s.store.FindAccountByMail(r.Header.Get("Mail")); err == nil {
+		return fmt.Errorf("Account not found")
+	}
+
+	if err := s.store.DeleteAccount(r.Header.Get("Mail")); err != nil {
+		return fmt.Errorf("Internal Server Error")
+	}
+
+	response := APIResponse{
+		Result: "Account deleted",
+	}
+
+	return writeJSON(w, http.StatusOK, response)
+}
+
+func (s *APIServer) handleProfil(w http.ResponseWriter, r *http.Request) error {
+	if r.Method == "PUT" {
+		return s.handleUpdateProfil(w, r)
+	}
+	if r.Method == "DELETE" {
+		return s.handleDeleteProfil(w, r)
+	}
+
+	return writeJSON(w, http.StatusBadRequest, "Method not allowed")
+}
 func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 	if r.Method != "POST" {
 		return fmt.Errorf("method not allowed %s", r.Method)
@@ -20,19 +78,19 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if err := s.store.FindAccountByMail(req.Mail); err == nil {
-		permissionDenied(w)
+		return fmt.Errorf("Invalid Credentials")
 	}
 
 	account, err := s.store.Login(req)
 
 	if err != nil {
-		permissionDenied(w)
+		return fmt.Errorf("Invalid Credentials")
 	}
 
 	token, err := createJWT(account)
 
 	if err != nil {
-		permissionDenied(w)
+		return fmt.Errorf("Invalid Credentials")
 	}
 
 	finalResponse := APIResponse{
@@ -45,6 +103,7 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error {
 	req := new(CreateAccountRequest)
 
+	// decode the body and store it in the req variable
 	if err := json.NewDecoder(r.Body).Decode(req); err != nil {
 		return err
 	}
@@ -54,8 +113,9 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 	if err != nil {
 		return err
 	}
+
 	if err := s.store.FindAccountByMail(account.Mail); err != nil {
-		return err
+		return fmt.Errorf("Account already exists")
 	}
 
 	if err := s.store.CreateAccount(account); err != nil {

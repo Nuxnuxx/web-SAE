@@ -8,7 +8,7 @@ type Pagination struct {
 
 type APIResponse struct {
 	Result     interface{} `json:"result"`
-	Pagination *Pagination  `json:"metadata,omitempty"`
+	Pagination *Pagination `json:"metadata,omitempty"`
 }
 
 type Recipe struct {
@@ -37,6 +37,10 @@ type RecipeDetail struct {
 	IdRecipe   int64  `json:"idRecipe"`
 }
 
+type UpdateProfilRequest struct {
+	NewPassWord string `json:"newPassword"`
+}
+
 type LoginRequest struct {
 	Mail     string `json:"mail"`
 	Password string `json:"password"`
@@ -50,7 +54,7 @@ type CreateAccountRequest struct {
 }
 
 type Account struct {
-	IdUser            int64    `json:"idUser"`
+	IdUser            int64  `json:"idUser"`
 	FirstName         string `json:"firstName"`
 	LastName          string `json:"lastName"`
 	Gender            string `json:"gender"`

@@ -12,6 +12,9 @@ import (
 
 type Storage interface {
 	CreateAccount(*Account) error
+	GetAccountByMail(string) (*Account, error)
+	DeleteAccount(string) error
+	UpdateAccount(*Account) error
 	FindAccountByMail(string) error
 	Login(LoginRequest) (*Account, error)
 	GetRecipeById(int) (*APIResponse, error)
@@ -45,6 +48,8 @@ func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 	}, nil
 }
 
+//INFO: If it return a error then the email has been found
+// 			If response is nil then the account is not found
 func (s *Neo4jStore) FindAccountByMail(mail string) error {
 	query := "MATCH (u:User {mail: $mail}) RETURN u"
 
@@ -64,6 +69,68 @@ func (s *Neo4jStore) FindAccountByMail(mail string) error {
 
 	if resp.Next(s.ctx) {
 		return fmt.Errorf("Email found")
+	}
+
+	return nil
+}
+
+func (s *Neo4jStore) GetAccountByMail(mail string) (*Account, error) {
+	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) return u;",
+		map[string]interface{}{
+			"mail": mail,
+		},
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	if resp.Next(s.ctx) {
+		account := CreateAccount(*resp.Record(), "u")
+
+		return &account, nil
+	}
+
+	return nil, nil
+}
+
+func (s *Neo4jStore) DeleteAccount(mail string) error {
+	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) DETACH DELETE u;",
+		map[string]interface{}{
+			"mail": mail,
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if resp.Err() != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Neo4jStore) UpdateAccount(acc *Account) error {
+
+	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) SET u.password = $password RETURN u",
+		map[string]interface{}{
+			"mail":     acc.Mail,
+			"password": acc.EncryptedPassword,
+		},
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if resp.Err() != nil {
+		return err
 	}
 
 	return nil

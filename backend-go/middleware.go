@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -10,9 +11,11 @@ import (
 func withJWTAuth(handlerFunc http.HandlerFunc, s Storage) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		tokenString := r.Header.Get("x-jwt-token")
+		tokenString := r.Header.Get("Authorization")
 
-		token, err := validateJWT(tokenString)
+		finalToken := strings.Split(tokenString, " ")
+
+		token, err := validateJWT(finalToken[1])
 		if err != nil {
 			permissionDenied(w)
 			return
@@ -22,25 +25,18 @@ func withJWTAuth(handlerFunc http.HandlerFunc, s Storage) http.HandlerFunc {
 			permissionDenied(w)
 			return
 		}
-		// userId, err := getId(r)
-		//
-		// if err != nil {
-		// 	permissionDenied(w)
-		// }
-		// account, err := s.GetAccountById(userId)
-		//
-		// if err != nil {
-		// 	permissionDenied(w)
-		// 	return
-		// }
-		//
-		// claims := token.Claims.(jwt.MapClaims)
-		//
-		// if account.IdUser != claims["idUser"] {
-		// 	permissionDenied(w)
-		// 	return
-		// }
-		//
+
+		claims := token.Claims.(jwt.MapClaims)
+		r.Header.Set("Mail", fmt.Sprintf("%v", claims["Mail"]))
+		r.Header.Set("FirstName", fmt.Sprintf("%v", claims["FirstName"]))
+		r.Header.Set("LastName", fmt.Sprintf("%v", claims["LastName"]))
+		r.Header.Set("Password", fmt.Sprintf("%v", claims["Password"]))
+
+		if err := s.FindAccountByMail(r.Header.Get("Mail")); err == nil {
+			permissionDenied(w)
+			return
+		}
+
 		handlerFunc(w, r)
 	}
 }
@@ -66,7 +62,10 @@ func validateJWT(tokenString string) (*jwt.Token, error) {
 func createJWT(account *Account) (string, error) {
 	claims := &jwt.MapClaims{
 		"ExpiresAt": 15000,
-		"Id":        account.IdUser,
+		"Mail":      account.Mail,
+		"FirstName": account.FirstName,
+		"LastName":  account.LastName,
+		"Password":  account.EncryptedPassword,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
