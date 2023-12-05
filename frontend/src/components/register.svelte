@@ -1,52 +1,7 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { sendRegister } from "$lib/api/auth-request";
-	import { schemaRegister } from "$lib/api/auth-schema";
-	import type { ErrorsRegister } from "$lib/api/auth-types";
-	import * as yup from "yup";
+	import type { ActionData } from "../routes/auth/$types";
 
-	let errors: ErrorsRegister = {};
-
-	let registerValues = {
-		firstName: "",
-		lastName: "",
-		email: "",
-		password: "",
-		confirmPassword: "",
-		gender: "",
-	};
-
-	//TODO: Gestion du gender dans la bd
-	async function handleRegister() {
-		try {
-			await schemaRegister.validate(registerValues, {
-				abortEarly: false,
-			});
-			const finalValues = {
-				name: `${registerValues.firstName} ${registerValues.lastName}`,
-				email: registerValues.email,
-				password: registerValues.password,
-			};
-			const result = await sendRegister(finalValues);
-			errors = {};
-			if (result) {
-				localStorage.setItem("user", JSON.stringify(result));
-				goto("/");
-			}
-		} catch (err) {
-			if (err instanceof yup.ValidationError) {
-				errors = err.inner.reduce((acc, err) => {
-					const key = String(err.path);
-					return { ...acc, [key]: err.message };
-				}, {});
-			} else {
-				if (err instanceof Error) {
-					errors = { server: err.message };
-					console.log(errors);
-				}
-			}
-		}
-	}
+	export let form: ActionData;
 </script>
 
 <h2
@@ -54,22 +9,21 @@
 	<span class="highlight">vous</span> ressemble</h2
 >
 
-{#if errors.server}
-	<span class="error">{errors.server}</span>
-{/if}
-
-<form on:submit|preventDefault={handleRegister}>
+<form method="post" action="?/register">
+	{#if form?.server}
+		<span class="error">{form?.server}</span>
+	{/if}
 	<div>
-		<label for="email"></label>
+		<label for="mail"></label>
 		<input
 			type="text"
-			id="email"
-			bind:value={registerValues.email}
-			placeholder="Email*"
+			id="mail"
+			name="mail"
+			placeholder="mail*"
 			autocomplete="username"
 		/>
-		{#if errors.email}
-			<span class="error">{errors.email}</span>
+		{#if form?.mail}
+			<span class="error">{form?.mail}</span>
 		{/if}
 	</div>
 
@@ -79,12 +33,12 @@
 			<input
 				type="text"
 				id="firstName"
-				bind:value={registerValues.firstName}
+				name="firstName"
 				placeholder="Prénom*"
 				autocomplete="given-name"
 			/>
-			{#if errors.firstName}
-				<span class="error">{errors.firstName}</span>
+			{#if form?.firstName}
+				<span class="error">{form?.firstName}</span>
 			{/if}
 		</div>
 
@@ -93,12 +47,12 @@
 			<input
 				type="text"
 				id="lastName"
-				bind:value={registerValues.lastName}
+				name="lastName"
 				placeholder="Nom*"
 				autocomplete="family-name"
 			/>
-			{#if errors.lastName}
-				<span class="error">{errors.lastName}</span>
+			{#if form?.lastName}
+				<span class="error">{form?.lastName}</span>
 			{/if}
 		</div>
 	</div>
@@ -108,12 +62,12 @@
 		<input
 			type="password"
 			id="password"
-			bind:value={registerValues.password}
+			name="password"
 			placeholder="Mot de passe*"
 			autocomplete="new-password"
 		/>
-		{#if errors.password}
-			<span class="error">{errors.password}</span>
+		{#if form?.password}
+			<span class="error">{form?.password}</span>
 		{/if}
 	</div>
 
@@ -122,12 +76,12 @@
 		<input
 			type="password"
 			id="confirmPassword"
-			bind:value={registerValues.confirmPassword}
+			name="confirmPassword"
 			placeholder="Confirmer mot de passe*"
 			autocomplete="new-password"
 		/>
-		{#if errors.confirmPassword}
-			<span class="error">{errors.confirmPassword}</span>
+		{#if form?.confirmPassword}
+			<span class="error">{form?.confirmPassword}</span>
 		{/if}
 	</div>
 
@@ -138,13 +92,7 @@
 	<div class="radio-container">
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input
-					id="male"
-					name="radio-group"
-					bind:group={registerValues.gender}
-					type="radio"
-					value="male"
-				/>
+				<input id="male" name="gender" type="radio" value="male" />
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Un pirate</span>
 			</label>
@@ -152,13 +100,7 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input
-					id="female"
-					name="radio-group"
-					bind:group={registerValues.gender}
-					type="radio"
-					value="female"
-				/>
+				<input id="female" name="gender" type="radio" value="female" />
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Une pirate</span>
 			</label>
@@ -166,20 +108,14 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input
-					id="other"
-					name="radio-group"
-					bind:group={registerValues.gender}
-					type="radio"
-					value="other"
-				/>
+				<input id="other" name="gender" type="radio" value="other" />
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Autre</span>
 			</label>
 		</div>
 	</div>
-	{#if errors.gender}
-		<span class="error">{errors.gender}</span>
+	{#if form?.gender}
+		<span class="error">{form?.gender}</span>
 	{/if}
 
 	<button type="submit">

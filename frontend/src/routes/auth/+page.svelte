@@ -1,20 +1,19 @@
 <script lang="ts">
 	import Register from "../../components/register.svelte";
 	import Login from "../../components/login.svelte";
+	import type { ActionData } from "./$types";
 
 	let selectedButton = "login";
 
-	let bool = true;
-
 	function OnClick(event: any) {
 		if (event.target.classList.contains("login")) {
-			bool = true;
 			selectedButton = "login";
 		} else if (event.target.classList.contains("register")) {
-			bool = false;
 			selectedButton = "register";
 		}
 	}
+
+	export let form: ActionData;
 </script>
 
 <svelte:head>
@@ -37,9 +36,9 @@
 </div>
 
 {#if selectedButton == "login"}
-	<Login />
+	<Login {form} />
 {:else}
-	<Register />
+	<Register {form} />
 {/if}
 
 <style lang="scss">

@@ -1,72 +1,39 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { sendLogin } from "$lib/api/auth-request";
-	import { schemaLogin } from "$lib/api/auth-schema";
-	import type { ErrorsRegister } from "$lib/api/auth-types";
-	import * as yup from "yup";
+	import type { ActionData } from "../routes/auth/$types";
 
-	let errors: ErrorsRegister = {};
-
-	let loginValues = {
-		email: "",
-		password: "",
-	};
-
-	async function handleLogin() {
-		try {
-			await schemaLogin.validate(loginValues, {
-				abortEarly: false,
-			});
-			const result = await sendLogin(loginValues);
-			if (result) {
-				localStorage.setItem("user", JSON.stringify(result));
-				goto("/");
-			}
-		} catch (err) {
-			if (err instanceof yup.ValidationError) {
-				errors = err.inner.reduce((acc, err) => {
-					const key = String(err.path);
-					return { ...acc, [key]: err.message };
-				}, {});
-			} else {
-				if (err instanceof Error) {
-					errors = { server: err.message };
-				}
-			}
-		}
-	}
+	export let form: ActionData;
 </script>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
-{#if errors.server}
-	<span class="error">{errors.server}</span>
-{/if}
-
-<form on:submit|preventDefault={handleLogin}>
-	<label for="email">
+<form method="post" action="?/login">
+	{#if form?.server}
+		<span class="error">{form?.server}</span>
+	{/if}
+	<label for="mail">
 		<input
-			id="email"
+			id="mail"
+			name="mail"
 			type="text"
-			bind:value={loginValues.email}
-			placeholder="Email*"
+			placeholder="mail*"
 			autocomplete="username"
 		/>
-		{#if errors.email}
-			<span class="error">{errors.email}</span>
+		{#if form?.mail}
+			<span class="error">{form?.mail}</span>
 		{/if}
 	</label>
 
 	<label for="password">
 		<input
 			id="password"
+			name="password"
 			type="password"
-			bind:value={loginValues.password}
 			placeholder="Mot de passe*"
 			autocomplete="current-password"
 		/>
-		{#if errors.password}
-			<span class="error">{errors.password}</span>
+		{#if form?.password}
+			<span class="error">{form?.password}</span>
 		{/if}
 	</label>
 
