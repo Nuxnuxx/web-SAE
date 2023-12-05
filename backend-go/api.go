@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -20,6 +21,11 @@ func NewAPIServer(listenAddr string, store Storage) *APIServer {
 }
 
 func (s *APIServer) Run() {
+	// CORS Settings
+	credentials := handlers.AllowCredentials()
+	ttl := handlers.MaxAge(3600)
+	origin := handlers.AllowedOrigins([]string{"http://localhost:5173"})
+
 	router := mux.NewRouter()
 
 	router.HandleFunc("/auth/login", makeHTTPHandleFunc(s.handleLogin))
@@ -33,7 +39,7 @@ func (s *APIServer) Run() {
 
 	log.Println("Piratecook api server running on port:", s.listenAddr)
 
-	if err := http.ListenAndServe(s.listenAddr, router); err != nil {
+	if err := http.ListenAndServe(s.listenAddr, handlers.CORS(credentials, ttl, origin)(router)); err != nil {
 		log.Fatal("Server failed to start: ", err)
 	}
 }
