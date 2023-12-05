@@ -82,6 +82,7 @@
 		top: 0;
 		width: fill-available;
 		transition: top 0.2s ease-in-out;
+		z-index: 10;
 
 		a {
 			img {
