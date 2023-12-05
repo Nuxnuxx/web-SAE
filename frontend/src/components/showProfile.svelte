@@ -38,10 +38,9 @@
 				<span class="button__text">Modifier votre profil</span>
 			</a>
 
-			<div class="content__deconnexion">
-				<!-- TODO: link to disconnect -->
-				<a href="auth">Déconnexion</a>
-			</div>
+			<form method="post" action="?/logout" class="content__deconnexion">
+				<button type="submit">Déconnexion</button>
+			</form>
 		</div>
 	</div>
 </main>
@@ -134,7 +133,10 @@
 				margin-top: 0.2rem;
 				margin-bottom: 3rem;
 
-				a {
+				button {
+					all: unset;
+					cursor: pointer;
+					text-decoration: underline;
 					color: #dcdcdc;
 				}
 			}

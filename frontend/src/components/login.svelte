@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
 	import type { ActionData } from "../routes/auth/$types";
 
 	export let form: ActionData;
