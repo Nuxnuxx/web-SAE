@@ -108,14 +108,14 @@
 				border: none;
 				border-radius: 10px;
 				cursor: pointer;
-				font-size: 15px;
+				font-size: 1rem;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				text-decoration: none;
 
 				@media screen and (max-width: 1150px) {
-					font-size: 16px;
+					font-size: 1rem;
 				}
 
 				.button__text {

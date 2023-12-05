@@ -116,13 +116,13 @@
 			border: none;
 			border-radius: 20px;
 			cursor: pointer;
-			font-size: 20px;
+			font-size: 1.2rem;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 
 			@media screen and (max-width: 1150px) {
-				font-size: 16px;
+				font-size: 1rem;
 				margin-right: auto;
 				margin-left: auto;
 			}
