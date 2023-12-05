@@ -42,7 +42,37 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if r.Method == "PUT" {
+		if query := r.URL.Query(); len(query) > 0 {
+			id, err := strconv.Atoi(query.Get("id"))
 
+			if err != nil {
+				return fmt.Errorf("Please give a id")
+			}
+
+			name := query.Get("name")
+
+			check := s.store.CheckListBelongToUser(id, mail)
+
+			if check != nil {
+				return fmt.Errorf("List doesnt belong to the user")
+			}
+
+			check = s.store.CheckListAlreadyExist(name, mail)
+
+			if check != nil {
+				return fmt.Errorf("List with this name already exists")
+			}
+
+			resp, err := s.store.UpdateList(id, name)
+
+			if err != nil {
+				return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
+			}
+
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give id and name for the playlist")
+		}
 	}
 
 	if r.Method == "DELETE" {
@@ -53,7 +83,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			check := s.store.CheckListBelongToUser(id, mail)
 
 			if check != nil {
-				return  fmt.Errorf("List doesnt belong to the user")
+				return fmt.Errorf("List doesnt belong to the user")
 			}
 
 			resp, err := s.store.DeleteList(id)

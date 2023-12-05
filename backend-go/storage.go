@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
-	"golang.org/x/crypto/bcrypt"
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Storage interface {
@@ -15,6 +16,7 @@ type Storage interface {
 	CreateList(string, string) (*APIResponse, error)
 	GetList(string) (*APIResponse, error)
 	DeleteList(int) (*APIResponse, error)
+	UpdateList(int, string) (*APIResponse, error)
 	CheckListAlreadyExist(string, string) error
 	CheckListBelongToUser(int, string) error
 
@@ -100,11 +102,11 @@ func (s *Neo4jStore) GetList(mail string) (*APIResponse, error) {
 }
 
 func (s *Neo4jStore) CheckListBelongToUser(id int, mail string) error {
-	query := "Match (p:Playlist) where p.idPlaylist = $id match (u:User) where u.mail=$mail with p,u match (u)-[:A_UNE]->(p) return u,p"
+	query := "MATCH (p:Playlist) where p.idPlaylist = $id match (u:User) where u.mail=$mail with p,u match (u)-[:A_UNE]->(p) return u,p"
 
 	params := map[string]interface{}{
-		"id":   id,
 		"mail": mail,
+		"id": id,
 	}
 
 	resp, err := s.db.Run(s.ctx, query, params)
@@ -147,6 +149,30 @@ func (s *Neo4jStore) CheckListAlreadyExist(name, mail string) error {
 
 	return nil
 
+}
+
+func (s *Neo4jStore) UpdateList(id int, name string) (*APIResponse, error) {
+	query := "match (p:Playlist{idPlaylist:$id}) SET p.name = $name"
+
+	params := map[string]interface{}{
+		"id":   id,
+		"name": name,
+	}
+
+	resp, err := s.db.Run(s.ctx, query, params)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	result := APIResponse{
+		Result: "Playlist has been updated",
+	}
+	return &result, nil
 }
 
 func (s *Neo4jStore) DeleteList(id int) (*APIResponse, error) {
