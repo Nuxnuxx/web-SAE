@@ -3,23 +3,26 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 )
 
 func main() {
 
 	ctx := context.Background()
-	err := DotEnvInit()
+	stage := os.Getenv("STAGE")
+	if stage != "prod" {
+		err := DotEnvInit()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	err := initEnvVar()
 
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	err = initEnvVar()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
 
 	store, err := NewNeo4jStore(ctx)
 

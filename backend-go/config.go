@@ -18,11 +18,6 @@ func DotEnvInit() error {
 }
 
 func initEnvVar() error {
-	err := DotEnvInit()
-	if err != nil {
-		return err
-	}
-
 	Stage = os.Getenv("STAGE")
 	Jwt_token = os.Getenv("JWT_TOKEN")
 	return nil
