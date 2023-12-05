@@ -1,15 +1,10 @@
 export interface User {
-	name?: string;
-	email: string;
-	password: string;
-}
-
-export interface ErrorsRegister {
 	firstName?: string;
 	lastName?: string;
-	email?: string;
-	password?: string;
+	mail: string;
+	password: string;
 	confirmPassword?: string;
 	gender?: string;
-	server?: string;
 }
+
+export type ErrorsRegister = Record<string, string>;

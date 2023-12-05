@@ -17,9 +17,9 @@ export const schemaRegister = yup.object().shape({
 		.required("lastname is required")
 		.max(20, "lastname is too long")
 		.min(3, "lastname is too short"),
-	email: yup
+	mail: yup
 		.string()
-		.required("Email is required")
+		.required("Mail is required")
 		.email("It is not a valid email"),
 	password: yup
 		.string()
@@ -36,9 +36,9 @@ export const schemaRegister = yup.object().shape({
 });
 
 export const schemaLogin = yup.object().shape({
-	email: yup
+	mail: yup
 		.string()
-		.required("Email is required")
+		.required("Mail is required")
 		.email("It is not a valid email"),
 	password: yup
 		.string()
