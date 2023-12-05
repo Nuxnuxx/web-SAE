@@ -1,0 +1,86 @@
+LOAD CSV WITH HEADERS FROM 'file:///recipeImage.csv' AS row
+MERGE (recipe:Recipe {idRecipe: row.idRecipe})
+ON CREATE SET 
+    recipe.name = row.nameRecipe,
+    recipe.difficulty = row.difficulte,
+    recipe.price = row.prix,
+    recipe.quantity = row.quantite,
+    recipe.image = row.image;
+
+LOAD CSV WITH HEADERS FROM 'file:///recipeStep.csv' AS row
+MERGE (step:Step {step: row.step})
+ON CREATE SET 
+    step.name = row.name;
+
+
+LOAD CSV WITH HEADERS FROM 'file:///fakePlaylist.csv' AS row
+MERGE (playlist:Playlist {idPlaylist: row.id})
+ON CREATE SET 
+   playlist.name = row.name;
+
+LOAD CSV WITH HEADERS FROM 'file:///fakeUser.csv' AS row
+MERGE (user:User {idUser: row.id})
+ON CREATE SET 
+    user.firstname = row.firstname,
+    user.lastname = row.lastname,
+    user.mail = row.mail,
+    user.password = row.password,
+    user.price = row.price,
+    user.difficulty = row.diffilty,
+    user.gender = row.gender;
+
+LOAD CSV WITH HEADERS FROM 'file:///ingredient.csv' AS row
+MERGE (ingredient:Ingredient {idIngredient: row.idIngredient})
+ON CREATE SET 
+    ingredient.name = row.nameIngredient,
+    ingredient.urlPicture = row.urlPicture;
+
+LOAD CSV WITH HEADERS FROM 'file:///recipeStep.csv' AS row
+MATCH (step:Step {step: row.step})
+MATCH ( recipe:Recipe {idRecipe: row.idRecipe})
+MERGE (recipe)-[op:CONTAINS]->(step);
+
+LOAD CSV WITH HEADERS FROM 'file:///joinIngredientRecipe.csv' AS row
+MATCH (ingredient:Ingredient {idIngredient: row.idIngredient})
+MATCH ( recipe:Recipe {idRecipe: row.idRecipe})
+MERGE (recipe)-[op:INGREDIENTS]->(ingredient)
+ ON CREATE SET op.libelleIngredient = row.libelle;
+
+LOAD CSV WITH HEADERS FROM 'file:///fakePlaylist.csv' AS row
+MATCH (user:User {idUser: row.idUser})
+MATCH (playlist:Playlist {idPlaylist: row.id})
+MERGE (user)-[op:A_UNE]->(playlist)
+
+LOAD CSV WITH HEADERS FROM 'file:///fakeJoinRecipePlaylist.csv' AS row
+MATCH (recipe:Recipe {idRecipe: row.idRcette})
+MATCH (playlist:Playlist {idPlaylist: row.idPlaylist})
+MERGE (recipe)-[op:EST_DANS]->(playlist)
+
+//Recommandation (faux installer GDB)
+MATCH (n1:Recipe), (n2:Recipe) WHERE id(n1) < id(n2) CREATE (n1)-[r:SIMILARITY{value :gds.similarity.cosine([n1.PriceNumeric,n1.difficultyNumeric],[n2.PriceNumeric,n2.difficultyNumeric])}]->(n2)
+
+//On supprime ceux en dessous de 0.9 ( trop eloigné )
+MATCH p=()-[r:SIMILARITY]->() WHERE r.value < 0.9 delete  r  
+
+MATCH (r:Recipe)
+WITH r, r.difficulty AS nomDifficulty
+SET r.difficultyNumeric =
+    CASE
+        WHEN nomDifficulty = "très facile" THEN 1
+        WHEN nomDifficulty = "facile" THEN 2
+        WHEN nomDifficulty = "moyenne" THEN 3
+        WHEN nomDifficulty = "difficile" THEN 4
+        ELSE 0
+    END
+RETURN r LIMIT 25;
+
+//Supprimer les steps et les remettres :
+MATCH p=()-[r:CONTAINS]->() DELETE r
+MATCH (n:Step) DELETE n
+
+LOAD CSV WITH HEADERS FROM 'file:///recipeStep.csv' AS row
+MATCH (recipe:Recipe{idRecipe: toInteger(row.idRecipe)})
+CREATE (recipe)-[:CONTAINS]->(step:Step {step: row.step,name: row.name})
+
+
+
