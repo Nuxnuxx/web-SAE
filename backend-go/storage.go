@@ -3,20 +3,30 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/url"
-	"strings"
-
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"golang.org/x/crypto/bcrypt"
+	"net/url"
+	"os"
+	"strings"
 )
 
 type Storage interface {
+	// List
+	CreateList(string, string) (*APIResponse, error)
+	GetList(string) (*APIResponse, error)
+	DeleteList(int) (*APIResponse, error)
+	CheckListAlreadyExist(string, string) error
+	CheckListBelongToUser(int, string) error
+
+	// Account
 	CreateAccount(*Account) error
 	GetAccountByMail(string) (*Account, error)
 	DeleteAccount(string) error
 	UpdateAccount(*Account) error
 	FindAccountByMail(string) error
 	Login(LoginRequest) (*Account, error)
+
+	// Recipe
 	GetRecipeById(int) (*APIResponse, error)
 	GetRecipes(int) (*APIResponse, error)
 	GetRecipesWithFilter(int, url.Values) (*APIResponse, error)
@@ -52,6 +62,154 @@ func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 		db:  session,
 		ctx: ctx,
 	}, nil
+}
+
+func (s *Neo4jStore) GetList(mail string) (*APIResponse, error) {
+	query := "MATCH (u:User{mail:$mail}) MATCH (p:Playlist) MATCH (u)-[:A_UNE]->(p) return u,p"
+
+	params := map[string]interface{}{
+		"mail": mail,
+	}
+
+	resp, err := s.db.Run(s.ctx, query, params)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	playlistList := make([]PlaylistDetail, 0)
+
+	for resp.Next(s.ctx) {
+		playlist := CreatePlaylistDetail(*resp.Record(), "p")
+		playlistList = append(playlistList, playlist)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	finalResult := APIResponse{
+		Result: playlistList,
+	}
+
+	return &finalResult, nil
+}
+
+func (s *Neo4jStore) CheckListBelongToUser(id int, mail string) error {
+	query := "Match (p:Playlist) where p.idPlaylist = $id match (u:User) where u.mail=$mail with p,u match (u)-[:A_UNE]->(p) return u,p"
+
+	params := map[string]interface{}{
+		"id":   id,
+		"mail": mail,
+	}
+
+	resp, err := s.db.Run(s.ctx, query, params)
+
+	if err != nil {
+		return err
+	}
+
+	if resp.Err() != nil {
+		return err
+	}
+
+	if resp.Next(s.ctx) {
+		return nil
+	}
+
+	return fmt.Errorf("Playlist doesnt belong to the user")
+}
+
+func (s *Neo4jStore) CheckListAlreadyExist(name, mail string) error {
+	query := "MATCH (:User {mail: $mail})-[:A_UNE]->(p:Playlist {name: $name}) RETURN p"
+
+	resp, err := s.db.Run(s.ctx, query, map[string]interface{}{
+		"name": name,
+		"mail": mail,
+	})
+
+	if err != nil {
+
+		return err
+	}
+
+	if resp.Err() != nil {
+		return err
+	}
+
+	if resp.Next(s.ctx) {
+		return fmt.Errorf("Playlist found")
+	}
+
+	return nil
+
+}
+
+func (s *Neo4jStore) DeleteList(id int) (*APIResponse, error) {
+	queryString := `
+		MATCH (p:Playlist{idPlaylist:$id}) MATCH ()-[l:A_UNE]->(p) OPTIONAL MATCH ()-[l2:est_dans]->(p) delete l,l2,p
+	`
+
+	params := map[string]interface{}{
+		"id": id,
+	}
+
+	resp, err := s.db.Run(s.ctx, queryString, params)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	result := APIResponse{
+		Result: "Playlist has been deleted",
+	}
+	return &result, nil
+}
+
+func (s *Neo4jStore) CreateList(name string, mail string) (*APIResponse, error) {
+	queryString := `
+		MERGE(id: UniqueId { name: 'Playlist' })
+		ON CREATE SET id.count = 100
+		ON MATCH SET id.count = id.count + 1
+
+		WITH id.count AS uid
+			CREATE(p: Playlist { idPlaylist: uid, name: $name })
+
+
+		WITH p, $mail AS userMailValue
+			MATCH(u: User { mail: userMailValue})
+
+		// Créer un lien entre le nœud Playlist et le nœud User
+		CREATE(u) - [: A_UNE] -> (p)
+	`
+
+	params := map[string]interface{}{
+		"name": name,
+		"mail": mail,
+	}
+
+	resp, err := s.db.Run(s.ctx, queryString, params)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	result := APIResponse{
+		Result: "Playlist has been created",
+	}
+	return &result, nil
 }
 
 //INFO: If it return a error then the email has been found
@@ -246,7 +404,6 @@ func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 	query := "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit"
 
-	//FIXME:Sending 9 beside the 10 result we originally needed to have
 	params := map[string]interface{}{
 		"page":  page * 10,
 		"limit": 10,
@@ -264,35 +421,26 @@ func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 		return nil, err
 	}
 
-	if resp.Next(s.ctx) {
-		// create a array of recipes
-		recipeList := make([]RecipeDetail, 0)
+	recipeList := make([]RecipeDetail, 0)
 
-		for resp.Next(s.ctx) {
-			recipe := CreateRecipeDetail(*resp.Record(), "n")
+	for resp.Next(s.ctx) {
+		recipe := CreateRecipeDetail(*resp.Record(), "n")
 
-			recipeList = append(recipeList, recipe)
-		}
-
-		recipePagination, err := s.GetMetadata(page, query, params)
-
-		if err != nil {
-			return nil, err
-		}
-
-		finalResult := APIResponse{
-			Result:     recipeList,
-			Pagination: recipePagination,
-		}
-
-		return &finalResult, nil
+		recipeList = append(recipeList, recipe)
 	}
+
+	recipePagination, err := s.GetMetadata(page, query, params)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return nil, err
+	finalResult := APIResponse{
+		Result:     recipeList,
+		Pagination: recipePagination,
+	}
+
+	return &finalResult, nil
 }
 
 func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIResponse, error) {
@@ -310,35 +458,27 @@ func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIRespo
 		return nil, err
 	}
 
-	if resp.Next(s.ctx) {
-		// create a array of recipes
-		recipeList := make([]RecipeDetail, 0)
+	recipeList := make([]RecipeDetail, 0)
 
-		for resp.Next(s.ctx) {
-			recipe := CreateRecipeDetail(*resp.Record(), "n")
+	for resp.Next(s.ctx) {
+		recipe := CreateRecipeDetail(*resp.Record(), "n")
 
-			recipeList = append(recipeList, recipe)
-		}
-
-		recipePagination, err := s.GetMetadata(page, queryString, params)
-
-		if err != nil {
-			return nil, err
-		}
-
-		finalResult := APIResponse{
-			Result:     recipeList,
-			Pagination: recipePagination,
-		}
-
-		return &finalResult, nil
+		recipeList = append(recipeList, recipe)
 	}
+
+	recipePagination, err := s.GetMetadata(page, queryString, params)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return nil, err
+	finalResult := APIResponse{
+		Result:     recipeList,
+		Pagination: recipePagination,
+	}
+
+	return &finalResult, nil
+
 }
 
 func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]interface{}) (*Pagination, error) {

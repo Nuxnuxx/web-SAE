@@ -11,6 +11,11 @@ type APIResponse struct {
 	Pagination *Pagination `json:"metadata,omitempty"`
 }
 
+type PlaylistDetail struct {
+	Name string `json:"name"`
+	IdPlaylist int64 `json:"idPlaylist"`
+}
+
 type Recipe struct {
 	RecipeDetail      RecipeDetail      `json:"recipeDetail"`
 	RecipeStep        RecipeStep        `json:"recipeStep"`

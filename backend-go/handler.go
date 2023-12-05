@@ -9,6 +9,68 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
+	mail := r.Header.Get("Mail")
+	if r.Method == "POST" {
+		if query := r.URL.Query(); len(query) > 0 {
+			check := s.store.CheckListAlreadyExist(query.Get("name"), mail)
+
+			if check != nil {
+				return fmt.Errorf("Playlist already exist with this name")
+			}
+
+			resp, err := s.store.CreateList(query.Get("name"), mail)
+
+			if err != nil {
+				return fmt.Errorf("Internal server error")
+			}
+
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give a name for the playlist")
+		}
+	}
+
+	if r.Method == "GET" {
+		resp, err := s.store.GetList(mail)
+
+		if err != nil {
+			return err
+		}
+
+		return writeJSON(w, http.StatusOK, resp)
+	}
+
+	if r.Method == "PUT" {
+
+	}
+
+	if r.Method == "DELETE" {
+		if query := r.URL.Query(); len(query) > 0 {
+
+			id, err := strconv.Atoi(query.Get("id"))
+
+			check := s.store.CheckListBelongToUser(id, mail)
+
+			if check != nil {
+				return  fmt.Errorf("List doesnt belong to the user")
+			}
+
+			resp, err := s.store.DeleteList(id)
+
+			if err != nil {
+				return fmt.Errorf("Internal server error")
+			}
+
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give a name for the playlist")
+		}
+	}
+
+	return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
+}
+
 func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) error {
 	var req UpdateProfilRequest
 
@@ -152,7 +214,7 @@ func (s *APIServer) handleRecipes(w http.ResponseWriter, r *http.Request) error 
 	page, err := strconv.Atoi(mux.Vars(r)["page"])
 
 	if err != nil {
-		return writeJSON(w, http.StatusBadRequest, "Please give a id")
+		return writeJSON(w, http.StatusBadRequest, "Please give a page")
 	}
 
 	// if queries present then filter the recipe

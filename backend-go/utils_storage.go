@@ -31,6 +31,13 @@ func CreatePagination(total int64, currentPage int) Pagination {
 	}
 }
 
+func CreatePlaylistDetail(record neo4j.Record, key string) PlaylistDetail {
+	return PlaylistDetail{
+		Name:       extractProperty(record, key, "name").(string),
+		IdPlaylist: extractProperty(record, key, "idPlaylist").(int64),
+	}
+}
+
 func CreateRecipeDetail(record neo4j.Record, key string) RecipeDetail {
 	return RecipeDetail{
 		Difficulty: extractProperty(record, key, "difficulty").(string),
@@ -105,7 +112,6 @@ func buildQueryAndParams(query url.Values, page int) (string, map[string]interfa
 
 	queryString += " RETURN n SKIP $page LIMIT $limit"
 
-	//FIXME:Sending 9 beside the 10 result we originally needed to have
 	params := map[string]interface{}{
 		"page":  page * 10,
 		"limit": 10,
