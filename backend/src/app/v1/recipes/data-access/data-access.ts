@@ -16,10 +16,12 @@ export const getRecipesInDatabaseWithPagination = async (page_p: number) => {
 
 	let raw;
 	try {
-		raw = await database.run(query, {
-			page: currentPage,
-			limit: neo4j.int(PRODUCT_PER_PAGE),
-		});
+		raw = await database.executeRead((tx) =>
+			tx.run(query, {
+				page: currentPage,
+				limit: neo4j.int(PRODUCT_PER_PAGE),
+			})
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -48,11 +50,11 @@ export const getRecipesInDatabaseWithPagination = async (page_p: number) => {
 };
 
 export const getRecipesByIdInDatabase = async (id: number) => {
-	const query = "MATCH (n:Recipe) WHERE n.idRecipe = $idRecipe RETURN n";
+	const query = "MATCH (n:Recipe) WHERE n.idRecipe = $id RETURN n";
 
 	let raw;
 	try {
-		raw = await database.run(query, { idRecipe: id });
+		raw = await database.executeRead((tx) => tx.run(query, { id }));
 	} catch (err) {
 		throw new BaseError(
 			`Error while fetching recipe from database with id : ${id}`,
@@ -100,11 +102,13 @@ export const getRecipesByKeyWordInDatabase = async (
 
 	let raw;
 	try {
-		raw = await database.run(query, {
-			keyWords: keyword,
-			page: currentPage,
-			limit: neo4j.int(PRODUCT_PER_PAGE),
-		});
+		raw = await database.executeRead((tx) =>
+			tx.run(query, {
+				keyWords: keyword,
+				page: currentPage,
+				limit: neo4j.int(PRODUCT_PER_PAGE),
+			})
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -154,11 +158,13 @@ export const getRecipesByFilterInDatabase = async (
 
 	let raw;
 	try {
-		raw = await database.run(query, {
-			...filter,
-			page: currentPage,
-			limit: neo4j.int(PRODUCT_PER_PAGE),
-		});
+		raw = await database.executeRead((tx) =>
+			tx.run(query, {
+				...filter,
+				page: currentPage,
+				limit: neo4j.int(PRODUCT_PER_PAGE),
+			})
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -211,7 +217,9 @@ export const getMetaDataInDatabase = async (
 
 	let totalRecords;
 	try {
-		totalRecords = await database.run(finalQuery, params);
+		totalRecords = await database.executeRead((tx) =>
+			tx.run(finalQuery, params)
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
