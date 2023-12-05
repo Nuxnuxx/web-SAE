@@ -158,7 +158,7 @@
 			gap: 2rem;
 			.nav__iconwrapper__icon {
 				display: contents;
-				color: var(--white-color);
+				color: var(--black-color);
 				:hover {
 					color: var(--primary-color);
 				}
