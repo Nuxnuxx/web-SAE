@@ -55,7 +55,7 @@ func validateJWT(tokenString string) (*jwt.Token, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return []byte(jwtSecret), nil
+		return []byte(Jwt_token), nil
 	})
 }
 
@@ -70,5 +70,5 @@ func createJWT(account *Account) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return token.SignedString([]byte(jwtSecret))
+	return token.SignedString([]byte(Jwt_token))
 }

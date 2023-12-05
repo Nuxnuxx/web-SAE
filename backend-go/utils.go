@@ -11,8 +11,6 @@ func writeJSON(w http.ResponseWriter, status int, v any) error {
 	return json.NewEncoder(w).Encode(v)
 }
 
-const jwtSecret = "hunter9999"
-
 type apiFunc func(http.ResponseWriter, *http.Request) error
 
 type ApiError struct {

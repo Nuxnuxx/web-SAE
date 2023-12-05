@@ -29,8 +29,14 @@ type Neo4jStore struct {
 }
 
 func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
+	uri := os.Getenv("DB_URL")
+	auth := neo4j.NoAuth()
 
-	db, err := neo4j.NewDriverWithContext("neo4j://localhost:7687", neo4j.BasicAuth("neo4j", "Wawa02290.", ""))
+	if Stage == "dev" {
+		auth = neo4j.BasicAuth(os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), "")
+	}
+
+	db, err := neo4j.NewDriverWithContext(uri, auth)
 
 	if err != nil {
 		return nil, err
