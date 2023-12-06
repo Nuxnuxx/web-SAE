@@ -1,21 +1,8 @@
 <script lang="ts">
-	let email = "";
-	let firstName = "";
-	let lastName = "";
-	let password = "";
-	let confirmPassword = "";
-	let gender = "";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
-	function handleSubmit() {
-		// Handle form submission here
-		console.log("Form submitted");
-		console.log("Email:", email);
-		console.log("First Name:", firstName);
-		console.log("Last Name:", lastName);
-		console.log("Password:", password);
-		console.log("Confirm Password:", confirmPassword);
-		console.log("Gender:", gender);
-	}
+	export let errors: ErrorsRegister;
+	export let value: User;
 </script>
 
 <h2
@@ -23,42 +10,54 @@
 	<span class="highlight">vous</span> ressemble</h2
 >
 
-<form on:submit|preventDefault={handleSubmit}>
+<form method="post" action="?/register">
+	{#if errors?.server}
+		<span class="error">{errors?.server}</span>
+	{/if}
 	<div>
-		<label for="email"></label>
+		<label for="mail"></label>
 		<input
-			type="email"
-			id="email"
-			bind:value={email}
-			required
-			placeholder="Email*"
+			type="text"
+			id="mail"
+			name="mail"
+			placeholder="Mail*"
+			value={value?.mail || ""}
 			autocomplete="username"
 		/>
+		{#if errors?.mail}
+			<span class="error">{errors?.mail}</span>
+		{/if}
 	</div>
 
 	<div class="name">
-		<div>
-			<label for="lastName"></label>
-			<input
-				type="text"
-				id="lastName"
-				bind:value={lastName}
-				required
-				placeholder="Nom*"
-				autocomplete="family-name"
-			/>
-		</div>
-
 		<div>
 			<label for="firstName"></label>
 			<input
 				type="text"
 				id="firstName"
-				bind:value={firstName}
-				required
+				name="firstName"
 				placeholder="Prénom*"
+				value={value?.firstName || ""}
 				autocomplete="given-name"
 			/>
+			{#if errors?.firstName}
+				<span class="error">{errors?.firstName}</span>
+			{/if}
+		</div>
+
+		<div>
+			<label for="lastName"></label>
+			<input
+				type="text"
+				id="lastName"
+				name="lastName"
+				placeholder="Nom*"
+				value={value?.lastName || ""}
+				autocomplete="family-name"
+			/>
+			{#if errors?.lastName}
+				<span class="error">{errors?.lastName}</span>
+			{/if}
 		</div>
 	</div>
 
@@ -67,11 +66,14 @@
 		<input
 			type="password"
 			id="password"
-			bind:value={password}
-			required
+			name="password"
 			placeholder="Mot de passe*"
+			value={value?.password || ""}
 			autocomplete="new-password"
 		/>
+		{#if errors?.password}
+			<span class="error">{errors?.password}</span>
+		{/if}
 	</div>
 
 	<div>
@@ -79,11 +81,14 @@
 		<input
 			type="password"
 			id="confirmPassword"
-			bind:value={confirmPassword}
-			required
+			name="confirmPassword"
 			placeholder="Confirmer mot de passe*"
+			value={value?.confirmPassword || ""}
 			autocomplete="new-password"
 		/>
+		{#if errors?.confirmPassword}
+			<span class="error">{errors?.confirmPassword}</span>
+		{/if}
 	</div>
 
 	<div>
@@ -93,7 +98,13 @@
 	<div class="radio-container">
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="male" name="radio-group" type="radio" />
+				<input
+					id="male"
+					checked={value?.gender == "male" ? true : false}
+					name="gender"
+					type="radio"
+					value="male"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Un pirate</span>
 			</label>
@@ -101,7 +112,13 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="female" name="radio-group" type="radio" />
+				<input
+					id="female"
+					checked={value?.gender == "female" ? true : false}
+					name="gender"
+					type="radio"
+					value="female"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Une pirate</span>
 			</label>
@@ -109,12 +126,21 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="other" name="radio-group" type="radio" />
+				<input
+					id="other"
+					checked={value?.gender == "other" ? true : false}
+					name="gender"
+					type="radio"
+					value="other"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Autre</span>
 			</label>
 		</div>
 	</div>
+	{#if errors?.gender}
+		<span class="error">{errors?.gender}</span>
+	{/if}
 
 	<button type="submit">
 		Connexion
@@ -140,6 +166,13 @@
 		min-width: 350px;
 		max-width: 700px;
 
+		.error {
+			color: var(--primary-color);
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
+
 		span {
 			.material-symbols-rounded {
 				font-size: 1.2rem;
@@ -149,6 +182,7 @@
 
 		button {
 			display: flex;
+			margin: 0 auto;
 			align-items: center;
 			gap: 0.5rem;
 			padding: 0.5rem 1rem;
@@ -173,7 +207,7 @@
 
 		input {
 			&:not([type="checkbox"]) {
-				border: 1px solid #ccc;
+				border-bottom: 1px solid var(--light-secondary-color);
 				border-top: none;
 				border-left: none;
 				border-right: none;

@@ -1,13 +1,9 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import LOGO from "$lib/img/LOGO.png";
 	import { onMount } from "svelte";
 
-	let user = false;
-
-	/////////////////////
-	// Header behavior //
-	/////////////////////
-	// altern between nav-up and nav-down classes on nav element on scroll down in svelte
+	export let user = false;
 
 	let didScroll: boolean = false;
 	let lastScrollTop = 0;
@@ -42,7 +38,6 @@
 				scrollPos > lastScrollTop && scrollPos > headerHeight
 					? (nav.style.cssText = "top : -" + headerHeight + "px;")
 					: (nav.style.cssText = "top : 0;");
-
 				lastScrollTop = scrollPos;
 			}
 		}
@@ -65,7 +60,7 @@
 			>
 		</div>
 	{:else}
-		<button class="nav__login">
+		<button on:click={() => goto("/auth")} class="nav__login">
 			<span class="material-symbols-rounded">person</span>
 			Connexion
 		</button>
@@ -87,6 +82,7 @@
 		top: 0;
 		width: fill-available;
 		transition: top 0.2s ease-in-out;
+		z-index: 10;
 
 		a {
 			img {
@@ -155,7 +151,7 @@
 			gap: 2rem;
 			.nav__iconwrapper__icon {
 				display: contents;
-				color: var(--white-color);
+				color: var(--black-color);
 				:hover {
 					color: var(--primary-color);
 				}
