@@ -1,11 +1,12 @@
-<script>
-	export let data;
+<script lang="ts">
+	import Recipe from "../../../components/recipe.svelte";
+	import type { PageData } from "./$types";
+
+	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Recette {data.slug} | PirateCook</title>
+	<title>{data.recipe.result.recipeDetail.name} | PirateCook</title>
 </svelte:head>
 
-<h1>This is the recipe page</h1>
-
-<h1>Data : {data.slug}</h1>
+<Recipe recipe={data.recipe.result} />
