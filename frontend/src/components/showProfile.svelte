@@ -1,8 +1,9 @@
 <script lang="ts">
-	//TODO: get user data from backend
+	import type { User } from "$lib/api/auth-types";
+
 	export let food: string = "";
 	export let backgroundColor: string = "";
-	export let data;
+	export let data: User;
 
 	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
 	const profileImg = new URL(

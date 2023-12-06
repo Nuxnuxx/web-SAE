@@ -32,7 +32,6 @@ export const actions: Actions = {
 			});
 			const result = await sendLogin(user);
 			if (result) {
-				cookies.delete("token");
 				cookies.set("token", result.result);
 				return {
 					location: "/",

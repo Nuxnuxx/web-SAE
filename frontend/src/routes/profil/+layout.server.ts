@@ -9,9 +9,12 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		throw redirect(302, "/");
 	}
 
-	const profil = await getProfil(token);
-
-	return {
-		profil,
-	};
+	try {
+		const profil = await getProfil(token);
+		return {
+			profil,
+		};
+	} catch (err) {
+		throw err;
+	}
 };
