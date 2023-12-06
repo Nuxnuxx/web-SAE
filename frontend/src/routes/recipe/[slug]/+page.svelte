@@ -9,5 +9,4 @@
 	<title>{data.recipe.result.recipeDetail.name} | PirateCook</title>
 </svelte:head>
 
-<Recipe recipe={data.recipe.result}/>
-
+<Recipe recipe={data.recipe.result} />
