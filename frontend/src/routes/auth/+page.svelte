@@ -1,20 +1,42 @@
 <script lang="ts">
 	import Register from "../../components/register.svelte";
 	import Login from "../../components/login.svelte";
+	import type { ActionData } from "./$types";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
 	let selectedButton = "login";
 
-	let bool = true;
-
 	function OnClick(event: any) {
-		console.log(event.target.className);
 		if (event.target.classList.contains("login")) {
-			bool = true;
 			selectedButton = "login";
 		} else if (event.target.classList.contains("register")) {
-			bool = false;
 			selectedButton = "register";
 		}
+	}
+
+	export let form: ActionData;
+	if (form == undefined) {
+		form = {
+			id: "login",
+		};
+	}
+
+	let registerErrors: ErrorsRegister = {};
+	let registerValue: User;
+	let loginErrors: ErrorsRegister = {};
+	let loginValue: User;
+	if (form.id == "register") {
+		selectedButton = "register";
+		//@ts-ignore
+		registerErrors = form.errors;
+		//@ts-ignore
+		registerValue = form.values;
+	} else if (form.id == "login") {
+		selectedButton = "login";
+		//@ts-ignore
+		loginErrors = form.errors;
+		//@ts-ignore
+		loginValue = form.values;
 	}
 </script>
 
@@ -38,12 +60,12 @@
 </div>
 
 {#if selectedButton == "login"}
-	<Login />
+	<Login value={loginValue} errors={loginErrors} />
 {:else}
-	<Register />
+	<Register value={registerValue} errors={registerErrors} />
 {/if}
 
-<style>
+<style lang="scss">
 	.auth {
 		display: flex;
 		flex-direction: column;
@@ -57,6 +79,7 @@
 		border-left: none;
 		border-right: none;
 		background-color: transparent;
+		cursor: pointer;
 
 		border-bottom: 2px solid #000;
 

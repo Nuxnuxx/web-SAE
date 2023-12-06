@@ -16,5 +16,3 @@ export interface Recipe {
 	liked: boolean;
 	saved: boolean;
 }
-
-export {};

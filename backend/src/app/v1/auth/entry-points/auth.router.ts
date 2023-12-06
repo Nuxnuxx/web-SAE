@@ -3,19 +3,21 @@ import {
 	handleDeleteProfil,
 	handleLogin,
 	handleModifyProfil,
-	// handleDeleteProfil,
-	// handleLogin,
-	// handleModifyProfil,
 	handleRegister,
 } from "./auth.controller.js";
 import { validate } from "./validators/auth.validator.js";
-import { schemaRegisterBody } from "./validators/auth.schema.js";
+import {
+	schemaDeleteBody,
+	schemaLoginBody,
+	schemaModifyBody,
+	schemaRegisterBody,
+} from "./validators/auth.schema.js";
 
 const authRouter = Router();
 
 authRouter.post("/register", validate(schemaRegisterBody), handleRegister);
-authRouter.get("/login", handleLogin);
-authRouter.put("/profil", handleModifyProfil);
-authRouter.delete("/profil", handleDeleteProfil);
+authRouter.post("/login", validate(schemaLoginBody), handleLogin);
+authRouter.put("/profil", validate(schemaModifyBody), handleModifyProfil);
+authRouter.delete("/profil", validate(schemaDeleteBody), handleDeleteProfil);
 
 export default authRouter;

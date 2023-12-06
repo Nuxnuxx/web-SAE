@@ -11,7 +11,6 @@ export const validate = <T>(
 			next();
 		} catch (err) {
 			if (err instanceof yup.ValidationError) {
-				// delete last and first []
 				res.status(400).json({
 					message: err.errors.toString(),
 				});

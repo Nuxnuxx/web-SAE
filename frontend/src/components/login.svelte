@@ -1,40 +1,42 @@
-<script>
-	import { goto } from "$app/navigation";
+<script lang="ts">
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
-	let email = "";
-	let password = "";
-
-	function handleLogin() {
-		// TODO:Ajoutez ici la logique de connexion
-		console.log("Email:", email);
-		console.log("Mot de passe:", password);
-		goto("/");
-	}
+	export let errors: ErrorsRegister;
+	export let value: User;
 </script>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
-<form on:submit|preventDefault={handleLogin}>
-	<label for="email">
+<form method="post" action="?/login">
+	{#if errors?.server}
+		<span class="error">{errors?.server}</span>
+	{/if}
+	<label for="mail">
 		<input
-			id="email"
-			type="email"
-			bind:value={email}
-			required
-			placeholder="Email"
+			id="mail"
+			name="mail"
+			type="text"
+			placeholder="Mail*"
+			value={value?.mail || ""}
 			autocomplete="username"
 		/>
+		{#if errors?.mail}
+			<span class="error">{errors?.mail}</span>
+		{/if}
 	</label>
 
 	<label for="password">
 		<input
 			id="password"
+			name="password"
 			type="password"
-			bind:value={password}
-			required
-			placeholder="Mot de passe"
+			value={value?.password || ""}
+			placeholder="Mot de passe*"
 			autocomplete="current-password"
 		/>
+		{#if errors?.password}
+			<span class="error">{errors?.password}</span>
+		{/if}
 	</label>
 
 	<!-- TODO: Ajouter un lien vers la page de réinitialisation du mot de passe -->
@@ -49,36 +51,45 @@
 <style lang="scss">
 	h2 {
 		text-align: center;
-		color: #333;
+		color: var(--black-color);
 		font-weight: normal;
-		font-size: 22px;
+		font-size: 1.4rem;
+		width: 80%;
+		margin: 0 auto;
+		margin-bottom: 2.8rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
+		margin: 0 auto;
+		row-gap: 1.5rem;
+		width: 40%;
+		min-width: 350px;
+		max-width: 700px;
+
+		.error {
+			color: var(--primary-color);
+			margin-top: 0.1rem;
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
 
 		label {
-			min-width: 350px;
-			max-width: 700px;
-			width: 40%;
+			width: 100%;
 			display: flex;
 			flex-direction: column;
-			margin-bottom: 10px;
-			padding: 20px;
-
+			align-items: center;
 			input {
-				border: 1px solid #ccc;
-				border-radius: 3%;
+				border-bottom: 1px solid var(--light-secondary-color);
 				border-top: none;
 				border-left: none;
 				border-right: none;
+				width: 80%;
 
-				/*padding du texte*/
-				padding: 5px 15px;
-				font-size: 16px;
+				padding: 0.5rem 1rem;
 				outline: none;
 				&::placeholder {
 					opacity: 0.4;
@@ -92,31 +103,27 @@
 		}
 		a {
 			text-decoration: none;
-			color: #9f9f9f;
+			color: var(--light-black-color);
 			text-decoration: underline;
-			font-size: 14px;
-			margin-top: -20px;
-			margin-bottom: 25px;
-			margin-right: -40%;
+			font-size: 0.9rem;
 		}
 
 		button {
-			padding: 10px 20px;
-			background-color: #de403e;
-			color: #fff;
-			border: none;
-			border-radius: 20px;
-			cursor: pointer;
-			font-size: 16px;
 			display: flex;
 			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 1rem;
+			border-radius: 2rem;
+			background-color: var(--primary-color);
+			color: var(--white-color);
+			font-size: 1rem;
+			border: none;
+			cursor: pointer;
 		}
 
 		.material-symbols-rounded {
-			font-size: 20px;
+			font-size: 1.2rem;
 			font-weight: bold;
-			margin-left: 10px;
-			margin-right: -10px;
 		}
 	}
 </style>

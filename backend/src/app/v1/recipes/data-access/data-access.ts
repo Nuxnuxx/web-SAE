@@ -16,10 +16,12 @@ export const getRecipesInDatabaseWithPagination = async (page_p: number) => {
 
 	let raw;
 	try {
-		raw = await database.run(query, {
-			page: currentPage,
-			limit: neo4j.int(PRODUCT_PER_PAGE),
-		});
+		raw = await database.executeRead((tx) =>
+			tx.run(query, {
+				page: currentPage,
+				limit: neo4j.int(PRODUCT_PER_PAGE),
+			})
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -48,16 +50,14 @@ export const getRecipesInDatabaseWithPagination = async (page_p: number) => {
 };
 
 export const getRecipesByIdInDatabase = async (id: number) => {
-	const query = "MATCH (n:Recipe) WHERE n.idRecipe = $idRecipe RETURN n";
-	// need a string to match the data in the database
-	const idString: string = String(id);
+	const query = "MATCH (n:Recipe) WHERE n.idRecipe = $id RETURN n";
 
 	let raw;
 	try {
-		raw = await database.run(query, { idRecipe: idString });
+		raw = await database.executeRead((tx) => tx.run(query, { id }));
 	} catch (err) {
 		throw new BaseError(
-			`Error while fetching recipe from database with id : ${idString}`,
+			`Error while fetching recipe from database with id : ${id}`,
 			HttpStatusCode.INTERNAL_SERVER,
 			"INTERNAL SERVER ERROR",
 			true
@@ -68,7 +68,7 @@ export const getRecipesByIdInDatabase = async (id: number) => {
 
 	if (result == null || result == undefined || result.length == 0) {
 		throw new ApiError(
-			`Recipe with id ${idString} not found`,
+			`Recipe with id ${id} not found`,
 			"NOT FOUND",
 			HttpStatusCode.NOT_FOUND,
 			true
@@ -102,11 +102,13 @@ export const getRecipesByKeyWordInDatabase = async (
 
 	let raw;
 	try {
-		raw = await database.run(query, {
-			keyWords: keyword,
-			page: currentPage,
-			limit: neo4j.int(PRODUCT_PER_PAGE),
-		});
+		raw = await database.executeRead((tx) =>
+			tx.run(query, {
+				keyWords: keyword,
+				page: currentPage,
+				limit: neo4j.int(PRODUCT_PER_PAGE),
+			})
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -156,11 +158,13 @@ export const getRecipesByFilterInDatabase = async (
 
 	let raw;
 	try {
-		raw = await database.run(query, {
-			...filter,
-			page: currentPage,
-			limit: neo4j.int(PRODUCT_PER_PAGE),
-		});
+		raw = await database.executeRead((tx) =>
+			tx.run(query, {
+				...filter,
+				page: currentPage,
+				limit: neo4j.int(PRODUCT_PER_PAGE),
+			})
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
@@ -213,7 +217,9 @@ export const getMetaDataInDatabase = async (
 
 	let totalRecords;
 	try {
-		totalRecords = await database.run(finalQuery, params);
+		totalRecords = await database.executeRead((tx) =>
+			tx.run(finalQuery, params)
+		);
 	} catch (err) {
 		throw new BaseError(
 			"INTERNAL SERVER ERROR",
