@@ -15,7 +15,7 @@
 			id="mail"
 			name="mail"
 			type="text"
-			placeholder="mail*"
+			placeholder="Mail*"
 			autocomplete="username"
 		/>
 		{#if form?.mail}

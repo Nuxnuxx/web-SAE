@@ -1,5 +1,56 @@
 import type { User } from "./auth-types";
 
+export const sendModifyProfil = async (token: string, newPassword: string) => {
+	try {
+		const result = await fetch(
+			`${import.meta.env.VITE_API_URL}/auth/profil`,
+			{
+				method: "PUT",
+				body: JSON.stringify({ newPassword }),
+				headers: {
+					"Content-type": "application/json",
+					Authorization: "Bearer " + token,
+				},
+			}
+		);
+
+		if (result.ok) {
+			const data = await result.json();
+			return data;
+		} else {
+			const { error } = await result.json();
+			throw new Error(error);
+		}
+	} catch (err) {
+		throw err;
+	}
+};
+
+export const getProfil = async (data: string) => {
+	try {
+		const result = await fetch(
+			`${import.meta.env.VITE_API_URL}/auth/profil`,
+			{
+				method: "GET",
+				headers: {
+					"Content-type": "application/json",
+					Authorization: "Bearer " + data,
+				},
+			}
+		);
+
+		if (result.ok) {
+			const data = await result.json();
+			return data;
+		} else {
+			const { error } = await result.json();
+			throw new Error(error);
+		}
+	} catch (err) {
+		throw err;
+	}
+};
+
 export const sendLogin = async (data: User) => {
 	try {
 		const result = await fetch(

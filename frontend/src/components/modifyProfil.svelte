@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
+	import type { User } from "$lib/api/auth-types";
 	import Input from "./input.svelte";
 
-	//TODO: get user data from backend
+	export let data: User;
 	export let food: string = "";
 	export let backgroundColor: string = "";
 
@@ -11,23 +11,6 @@
 		`../routes/profil/food/${food}.png`,
 		import.meta.url
 	).href;
-	let email = "1234@gmail.com";
-	let firstName = "John";
-	let lastName = "Doe";
-	// This should stay empty
-	let password = "";
-
-	function handleSubmit() {
-		// Handle form submission here
-		console.log("Form submitted");
-		console.log("First Name:", firstName);
-		console.log("Last Name:", lastName);
-		console.log("Email:", email);
-		console.log("Password:", password);
-
-		// href to /profil
-		goto("/profil");
-	}
 </script>
 
 <main>
@@ -37,34 +20,30 @@
 			<img src={profileImg} alt="profile" />
 		</div>
 
-		<form
-			on:submit|preventDefault={handleSubmit}
-			class="card__form"
-			action="/profil"
-		>
+		<form method="post" class="card__form" action="?/modifyPassword">
 			<Input
 				name="firstName"
 				placeholder="First name"
 				secure={false}
-				bind:value={firstName}
+				value={data.firstName || ""}
 			/>
 			<Input
 				name="lastName"
 				placeholder="Last name"
 				secure={false}
-				bind:value={lastName}
+				value={data.lastName || ""}
 			/>
 			<Input
-				name="email"
-				placeholder="Email"
+				name="mail"
+				placeholder="Mail"
 				secure={false}
-				bind:value={email}
+				value={data.mail}
 			/>
 			<Input
-				name="password"
+				name="newPassword"
 				placeholder="Password"
 				secure={true}
-				bind:value={password}
+				value={""}
 			/>
 
 			<button type="submit" class="form__button">

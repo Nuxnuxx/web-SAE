@@ -32,6 +32,7 @@ export const actions: Actions = {
 			});
 			const result = await sendLogin(user);
 			if (result) {
+				cookies.delete("token");
 				cookies.set("token", result.result);
 				return {
 					location: "/",
@@ -77,8 +78,11 @@ export const actions: Actions = {
 			});
 			const result = await sendRegister(finalUser);
 			if (result) {
-				console.log(result.result);
+				cookies.delete("token");
 				cookies.set("token", result.result);
+				return {
+					location: "/",
+				};
 			}
 		} catch (err) {
 			let errors: ErrorsRegister = {};

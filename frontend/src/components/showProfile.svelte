@@ -2,16 +2,13 @@
 	//TODO: get user data from backend
 	export let food: string = "";
 	export let backgroundColor: string = "";
+	export let data;
 
 	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
 	const profileImg = new URL(
 		`../routes/profil/food/${food}.png`,
 		import.meta.url
 	).href;
-
-	let firstName = "John";
-	let lastName = "Doe";
-	let location = "France";
 </script>
 
 <main>
@@ -23,12 +20,12 @@
 
 		<div class="card__content">
 			<div class="content__name">
-				<p>{firstName + " " + lastName}</p>
+				<p>{data.firstName + " " + data.lastName}</p>
 			</div>
 
 			<div class="content__localisation">
 				<span class="material-symbols-rounded"> location_on </span>
-				<span>{location}</span>
+				<span>France</span>
 			</div>
 
 			<a type="button" class="content__button" href="/profil/modify">
