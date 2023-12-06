@@ -1,15 +1,17 @@
 <script lang="ts">
-	import Filter from '../../components/filter.svelte';
+	import CardList from "../../components/cardList.svelte";
+	import Filter from "../../components/filter.svelte";
+	import type { PageLoad } from "../playlist/[slug]/$types";
+	export let data: PageLoad;
 </script>
 
 <svelte:head>
 	<title>Recherche | PirateCook</title>
 </svelte:head>
 
-<h1>Permet de chercher des recherche selon SearchBar / Filter</h1>
-
 <div class="filter">
 	<Filter />
+	<CardList listRecipe={data.result.result} />
 </div>
 
 <style lang="scss">

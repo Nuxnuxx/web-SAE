@@ -1,5 +1,26 @@
 import type { User } from "./auth-types";
 
+export const getRecipes = async (name: string) => {
+	try {
+		const result = await fetch(
+			`${import.meta.env.VITE_API_URL}/recipe/page/0?name=${name}`,
+			{
+				method: "GET",
+			}
+		);
+
+		if (result.ok) {
+			const data = await result.json();
+			return data;
+		} else {
+			const { error } = await result.json();
+			throw new Error(error);
+		}
+	} catch (err) {
+		throw err;
+	}
+};
+
 export const sendModifyProfil = async (token: string, newPassword: string) => {
 	try {
 		const result = await fetch(

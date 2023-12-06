@@ -32,7 +32,7 @@
 		<ul class="recipe__ingredient__list">
 			{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
 				<li>
-					<img src={ingredient.urlPicture} alt="one day" />
+					<img src={ingredient.urlPicture} alt="" />
 					<span class="recipe__ingredient__text"
 						>{ingredient.name}</span
 					>

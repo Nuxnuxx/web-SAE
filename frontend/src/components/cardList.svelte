@@ -1,10 +1,14 @@
 <script lang="ts">
-	import type { Recipe } from "../app";
+	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import RecipeCard from "../components/recipeCard.svelte";
-	export let listRecipe: Recipe[];
+	export let listRecipe: RecipeDetail[];
 </script>
 
-<h2>Test liste éléments : </h2>
+<link
+	rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+/>
+
 <div class="list">
 	{#each listRecipe as recipe}
 		<RecipeCard data={recipe} />
