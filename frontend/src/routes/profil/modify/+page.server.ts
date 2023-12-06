@@ -1,4 +1,4 @@
-import { fail, type Actions } from "@sveltejs/kit";
+import { fail, type Actions, redirect, Redirect_1 } from "@sveltejs/kit";
 import type { PageParentData, PageServerLoad } from "../$types";
 import { sendModifyProfil } from "$lib/api/auth-request";
 import type { ErrorsRegister } from "$lib/api/auth-types";
@@ -29,14 +29,16 @@ export const actions: Actions = {
 				cookies.set("token", result.result, {
 					path: "/",
 				});
-				return {
-					location: "/profil",
-				};
+				throw redirect(303, "/profil");
 			}
 		} catch (err) {
 			let errors: ErrorsRegister = {};
 			if (err instanceof Error) {
 				errors = { server: err.message };
+			}
+			console.log(err);
+			if (err?.location) {
+				throw err;
 			}
 			return fail(400, errors);
 		}
