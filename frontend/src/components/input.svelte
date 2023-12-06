@@ -7,7 +7,7 @@
 </script>
 
 {#if secure}
-	<form class="input-group" on:submit|preventDefault>
+	<div>
 		<input
 			required
 			type="password"
@@ -17,9 +17,9 @@
 			bind:value
 		/>
 		<label for={name} class="user-label">{placeholder}</label>
-	</form>
+	</div>
 {:else}
-	<form class="input-group" on:submit|preventDefault>
+	<div>
 		<input
 			required
 			type="text"
@@ -29,11 +29,11 @@
 			bind:value
 		/>
 		<label for={name} class="user-label">{placeholder}</label>
-	</form>
+	</div>
 {/if}
 
 <style lang="scss">
-	.input-group {
+	div {
 		position: relative;
 		margin: 1rem 0;
 	}

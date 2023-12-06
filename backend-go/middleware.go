@@ -30,6 +30,7 @@ func withJWTAuth(handlerFunc http.HandlerFunc, s Storage) http.HandlerFunc {
 		r.Header.Set("Mail", fmt.Sprintf("%v", claims["Mail"]))
 		r.Header.Set("FirstName", fmt.Sprintf("%v", claims["FirstName"]))
 		r.Header.Set("LastName", fmt.Sprintf("%v", claims["LastName"]))
+		r.Header.Set("Gender", fmt.Sprintf("%v", claims["Gender"]))
 		r.Header.Set("Password", fmt.Sprintf("%v", claims["Password"]))
 
 		if err := s.FindAccountByMail(r.Header.Get("Mail")); err == nil {
@@ -64,6 +65,7 @@ func createJWT(account *Account) (string, error) {
 		"ExpiresAt": 15000,
 		"Mail":      account.Mail,
 		"FirstName": account.FirstName,
+		"Gender":    account.Gender,
 		"LastName":  account.LastName,
 		"Password":  account.EncryptedPassword,
 	}

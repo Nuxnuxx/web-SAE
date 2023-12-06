@@ -1,40 +1,42 @@
-<script>
-	import { goto } from "$app/navigation";
+<script lang="ts">
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
-	let email = "";
-	let password = "";
-
-	function handleLogin() {
-		// TODO:Ajoutez ici la logique de connexion
-		console.log("Email:", email);
-		console.log("Mot de passe:", password);
-		goto("/");
-	}
+	export let errors: ErrorsRegister;
+	export let value: User;
 </script>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
-<form on:submit|preventDefault={handleLogin}>
-	<label for="email">
+<form method="post" action="?/login">
+	{#if errors?.server}
+		<span class="error">{errors?.server}</span>
+	{/if}
+	<label for="mail">
 		<input
-			id="email"
-			type="email"
-			bind:value={email}
-			required
-			placeholder="Email"
+			id="mail"
+			name="mail"
+			type="text"
+			placeholder="Mail*"
+			value={value?.mail || ""}
 			autocomplete="username"
 		/>
+		{#if errors?.mail}
+			<span class="error">{errors?.mail}</span>
+		{/if}
 	</label>
 
 	<label for="password">
 		<input
 			id="password"
+			name="password"
 			type="password"
-			bind:value={password}
-			required
-			placeholder="Mot de passe"
+			value={value?.password || ""}
+			placeholder="Mot de passe*"
 			autocomplete="current-password"
 		/>
+		{#if errors?.password}
+			<span class="error">{errors?.password}</span>
+		{/if}
 	</label>
 
 	<!-- TODO: Ajouter un lien vers la page de réinitialisation du mot de passe -->
@@ -52,27 +54,40 @@
 		color: var(--black-color);
 		font-weight: normal;
 		font-size: 1.4rem;
+		width: 80%;
+		margin: 0 auto;
+		margin-bottom: 2.8rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		row-gap: 1rem;
+		margin: 0 auto;
+		row-gap: 1.5rem;
+		width: 40%;
+		min-width: 350px;
+		max-width: 700px;
+
+		.error {
+			color: var(--primary-color);
+			margin-top: 0.1rem;
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
 
 		label {
-			min-width: 350px;
-			max-width: 700px;
-			width: 40%;
+			width: 100%;
 			display: flex;
 			flex-direction: column;
-			padding: 1rem 0;
-
+			align-items: center;
 			input {
 				border-bottom: 1px solid var(--light-secondary-color);
 				border-top: none;
 				border-left: none;
 				border-right: none;
+				width: 80%;
 
 				padding: 0.5rem 1rem;
 				outline: none;

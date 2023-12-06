@@ -12,8 +12,8 @@ type APIResponse struct {
 }
 
 type PlaylistDetail struct {
-	Name string `json:"name"`
-	IdPlaylist int64 `json:"idPlaylist"`
+	Name       string `json:"name"`
+	IdPlaylist int64  `json:"idPlaylist"`
 }
 
 type Recipe struct {
@@ -55,6 +55,7 @@ type CreateAccountRequest struct {
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Mail      string `json:"mail"`
+	Gender    string `json:"gender"`
 	Password  string `json:"password"`
 }
 

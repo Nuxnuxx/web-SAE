@@ -1,33 +1,17 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 	import Input from "./input.svelte";
 
-	//TODO: get user data from backend
+	export let data: User;
 	export let food: string = "";
 	export let backgroundColor: string = "";
+	export let errors: ErrorsRegister;
 
 	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
 	const profileImg = new URL(
 		`../routes/profil/food/${food}.png`,
 		import.meta.url
 	).href;
-	let email = "1234@gmail.com";
-	let firstName = "John";
-	let lastName = "Doe";
-	// This should stay empty
-	let password = "";
-
-	function handleSubmit() {
-		// Handle form submission here
-		console.log("Form submitted");
-		console.log("First Name:", firstName);
-		console.log("Last Name:", lastName);
-		console.log("Email:", email);
-		console.log("Password:", password);
-
-		// href to /profil
-		goto("/profil");
-	}
 </script>
 
 <main>
@@ -37,35 +21,34 @@
 			<img src={profileImg} alt="profile" />
 		</div>
 
-		<form
-			on:submit|preventDefault={handleSubmit}
-			class="card__form"
-			action="/profil"
-		>
+		<form method="post" class="card__form" action="?/modifyPassword">
 			<Input
 				name="firstName"
 				placeholder="First name"
 				secure={false}
-				bind:value={firstName}
+				value={data.firstName || ""}
 			/>
 			<Input
 				name="lastName"
 				placeholder="Last name"
 				secure={false}
-				bind:value={lastName}
+				value={data.lastName || ""}
 			/>
 			<Input
-				name="email"
-				placeholder="Email"
+				name="mail"
+				placeholder="Mail"
 				secure={false}
-				bind:value={email}
+				value={data.mail}
 			/>
 			<Input
-				name="password"
+				name="newPassword"
 				placeholder="Password"
 				secure={true}
-				bind:value={password}
+				value={""}
 			/>
+			{#if errors?.server}
+				<span class="error">{errors?.server}</span>
+			{/if}
 
 			<button type="submit" class="form__button">
 				<span class="button__text">Sauvegarder</span>
@@ -84,6 +67,15 @@
 		border-radius: 1rem;
 		background: #fff;
 		box-shadow: 0px 0px 10px 0px #dcdcdc;
+
+		.error {
+			color: var(--primary-color);
+			margin-top: 0.1rem;
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
+
 
 		.card__form {
 			margin: 0 4rem;

@@ -124,7 +124,7 @@ func buildQueryAndParams(query url.Values, page int) (string, map[string]interfa
 	return queryString, params
 }
 
-func NewAccount(firstName, lastName, mail, password string) (*Account, error) {
+func NewAccount(gender, firstName, lastName, mail, password string) (*Account, error) {
 	encpw, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -134,6 +134,7 @@ func NewAccount(firstName, lastName, mail, password string) (*Account, error) {
 		FirstName:         firstName,
 		LastName:          lastName,
 		Mail:              mail,
+		Gender: gender,
 		EncryptedPassword: string(encpw),
 	}, nil
 }

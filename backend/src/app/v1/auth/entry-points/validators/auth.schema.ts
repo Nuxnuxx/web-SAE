@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const schemaRegisterBody = yup.object().shape({
-	name: yup.string().max(10).min(3).required(),
+	name: yup.string().max(20).min(3).required(),
 	email: yup.string().email().required(),
 	password: yup
 		.string()
@@ -20,7 +20,6 @@ export const schemaLoginBody = yup.object().shape({
 });
 
 export const schemaModifyBody = yup.object().shape({
-	name: yup.string().max(10).min(3).required(),
 	email: yup.string().email().required(),
 	password: yup
 		.string()

@@ -108,7 +108,7 @@ func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) e
 		return err
 	}
 
-	account, err := NewAccount(r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
+	account, err := NewAccount(r.Header.Get("Gender"), r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
 
 	if err != nil {
 		return err
@@ -149,12 +149,27 @@ func (s *APIServer) handleDeleteProfil(w http.ResponseWriter, r *http.Request) e
 	return writeJSON(w, http.StatusOK, response)
 }
 
+func (s *APIServer) handleGetProfil(w http.ResponseWriter, r *http.Request) error {
+	user := Account{
+		FirstName: r.Header.Get("firstName"),
+		LastName:  r.Header.Get("lastName"),
+		Gender: r.Header.Get("gender"),
+		Mail:      r.Header.Get("mail"),
+	}
+
+	return writeJSON(w, http.StatusOK, user)
+}
+
 func (s *APIServer) handleProfil(w http.ResponseWriter, r *http.Request) error {
 	if r.Method == "PUT" {
 		return s.handleUpdateProfil(w, r)
 	}
 	if r.Method == "DELETE" {
 		return s.handleDeleteProfil(w, r)
+	}
+
+	if r.Method == "GET" {
+		return s.handleGetProfil(w, r)
 	}
 
 	return writeJSON(w, http.StatusBadRequest, "Method not allowed")
@@ -200,7 +215,7 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
-	account, err := NewAccount(req.FirstName, req.LastName, req.Mail, req.Password)
+	account, err := NewAccount(req.Gender, req.FirstName, req.LastName, req.Mail, req.Password)
 
 	if err != nil {
 		return err

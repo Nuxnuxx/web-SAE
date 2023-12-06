@@ -3,7 +3,7 @@ import production from "./env/production.js";
 import merge from "lodash.merge";
 import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
