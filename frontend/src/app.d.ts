@@ -8,11 +8,3 @@ declare global {
 		// interface Platform {}
 	}
 }
-
-export interface Recipe {
-	img: string;
-	title: string;
-	nbLikes: number;
-	liked: boolean;
-	saved: boolean;
-}
