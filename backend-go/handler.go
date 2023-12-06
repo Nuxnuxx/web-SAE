@@ -108,7 +108,7 @@ func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) e
 		return err
 	}
 
-	account, err := NewAccount(r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
+	account, err := NewAccount(r.Header.Get("Gender"), r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
 
 	if err != nil {
 		return err
@@ -153,6 +153,7 @@ func (s *APIServer) handleGetProfil(w http.ResponseWriter, r *http.Request) erro
 	user := Account{
 		FirstName: r.Header.Get("firstName"),
 		LastName:  r.Header.Get("lastName"),
+		Gender: r.Header.Get("gender"),
 		Mail:      r.Header.Get("mail"),
 	}
 
@@ -214,7 +215,7 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
-	account, err := NewAccount(req.FirstName, req.LastName, req.Mail, req.Password)
+	account, err := NewAccount(req.Gender, req.FirstName, req.LastName, req.Mail, req.Password)
 
 	if err != nil {
 		return err

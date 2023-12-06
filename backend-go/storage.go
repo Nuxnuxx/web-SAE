@@ -328,10 +328,11 @@ func (s *Neo4jStore) UpdateAccount(acc *Account) error {
 
 func (s *Neo4jStore) CreateAccount(acc *Account) error {
 
-	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password}) RETURN u",
+	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password, gender: $gender}) RETURN u",
 		map[string]interface{}{
 			"name":     acc.FirstName + " " + acc.LastName,
 			"mail":     acc.Mail,
+			"gender":   acc.Gender,
 			"password": acc.EncryptedPassword,
 		},
 	)
