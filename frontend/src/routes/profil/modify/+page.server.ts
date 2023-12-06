@@ -26,7 +26,9 @@ export const actions: Actions = {
 			}
 			const result = await sendModifyProfil(token, newPassword);
 			if (result) {
-				cookies.set("token", result.result);
+				cookies.set("token", result.result, {
+					path: "/",
+				});
 				return {
 					location: "/profil",
 				};

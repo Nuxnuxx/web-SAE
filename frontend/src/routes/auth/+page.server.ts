@@ -27,7 +27,9 @@ export const actions: Actions = {
 			});
 			const result = await sendLogin(user);
 			if (result) {
-				cookies.set("token", result.result);
+				cookies.set("token", result.result, {
+					path: "/",
+				});
 				return {
 					location: "/",
 				};
@@ -78,7 +80,9 @@ export const actions: Actions = {
 			const result = await sendRegister(finalUser);
 			if (result) {
 				cookies.delete("token");
-				cookies.set("token", result.result);
+				cookies.set("token", result.result, {
+					path: "/",
+				});
 				return {
 					location: "/",
 				};
