@@ -21,7 +21,7 @@ export const actions: Actions = {
 		try {
 			if (newPassword.length < 8) {
 				throw new Error(
-					"le mot de passe doit contenir 8 characteres minimum"
+					"Password is too short - should be 8 chars minimum."
 				);
 			}
 			const result = await sendModifyProfil(token, newPassword);

@@ -10,6 +10,7 @@
 
 	export let data: PageLoad;
 
+	export let form: FormData;
 </script>
 
-<Modify data={data.profil} {food} {backgroundColor} />
+<Modify errors={form} data={data.profil} {food} {backgroundColor} />

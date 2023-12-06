@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { User } from "$lib/api/auth-types";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 	import Input from "./input.svelte";
 
 	export let data: User;
 	export let food: string = "";
 	export let backgroundColor: string = "";
+	export let errors: ErrorsRegister;
 
 	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
 	const profileImg = new URL(
@@ -45,6 +46,9 @@
 				secure={true}
 				value={""}
 			/>
+			{#if errors?.server}
+				<span class="error">{errors?.server}</span>
+			{/if}
 
 			<button type="submit" class="form__button">
 				<span class="button__text">Sauvegarder</span>
@@ -63,6 +67,15 @@
 		border-radius: 1rem;
 		background: #fff;
 		box-shadow: 0px 0px 10px 0px #dcdcdc;
+
+		.error {
+			color: var(--primary-color);
+			margin-top: 0.1rem;
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
+
 
 		.card__form {
 			margin: 0 4rem;
