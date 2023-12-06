@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { ActionData } from "../routes/auth/$types";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
-	export let form: ActionData;
+	export let errors: ErrorsRegister;
+	export let value: User;
 </script>
 
 <h2
@@ -10,8 +11,8 @@
 >
 
 <form method="post" action="?/register">
-	{#if form?.server}
-		<span class="error">{form?.server}</span>
+	{#if errors?.server}
+		<span class="error">{errors?.server}</span>
 	{/if}
 	<div>
 		<label for="mail"></label>
@@ -20,10 +21,11 @@
 			id="mail"
 			name="mail"
 			placeholder="Mail*"
+			value={value?.mail || ""}
 			autocomplete="username"
 		/>
-		{#if form?.mail}
-			<span class="error">{form?.mail}</span>
+		{#if errors?.mail}
+			<span class="error">{errors?.mail}</span>
 		{/if}
 	</div>
 
@@ -35,10 +37,11 @@
 				id="firstName"
 				name="firstName"
 				placeholder="Prénom*"
+				value={value?.firstName || ""}
 				autocomplete="given-name"
 			/>
-			{#if form?.firstName}
-				<span class="error">{form?.firstName}</span>
+			{#if errors?.firstName}
+				<span class="error">{errors?.firstName}</span>
 			{/if}
 		</div>
 
@@ -49,10 +52,11 @@
 				id="lastName"
 				name="lastName"
 				placeholder="Nom*"
+				value={value?.lastName || ""}
 				autocomplete="family-name"
 			/>
-			{#if form?.lastName}
-				<span class="error">{form?.lastName}</span>
+			{#if errors?.lastName}
+				<span class="error">{errors?.lastName}</span>
 			{/if}
 		</div>
 	</div>
@@ -64,10 +68,11 @@
 			id="password"
 			name="password"
 			placeholder="Mot de passe*"
+			value={value?.password || ""}
 			autocomplete="new-password"
 		/>
-		{#if form?.password}
-			<span class="error">{form?.password}</span>
+		{#if errors?.password}
+			<span class="error">{errors?.password}</span>
 		{/if}
 	</div>
 
@@ -78,10 +83,11 @@
 			id="confirmPassword"
 			name="confirmPassword"
 			placeholder="Confirmer mot de passe*"
+			value={value?.confirmPassword || ""}
 			autocomplete="new-password"
 		/>
-		{#if form?.confirmPassword}
-			<span class="error">{form?.confirmPassword}</span>
+		{#if errors?.confirmPassword}
+			<span class="error">{errors?.confirmPassword}</span>
 		{/if}
 	</div>
 
@@ -92,7 +98,13 @@
 	<div class="radio-container">
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="male" name="gender" type="radio" value="male" />
+				<input
+					id="male"
+					checked={value?.gender == "male" ? true : false}
+					name="gender"
+					type="radio"
+					value="male"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Un pirate</span>
 			</label>
@@ -100,7 +112,13 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="female" name="gender" type="radio" value="female" />
+				<input
+					id="female"
+					checked={value?.gender == "female" ? true : false}
+					name="gender"
+					type="radio"
+					value="female"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Une pirate</span>
 			</label>
@@ -108,14 +126,20 @@
 
 		<div class="radio-wrapper">
 			<label class="radio-button">
-				<input id="other" name="gender" type="radio" value="other" />
+				<input
+					id="other"
+					checked={value?.gender == "other" ? true : false}
+					name="gender"
+					type="radio"
+					value="other"
+				/>
 				<span class="radio-checkmark"></span>
 				<span class="radio-label">Autre</span>
 			</label>
 		</div>
 	</div>
-	{#if form?.gender}
-		<span class="error">{form?.gender}</span>
+	{#if errors?.gender}
+		<span class="error">{errors?.gender}</span>
 	{/if}
 
 	<button type="submit">
@@ -141,6 +165,13 @@
 		margin: 0 auto;
 		min-width: 350px;
 		max-width: 700px;
+
+		.error {
+			color: var(--primary-color);
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
 
 		span {
 			.material-symbols-rounded {

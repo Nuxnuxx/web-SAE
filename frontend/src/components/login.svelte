@@ -1,14 +1,15 @@
 <script lang="ts">
-	import type { ActionData } from "../routes/auth/$types";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
-	export let form: ActionData;
+	export let errors: ErrorsRegister;
+	export let value: User;
 </script>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
 <form method="post" action="?/login">
-	{#if form?.server}
-		<span class="error">{form?.server}</span>
+	{#if errors?.server}
+		<span class="error">{errors?.server}</span>
 	{/if}
 	<label for="mail">
 		<input
@@ -16,10 +17,11 @@
 			name="mail"
 			type="text"
 			placeholder="Mail*"
+			value={value?.mail || ""}
 			autocomplete="username"
 		/>
-		{#if form?.mail}
-			<span class="error">{form?.mail}</span>
+		{#if errors?.mail}
+			<span class="error">{errors?.mail}</span>
 		{/if}
 	</label>
 
@@ -28,11 +30,12 @@
 			id="password"
 			name="password"
 			type="password"
+			value={value?.password || ""}
 			placeholder="Mot de passe*"
 			autocomplete="current-password"
 		/>
-		{#if form?.password}
-			<span class="error">{form?.password}</span>
+		{#if errors?.password}
+			<span class="error">{errors?.password}</span>
 		{/if}
 	</label>
 
@@ -65,6 +68,14 @@
 		width: 40%;
 		min-width: 350px;
 		max-width: 700px;
+
+		.error {
+			color: var(--primary-color);
+			margin-top: 0.1rem;
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
 
 		label {
 			width: 100%;

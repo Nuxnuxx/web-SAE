@@ -2,6 +2,7 @@
 	import Register from "../../components/register.svelte";
 	import Login from "../../components/login.svelte";
 	import type { ActionData } from "./$types";
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
 	let selectedButton = "login";
 
@@ -14,6 +15,29 @@
 	}
 
 	export let form: ActionData;
+	if (form == undefined) {
+		form = {
+			id: "login",
+		};
+	}
+
+	let registerErrors: ErrorsRegister = {};
+	let registerValue: User;
+	let loginErrors: ErrorsRegister = {};
+	let loginValue: User;
+	if (form.id == "register") {
+		selectedButton = "register";
+		//@ts-ignore
+		registerErrors = form.errors;
+		//@ts-ignore
+		registerValue = form.values;
+	} else if (form.id == "login") {
+		selectedButton = "login";
+		//@ts-ignore
+		loginErrors = form.errors;
+		//@ts-ignore
+		loginValue = form.values;
+	}
 </script>
 
 <svelte:head>
@@ -36,9 +60,9 @@
 </div>
 
 {#if selectedButton == "login"}
-	<Login {form} />
+	<Login value={loginValue} errors={loginErrors} />
 {:else}
-	<Register {form} />
+	<Register value={registerValue} errors={registerErrors} />
 {/if}
 
 <style lang="scss">

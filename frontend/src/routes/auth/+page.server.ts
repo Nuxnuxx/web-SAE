@@ -1,14 +1,9 @@
 import { sendLogin, sendRegister } from "$lib/api/auth-request";
 import { schemaLogin, schemaRegister } from "$lib/api/auth-schema";
-import type { ErrorsRegister, User } from "$lib/api/auth-types";
+import type { ErrorWithId, User } from "$lib/api/auth-types";
 import { fail, type Actions, redirect } from "@sveltejs/kit";
 import * as yup from "yup";
 import type { PageServerLoad } from "./$types";
-
-//TODO: TOM fait ca
-// separer les resultat des deux form par un id different pour les afficher separement
-// ainsi que renvoyer le formulaire qui etait actif pour changer la valeur du selectedButton
-// les errorrs stylise parceque la c'est moche
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const token = cookies.get("token");
@@ -38,15 +33,19 @@ export const actions: Actions = {
 				};
 			}
 		} catch (err) {
-			let errors: ErrorsRegister = {};
+			let errors: ErrorWithId = {
+				id: "login",
+				errors: {},
+				values: user
+			};
 			if (err instanceof yup.ValidationError) {
-				errors = err.inner.reduce((acc, err) => {
+				errors.errors = err.inner.reduce((acc, err) => {
 					const key = String(err.path);
 					return { ...acc, [key]: err.message };
 				}, {});
 			} else {
 				if (err instanceof Error) {
-					errors = { server: err.message };
+					errors.errors = { server: err.message };
 				}
 			}
 			return fail(400, errors);
@@ -69,6 +68,7 @@ export const actions: Actions = {
 			firstName: user.firstName,
 			lastName: user.lastName,
 			password: user.password,
+			gender: user.gender,
 		};
 
 		try {
@@ -84,15 +84,19 @@ export const actions: Actions = {
 				};
 			}
 		} catch (err) {
-			let errors: ErrorsRegister = {};
+			let errors: ErrorWithId = {
+				id: "register",
+				errors: {},
+				values: user
+			};
 			if (err instanceof yup.ValidationError) {
-				errors = err.inner.reduce((acc, err) => {
+				errors.errors = err.inner.reduce((acc, err) => {
 					const key = String(err.path);
 					return { ...acc, [key]: err.message };
 				}, {});
 			} else {
 				if (err instanceof Error) {
-					errors = { server: err.message };
+					errors.errors = { server: err.message };
 				}
 			}
 			return fail(400, errors);
