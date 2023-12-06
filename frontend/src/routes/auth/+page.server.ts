@@ -36,7 +36,7 @@ export const actions: Actions = {
 			let errors: ErrorWithId = {
 				id: "login",
 				errors: {},
-				values: user
+				values: user,
 			};
 			if (err instanceof yup.ValidationError) {
 				errors.errors = err.inner.reduce((acc, err) => {
@@ -87,7 +87,7 @@ export const actions: Actions = {
 			let errors: ErrorWithId = {
 				id: "register",
 				errors: {},
-				values: user
+				values: user,
 			};
 			if (err instanceof yup.ValidationError) {
 				errors.errors = err.inner.reduce((acc, err) => {

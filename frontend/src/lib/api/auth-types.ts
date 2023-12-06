@@ -10,7 +10,7 @@ export interface User {
 
 export type ErrorsRegister = Record<string, string>;
 export type ErrorWithId = {
-  id: string;
-  errors: ErrorsRegister;
-	values: User
+	id: string;
+	errors: ErrorsRegister;
+	values: User;
 };
