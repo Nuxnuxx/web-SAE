@@ -36,6 +36,7 @@ func (s *APIServer) Run() {
 	router.HandleFunc("/recipe/page/{page}", makeHTTPHandleFunc(s.handleRecipes))
 
 	router.HandleFunc("/list", withJWTAuth(makeHTTPHandleFunc(s.handleList), s.store))
+	router.HandleFunc("/list/recipe", withJWTAuth(makeHTTPHandleFunc(s.handleListRecipe), s.store))
 
 	log.Println("Piratecook api server running on port:", s.listenAddr)
 
