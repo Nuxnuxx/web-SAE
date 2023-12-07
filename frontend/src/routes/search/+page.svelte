@@ -10,13 +10,21 @@
 </svelte:head>
 
 <div class="filter">
+	<h2>Recherche</h2>
 	<Filter />
 	<CardList listRecipe={data.result.result} />
 </div>
 
 <style lang="scss">
 	.filter {
-		width: 50%;
+		width: 90%;
+		@media (min-width: 768px) {
+			width: 50%;
+		}
 		margin: 0 auto;
+		text-align: center;
+		h2 {
+			font-size: 3rem;
+		}
 	}
 </style>

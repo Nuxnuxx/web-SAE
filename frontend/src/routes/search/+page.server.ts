@@ -3,12 +3,14 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ url }) => {
 	const href = url.href;
-	const queryString = url.toString();
+	const urlString = new URL(href);
+	const searchParams = urlString.searchParams;
+	const name = searchParams.get("name") || "";
+	const page: number = Number(searchParams.get("page"));
 
-	const name = queryString.split("?")[1]
-	const finalName = name.split("=")[1];
 	try {
-		const result = await getRecipes(finalName);
+		const result = await getRecipes(name, page);
+		console.log(result);
 		return {
 			result,
 		};

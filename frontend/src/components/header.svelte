@@ -55,9 +55,11 @@
 			placeholder="Rechercher..."
 			type="search"
 			on:keypress={(event) =>
-				event.key === "Enter" ? goto(`search?name=${name}`) : null}
+				event.key === "Enter"
+					? goto(`search?name=${name}&page=0`)
+					: null}
 		/>
-		<a href={`search?name=${name}`} class="material-symbols-rounded"
+		<a href={`search?name=${name}&page=0`} class="material-symbols-rounded"
 			>search</a
 		>
 	</div>

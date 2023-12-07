@@ -3,8 +3,6 @@
 
 	let answers: number[] = [];
 
-	let url = "search/?name=saucisse";
-
 	let filter = true;
 </script>
 
@@ -43,7 +41,7 @@
 						"sentiment_calm",
 						"sentiment_satisfied",
 					]}
-					rating_like={true}
+					rating_like={false}
 					bind:selected={answers[2]}
 				/>
 			</div>
@@ -57,8 +55,6 @@
 			<!-- 		bind:selected={answers[3]} -->
 			<!-- 	/> -->
 			<!-- </div> -->
-
-			<a href={url}>submit</a>
 		</div>
 	{/if}
 </div>

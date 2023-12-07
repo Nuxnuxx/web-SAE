@@ -4,11 +4,6 @@
 	export let listRecipe: RecipeDetail[];
 </script>
 
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-/>
-
 <div class="list">
 	{#each listRecipe as recipe}
 		<RecipeCard data={recipe} />
@@ -27,11 +22,6 @@
 		.list {
 			margin: 2rem 4rem;
 			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-	@media (min-width: 1024px) {
-		.list {
-			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 </style>

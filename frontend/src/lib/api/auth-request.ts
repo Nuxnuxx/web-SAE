@@ -1,9 +1,18 @@
 import type { User } from "./auth-types";
 
-export const getRecipes = async (name: string) => {
+export const getRecipes = async (name: string, page: number) => {
 	try {
+		let url;
+		//INFO: if no name is given, we don't want to add the name query param
+		if (name) {
+			url = `${
+				import.meta.env.VITE_API_URL
+			}/recipe/page/${page}?name=${name}`;
+		} else {
+			url = `${import.meta.env.VITE_API_URL}/recipe/page/${page}`;
+		}
 		const result = await fetch(
-			`${import.meta.env.VITE_API_URL}/recipe/page/0?name=${name}`,
+			`${import.meta.env.VITE_API_URL}/recipe/page/${page}?name=${name}`,
 			{
 				method: "GET",
 			}
