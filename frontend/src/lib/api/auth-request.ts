@@ -1,5 +1,35 @@
 import type { User } from "./auth-types";
 
+export const getRecipes = async (name: string, page: number) => {
+	try {
+		let url;
+		//INFO: if no name is given, we don't want to add the name query param
+		if (name) {
+			url = `${
+				import.meta.env.VITE_API_URL
+			}/recipe/page/${page}?name=${name}`;
+		} else {
+			url = `${import.meta.env.VITE_API_URL}/recipe/page/${page}`;
+		}
+		const result = await fetch(
+			`${import.meta.env.VITE_API_URL}/recipe/page/${page}?name=${name}`,
+			{
+				method: "GET",
+			}
+		);
+
+		if (result.ok) {
+			const data = await result.json();
+			return data;
+		} else {
+			const { error } = await result.json();
+			throw new Error(error);
+		}
+	} catch (err) {
+		throw err;
+	}
+};
+
 export const sendModifyProfil = async (token: string, newPassword: string) => {
 	try {
 		const result = await fetch(

@@ -1,71 +1,73 @@
 <script lang="ts">
+	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import readable from "readable-numbers";
-	import type { Recipe } from "../app";
-	export let data: Recipe;
+	export let data: RecipeDetail;
 
-	const like = () => {
-		data.liked = !data.liked;
-	};
-	const save = () => {
-		data.saved = !data.saved;
-	};
+	// const like = () => {
+	// 	data.liked = !data.liked;
+	// };
+	// const save = () => {
+	// 	data.saved = !data.saved;
+	// };
 </script>
 
-<div class="card">
+<a href={`/recipe/${data.idRecipe}`} class="card">
 	<div class="card__img">
-		<img src={data.img} alt={data.title} />
+		<!-- <img src={data.images.toString()} alt={data.name} /> -->
 	</div>
 	<div class="card__content">
 		<div class="card__title">
-			<h3>{data.title}</h3>
+			<h3>{data.name}</h3>
 			<div class="card__likes">
-				<span class="card__likes__number"
-					>{readable(data.nbLikes, 1)}</span
-				>
+				<!-- <span class="card__likes__number" -->
+				<!-- 	>{readable(data.nbLikes, 1)}</span -->
+				<!-- > -->
 				<span class="material-symbols-rounded filled"> favorite </span>
 			</div>
 		</div>
 		<div class="card__icons">
 			<span class="card__likes__icon">
-				{#if data.liked}
-					<button
-						on:click={() => like()}
-						class="material-symbols-rounded filled red"
-					>
-						favorite
-					</button>
-				{:else}
-					<button
-						on:click={() => like()}
-						class="material-symbols-rounded"
-					>
-						favorite
-					</button>
-				{/if}
+				<!-- {#if data.liked} -->
+				<!-- 	<button -->
+				<!-- 		on:click={() => like()} -->
+				<!-- 		class="material-symbols-rounded filled red" -->
+				<!-- 	> -->
+				<!-- 		favorite -->
+				<!-- 	</button> -->
+				<!-- {:else} -->
+				<!-- 	<button -->
+				<!-- 		on:click={() => like()} -->
+				<!-- 		class="material-symbols-rounded" -->
+				<!-- 	> -->
+				<!-- 		favorite -->
+				<!-- 	</button> -->
+				<!-- {/if} -->
 			</span>
 			<span class="card__saved__icon">
-				{#if data.saved}
-					<button
-						on:click={() => save()}
-						class="material-symbols-rounded green"
-					>
-						playlist_add_check
-					</button>
-				{:else}
-					<button
-						on:click={() => save()}
-						class="material-symbols-rounded"
-					>
-						playlist_add
-					</button>
-				{/if}
+				<!-- {#if data.saved} -->
+				<!-- 	<button -->
+				<!-- 		on:click={() => save()} -->
+				<!-- 		class="material-symbols-rounded green" -->
+				<!-- 	> -->
+				<!-- 		playlist_add_check -->
+				<!-- 	</button> -->
+				<!-- {:else} -->
+				<!-- 	<button -->
+				<!-- 		on:click={() => save()} -->
+				<!-- 		class="material-symbols-rounded" -->
+				<!-- 	> -->
+				<!-- 		playlist_add -->
+				<!-- 	</button> -->
+				<!-- {/if} -->
 			</span>
 		</div>
 	</div>
-</div>
+</a>
 
 <style lang="scss">
 	.card {
+		color: black;
+		text-decoration: none;
 		aspect-ratio: 1/1;
 		display: flex;
 		flex-direction: column;

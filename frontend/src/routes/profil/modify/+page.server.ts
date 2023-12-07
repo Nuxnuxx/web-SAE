@@ -36,7 +36,6 @@ export const actions: Actions = {
 			if (err instanceof Error) {
 				errors = { server: err.message };
 			}
-			console.log(err);
 			if (err?.location) {
 				throw err;
 			}

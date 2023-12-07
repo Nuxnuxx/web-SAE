@@ -9,6 +9,8 @@
 	let lastScrollTop = 0;
 	let delta = 5;
 
+	let name = "";
+
 	// get nav element
 	let nav: HTMLElement;
 	onMount(() => {
@@ -47,8 +49,19 @@
 <nav bind:this={nav}>
 	<a href="/"><img alt="PirateCook" src={LOGO} /></a>
 	<div class="nav__search">
-		<input placeholder="Rechercher..." type="search" />
-		<button class="material-symbols-rounded">search</button>
+		<input
+			name="name"
+			bind:value={name}
+			placeholder="Rechercher..."
+			type="search"
+			on:keypress={(event) =>
+				event.key === "Enter"
+					? goto(`search?name=${name}&page=0`)
+					: null}
+		/>
+		<a href={`search?name=${name}&page=0`} class="material-symbols-rounded"
+			>search</a
+		>
 	</div>
 	{#if user}
 		<div class="nav__iconwrapper">
@@ -133,8 +146,9 @@
 				cursor: pointer;
 			}
 
-			button {
+			a {
 				padding: 0.47rem 1rem;
+				text-decoration: none;
 				border-radius: 0 10px 10px 0;
 				border: none;
 				color: var(--white-color);
