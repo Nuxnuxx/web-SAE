@@ -17,14 +17,19 @@ export const getRecipes = async (
 		}
 
 		// Add price and difficulty to the URL if they exist
-		if (price) {
+		if (price && name) {
 			url += `&price=${price}`;
+		} else if (price) {
+			url += `?price=${price}`;
 		}
 
-		if (difficulty) {
+		if (difficulty && price) {
 			url += `&difficulty=${difficulty}`;
+		} else if (difficulty){
+			url += `?difficulty=${difficulty}`;
 		}
 
+		console.log(url); 
 		const result = await fetch(url, {
 			method: "GET",
 		});

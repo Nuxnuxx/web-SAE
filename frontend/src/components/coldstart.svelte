@@ -4,8 +4,7 @@
 	let currentQuestion = 0;
 	let answers: number[] = [];
 
-	function SubmitEvent() {
-	}
+	function SubmitEvent() {}
 </script>
 
 <main>
