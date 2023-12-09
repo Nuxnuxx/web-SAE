@@ -39,6 +39,7 @@ type RecipeDetail struct {
 	Quantity   string `json:"quantity"`
 	Price      string `json:"price"`
 	Name       string `json:"name"`
+	PreparationTime       string `json:"time"`
 	IdRecipe   int64  `json:"idRecipe"`
 }
 

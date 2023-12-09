@@ -40,12 +40,13 @@ func CreatePlaylistDetail(record neo4j.Record, key string) PlaylistDetail {
 
 func CreateRecipeDetail(record neo4j.Record, key string) RecipeDetail {
 	return RecipeDetail{
-		Difficulty: extractProperty(record, key, "difficulty").(string),
-		Images:     extractProperty(record, key, "image").(string),
-		Quantity:   extractProperty(record, key, "quantity").(string),
-		Price:      extractProperty(record, key, "price").(string),
-		Name:       extractProperty(record, key, "name").(string),
-		IdRecipe:   extractProperty(record, key, "idRecipe").(int64),
+		Difficulty:      extractProperty(record, key, "difficulty").(string),
+		Images:          extractProperty(record, key, "image").(string),
+		Quantity:        extractProperty(record, key, "quantity").(string),
+		Price:           extractProperty(record, key, "price").(string),
+		PreparationTime: extractProperty(record, key, "preparationTime").(string),
+		Name:            extractProperty(record, key, "name").(string),
+		IdRecipe:        extractProperty(record, key, "idRecipe").(int64),
 	}
 }
 
@@ -134,7 +135,7 @@ func NewAccount(gender, firstName, lastName, mail, password string) (*Account, e
 		FirstName:         firstName,
 		LastName:          lastName,
 		Mail:              mail,
-		Gender: gender,
+		Gender:            gender,
 		EncryptedPassword: string(encpw),
 	}, nil
 }
