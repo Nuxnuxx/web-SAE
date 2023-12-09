@@ -30,7 +30,6 @@ export const getRecipes = async (
 			url += `?difficulty=${difficulty}`;
 		}
 
-		console.log(url);
 		const result = await fetch(url, {
 			method: "GET",
 		});
