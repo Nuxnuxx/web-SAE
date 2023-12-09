@@ -4,7 +4,6 @@
 	import SearchBar from "../../components/searchBar.svelte";
 	import type { PageLoad } from "../playlist/[slug]/$types";
 	export let data: PageLoad;
-
 </script>
 
 <svelte:head>

@@ -11,7 +11,7 @@
 		<div class="recipe__header__infos">
 			<div class="recipe__header__infos__item">
 				<span class="material-symbols-rounded">alarm</span>
-				<p>{ recipe.recipeDetail.time}</p>
+				<p>{recipe.recipeDetail.time}</p>
 			</div>
 
 			<div class="recipe__header__infos__item">

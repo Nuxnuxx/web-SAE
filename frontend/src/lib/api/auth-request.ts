@@ -10,21 +10,27 @@ export const getRecipes = async (
 		let url;
 		//INFO: if no name is given, we don't want to add the name query param
 		if (name) {
-			url = `${import.meta.env.VITE_API_URL
-				}/recipe/page/${page}?name=${name}`;
+			url = `${
+				import.meta.env.VITE_API_URL
+			}/recipe/page/${page}?name=${name}`;
 		} else {
 			url = `${import.meta.env.VITE_API_URL}/recipe/page/${page}`;
 		}
 
 		// Add price and difficulty to the URL if they exist
-		if (price) {
+		if (price && name) {
 			url += `&price=${price}`;
+		} else if (price) {
+			url += `?price=${price}`;
 		}
 
-		if (difficulty) {
+		if (difficulty && price) {
 			url += `&difficulty=${difficulty}`;
+		} else if (difficulty) {
+			url += `?difficulty=${difficulty}`;
 		}
 
+		console.log(url);
 		const result = await fetch(url, {
 			method: "GET",
 		});
