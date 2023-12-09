@@ -1,8 +1,10 @@
 <script lang="ts">
 	import CardList from "../../components/cardList.svelte";
 	import Filter from "../../components/filter.svelte";
+	import SearchBar from "../../components/searchBar.svelte";
 	import type { PageLoad } from "../playlist/[slug]/$types";
 	export let data: PageLoad;
+
 </script>
 
 <svelte:head>
@@ -11,6 +13,7 @@
 
 <div class="filter">
 	<h2>Recherche</h2>
+	<SearchBar hiddenMobile={false} />
 	<Filter />
 	<CardList listRecipe={data.result.result} />
 </div>

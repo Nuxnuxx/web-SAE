@@ -9,7 +9,7 @@
 	{#each data as item, i (i)}
 		<input
 			value={length - i}
-			id="selector-{item}{length - i}"
+			id={`selector-${item}${length - i}`}
 			type="radio"
 			bind:group={selected}
 		/>

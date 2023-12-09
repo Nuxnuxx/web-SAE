@@ -2,14 +2,13 @@
 	import { goto } from "$app/navigation";
 	import LOGO from "$lib/img/LOGO.png";
 	import { onMount } from "svelte";
+	import SearchBar from "./searchBar.svelte";
 
 	export let user = false;
 
 	let didScroll: boolean = false;
 	let lastScrollTop = 0;
 	let delta = 5;
-
-	let name = "";
 
 	// get nav element
 	let nav: HTMLElement;
@@ -48,21 +47,7 @@
 
 <nav bind:this={nav}>
 	<a href="/"><img alt="PirateCook" src={LOGO} /></a>
-	<div class="nav__search">
-		<input
-			name="name"
-			bind:value={name}
-			placeholder="Rechercher..."
-			type="search"
-			on:keypress={(event) =>
-				event.key === "Enter"
-					? goto(`search?name=${name}&page=0`)
-					: null}
-		/>
-		<a href={`search?name=${name}&page=0`} class="material-symbols-rounded"
-			>search</a
-		>
-	</div>
+	<SearchBar hiddenMobile={true} />
 	{#if user}
 		<div class="nav__iconwrapper">
 			<a href="/playlist" class="nav__iconwrapper__icon"
@@ -101,61 +86,6 @@
 			img {
 				height: 2.5rem;
 			}
-		}
-
-		.nav__search {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			text-align: center;
-			input {
-				background-color: var(--white-color);
-				border: none;
-				color: #646464;
-				padding: 0.6rem 1rem;
-				border-radius: 10px 0 0 10px;
-				width: 40vw;
-				transition: all 300ms;
-				outline: 2px solid #dcdcdc;
-			}
-
-			input:focus {
-				outline: 2px solid #c4c4c4;
-			}
-
-			input::-webkit-input-placeholder {
-				font-weight: normal;
-				color: #c4c4c4;
-			}
-
-			input::-webkit-search-cancel-button {
-				-webkit-appearance: none;
-				height: 1.3em;
-				width: 1.3em;
-				border-radius: 50em;
-				background: url("../lib/img/googlefont_icon_close.svg")
-					no-repeat 50% 50%;
-				background-size: contain;
-				opacity: 0;
-				pointer-events: none;
-			}
-
-			input:focus::-webkit-search-cancel-button {
-				opacity: 0.3;
-				pointer-events: all;
-				cursor: pointer;
-			}
-
-			a {
-				padding: 0.47rem 1rem;
-				text-decoration: none;
-				border-radius: 0 10px 10px 0;
-				border: none;
-				color: var(--white-color);
-				background-color: var(--primary-color);
-				cursor: pointer;
-			}
-			display: none;
 		}
 
 		.nav__iconwrapper {
@@ -199,10 +129,6 @@
 	}
 	@media (min-width: 768px) {
 		nav {
-			.nav__search {
-				display: flex;
-			}
-
 			a {
 				img {
 					height: 3.5rem;

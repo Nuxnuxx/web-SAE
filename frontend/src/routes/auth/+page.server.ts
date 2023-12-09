@@ -11,6 +11,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	if (token) {
 		throw redirect(302, "/profil");
 	}
+
 };
 
 export const actions: Actions = {

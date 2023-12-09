@@ -5,8 +5,6 @@
 	let answers: number[] = [];
 
 	function SubmitEvent() {
-		// Send answers to the server
-		console.log(answers);
 	}
 </script>
 
