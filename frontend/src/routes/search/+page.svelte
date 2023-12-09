@@ -19,6 +19,7 @@
 
 <style lang="scss">
 	.filter {
+		padding: 2rem 0;
 		width: 90%;
 		@media (min-width: 768px) {
 			width: 50%;
