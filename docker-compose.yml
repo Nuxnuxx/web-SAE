@@ -8,6 +8,7 @@ services:
       STAGE: "prod"
       DB_URL: "neo4j://bdd:7687"
       JWT_TOKEN: "hunter88888"
+      FRONT_URL: "http://localhost:3000"
     depends_on:
       - bdd
     ports: 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Footer from "../components/footer.svelte";
 	import Header from "../components/header.svelte";
+	import "$lib/global.scss"
 	import type { LayoutData } from "./$types";
 
 	export let data: LayoutData;

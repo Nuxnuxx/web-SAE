@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -24,7 +25,7 @@ func (s *APIServer) Run() {
 	// CORS Settings
 	credentials := handlers.AllowCredentials()
 	ttl := handlers.MaxAge(3600)
-	origin := handlers.AllowedOrigins([]string{"http://localhost:5173"})
+	origin := handlers.AllowedOrigins([]string{os.Getenv("FRONT_URL")})
 
 	router := mux.NewRouter()
 

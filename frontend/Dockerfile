@@ -5,6 +5,7 @@ COPY ./tsconfig.json /app/
 COPY ./svelte.config.js /app/
 COPY ./vite.config.ts /app/
 COPY ./src/ /app/src/
+COPY ./.env.prod /app/.env
 
 WORKDIR /app
 
