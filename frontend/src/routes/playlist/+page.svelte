@@ -14,7 +14,7 @@
 
 	<div class="playlist__list__wrapper">
 		{#each data.playlists.result as playlist}
-			<CardPlaylist data={playlist} />
+			<CardPlaylist playlist={playlist} />
 		{/each}
 	</div>
 </div>

@@ -14,6 +14,7 @@ type APIResponse struct {
 type PlaylistDetail struct {
 	Name       string `json:"name"`
 	IdPlaylist int64  `json:"idPlaylist"`
+	NumberRecipes int64 `json:"numberRecipes"`
 }
 
 type Recipe struct {

@@ -33,8 +33,9 @@ func CreatePagination(total int64, currentPage int) Pagination {
 
 func CreatePlaylistDetail(record neo4j.Record, key string) PlaylistDetail {
 	return PlaylistDetail{
-		Name:       extractProperty(record, key, "name").(string),
-		IdPlaylist: extractProperty(record, key, "idPlaylist").(int64),
+		Name:          extractProperty(record, key, "name").(string),
+		IdPlaylist:    extractProperty(record, key, "idPlaylist").(int64),
+		NumberRecipes: extractProperty(record, key, "numberOfRecipes").(int64),
 	}
 }
 

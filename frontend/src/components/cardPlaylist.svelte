@@ -1,18 +1,18 @@
 <script lang="ts">
-	export let data;
+	export let playlist;
 </script>
 
 <div class="playlist__wrapper">
 	<img src="" alt="saucisse" />
 	<div class="text__wrapper">
-		{#if data.name == "liked"}
+		{#if playlist.name == "liked"}
 			<h3>Vos préférés</h3>
 		{:else}
-			<h3>{data.name}</h3>
+			<h3>{playlist.name}</h3>
 		{/if}
-		<p>20 recettes</p>
+		<p>{playlist.numberRecipes} Recettes</p>
 	</div>
-	<a href={`/playlist/${data.idPlaylist}`}>
+	<a href={`/playlist/${playlist.idPlaylist}`}>
 		<span class="material-symbols-outlined"> arrow_forward </span>
 	</a>
 </div>
