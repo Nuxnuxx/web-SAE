@@ -1,9 +1,9 @@
 import { redirect } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
 import { getPlaylist } from "$lib/api/playlist-request";
+import type { LayoutServerLoad } from "../$types";
 
-export const load: PageServerLoad = async ({ cookies }) => {
-	const token = cookies.get("token");
+export const load: LayoutServerLoad = async ({ parent }) => {
+	const { token } = await parent();
 
 	if (!token) {
 		throw redirect(302, "/auth");

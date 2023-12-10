@@ -1,25 +1,28 @@
 <script lang="ts">
-	export let playlist;
+	import type { RecipeDetail } from "$lib/api/recipe-types";
+
+	export let recipe: RecipeDetail;
 </script>
 
-<div class="playlist__wrapper">
-	<img src="" alt="image" />
+<div class="recipe__wrapper">
+	<img src={recipe.images[0]} alt={recipe.name} />
 	<div class="text__wrapper">
-		{#if playlist.name == "liked"}
+		{#if recipe.name == "liked"}
 			<h3>Vos préférés</h3>
 		{:else}
-			<h3>{playlist.name}</h3>
+			<h3>{recipe.name}</h3>
 		{/if}
-		<p>{playlist.numberRecipes} Recettes</p>
+		<p>{recipe.time} Recettes</p>
 	</div>
-	<a href={`/playlist/${playlist.idPlaylist}`}>
+	<a href={`/recipe/${recipe.idRecipe}`}>
 		<span class="material-symbols-outlined"> arrow_forward </span>
 	</a>
 </div>
 
 <style lang="scss">
-	.playlist__wrapper {
+	.recipe__wrapper {
 		display: flex;
+		text-align: left;
 		flex-direction: row;
 		align-items: center;
 		margin: 0 auto;
