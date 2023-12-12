@@ -12,6 +12,11 @@
 <div class="wrapper">
 	<h2>Vos livres de <span class="">recettes</span></h2>
 
+	<form method="post" action="?/createRecipe">
+		<input type="text" name="name" />
+		<button type="submit">Creer playlist</button>
+	</form>
+
 	<div class="playlist__list__wrapper">
 		{#each data.playlists.result as playlist}
 			<CardPlaylist {playlist} />
@@ -21,7 +26,7 @@
 
 <style lang="scss">
 	.wrapper {
-		padding: 0.2rem 0;
+		padding: 0.1rem 0;
 	}
 
 	.playlist__list__wrapper {

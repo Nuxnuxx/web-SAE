@@ -4,3 +4,5 @@ export const filterStore = writable({
 	price: "",
 	difficulty: "",
 });
+
+export const urlStore = writable("search?");

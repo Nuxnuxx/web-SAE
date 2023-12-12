@@ -3,7 +3,7 @@
 	import { filterStore } from "../store";
 
 	let name = "";
-	let url = ""; // Create a variable to hold the URL
+	let url = "";
 
 	$: url = `search?name=${name}&page=0${
 		$filterStore.price ? `&price=${$filterStore.price}` : ""

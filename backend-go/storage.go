@@ -579,8 +579,8 @@ func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 	query := "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit"
 
 	params := map[string]interface{}{
-		"page":  page * 10,
-		"limit": 10,
+		"page":  page * 9,
+		"limit": 9,
 	}
 
 	resp, err := s.db.Run(s.ctx, query,

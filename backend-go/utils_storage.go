@@ -26,7 +26,7 @@ func CreateAccount(record neo4j.Record, key string) Account {
 func CreatePagination(total int64, currentPage int) Pagination {
 	return Pagination{
 		CurrentPage: currentPage,
-		TotalPage:   int(total / 10),
+		TotalPage:   int(total / 9),
 		TotalResult: int(total),
 	}
 }
@@ -115,8 +115,8 @@ func buildQueryAndParams(query url.Values, page int) (string, map[string]interfa
 	queryString += " RETURN n SKIP $page LIMIT $limit"
 
 	params := map[string]interface{}{
-		"page":  page * 10,
-		"limit": 10,
+		"page":  page * 9,
+		"limit": 9,
 	}
 
 	for key, value := range query {

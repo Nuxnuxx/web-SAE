@@ -9,11 +9,18 @@ export const load: PageServerLoad = async ({ url }) => {
 	const page: number = Number(searchParams.get("page"));
 	const price = searchParams.get("price") || "";
 	const difficulty = searchParams.get("difficulty") || "";
+	const oldData = {
+		name,
+		page,
+		price,
+		difficulty,
+	};
 
 	try {
 		const result = await getRecipes(name, price, difficulty, page);
 		return {
 			result,
+			oldData,
 		};
 	} catch (err) {
 		throw err;

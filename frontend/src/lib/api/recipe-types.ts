@@ -30,3 +30,16 @@ export type RecipeData = {
 export const Price = ["", "bon marché", "moyen", "assez cher"];
 
 export const Difficulty = ["", "très facile", "facile", "moyen", "difficile"];
+
+export type Pagination = {
+	currentPage: number;
+	totalPage: number;
+	totalResult: number;
+};
+
+export type Current = {
+	name: string
+	page: number
+	price: string
+	difficulty: string
+}
