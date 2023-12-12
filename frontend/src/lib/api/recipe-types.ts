@@ -38,8 +38,8 @@ export type Pagination = {
 };
 
 export type Current = {
-	name: string
-	page: number
-	price: string
-	difficulty: string
-}
+	name: string;
+	page: number;
+	price: string;
+	difficulty: string;
+};

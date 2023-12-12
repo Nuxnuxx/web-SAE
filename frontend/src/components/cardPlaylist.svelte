@@ -1,5 +1,6 @@
 <script lang="ts">
-	export let playlist;
+	export let playlist = {
+	};
 </script>
 
 <div class="playlist__wrapper">
@@ -13,9 +14,13 @@
 		<p>{playlist.numberRecipes} Recettes</p>
 	</div>
 	<a href={`/playlist/${playlist.idPlaylist}`}>
-		<span class="material-symbols-outlined"> arrow_forward </span>
+		<span class="material-symbols-rounded filled"> arrow_forward </span>
 	</a>
 </div>
+
+{#if playlist.name == "liked"}
+	<div class="lines"></div>
+{/if}
 
 <style lang="scss">
 	.playlist__wrapper {
@@ -40,6 +45,18 @@
 			margin-left: auto;
 			text-decoration: none;
 			color: var(--black-color);
+			span {
+				font-size: 3rem;
+				font-weight: 600;
+			}
 		}
+	}
+
+	.lines {
+		height: 1.5px;
+		width: 60%;
+		display: block;
+		margin: 1rem auto;
+		background-color: var(--light-secondary-color);
 	}
 </style>

@@ -53,7 +53,7 @@ export const createPlaylist = async (token: string, name: string) => {
 				method: "POST",
 				headers: {
 					"Content-type": "application/json",
-				Authorization: "Bearer " + token,
+					Authorization: "Bearer " + token,
 				},
 			}
 		);
