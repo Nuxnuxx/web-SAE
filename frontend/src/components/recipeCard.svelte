@@ -2,45 +2,38 @@
 	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import readable from "readable-numbers";
 	export let data: RecipeDetail;
-
-	// const like = () => {
-	// 	data.liked = !data.liked;
-	// };
-	// const save = () => {
-	// 	data.saved = !data.saved;
-	// };
 </script>
 
-<a href={`/recipe/${data.idRecipe}`} class="card">
-	<div class="card__img">
+<div class="card">
+	<a href={`/recipe/${data.idRecipe}`} class="card__img">
 		<!-- <img src={data.images.toString()} alt={data.name} /> -->
-	</div>
+	</a>
 	<div class="card__content">
-		<div class="card__title">
+		<a href={`/recipe/${data.idRecipe}`} class="card__title">
 			<h3>{data.name}</h3>
 			<div class="card__likes">
-				<!-- <span class="card__likes__number" -->
-				<!-- 	>{readable(data.nbLikes, 1)}</span -->
-				<!-- > -->
+				<span class="card__likes__number">{readable(100000, 1)}</span>
 				<span class="material-symbols-rounded filled"> favorite </span>
 			</div>
-		</div>
+		</a>
 		<div class="card__icons">
 			<span class="card__likes__icon">
 				<!-- {#if data.liked} -->
-				<!-- 	<button -->
-				<!-- 		on:click={() => like()} -->
-				<!-- 		class="material-symbols-rounded filled red" -->
-				<!-- 	> -->
+				<!-- <form action="?/likeRecipe"> -->
+				<!-- 	<button class="material-symbols-rounded filled red"> -->
 				<!-- 		favorite -->
 				<!-- 	</button> -->
+				<!-- </form> -->
 				<!-- {:else} -->
-				<!-- 	<button -->
-				<!-- 		on:click={() => like()} -->
-				<!-- 		class="material-symbols-rounded" -->
-				<!-- 	> -->
-				<!-- 		favorite -->
-				<!-- 	</button> -->
+				<form method="post" action="?/likeRecipe">
+					<input hidden name="id" value={data.idRecipe} type="text" />
+					<button
+						type="submit"
+						class={`material-symbols-rounded like`}
+					>
+						favorite
+					</button>
+				</form>
 				<!-- {/if} -->
 			</span>
 			<span class="card__saved__icon">
@@ -52,17 +45,12 @@
 				<!-- 		playlist_add_check -->
 				<!-- 	</button> -->
 				<!-- {:else} -->
-				<!-- 	<button -->
-				<!-- 		on:click={() => save()} -->
-				<!-- 		class="material-symbols-rounded" -->
-				<!-- 	> -->
-				<!-- 		playlist_add -->
-				<!-- 	</button> -->
+				<button class="material-symbols-rounded"> playlist_add </button>
 				<!-- {/if} -->
 			</span>
 		</div>
 	</div>
-</a>
+</div>
 
 <style lang="scss">
 	.card {
@@ -90,10 +78,12 @@
 			padding: 5px;
 			display: grid;
 			// grid-auto-flow: column;
-			grid-template-columns: 1fr auto; /* The first column takes all available space, the second takes only necessary space */
-			gap: 5px; /* Adjust the gap as needed */
+			grid-template-columns: 1fr auto;
+			gap: 5px;
 			height: 30%;
 			.card__title {
+				text-decoration: none;
+				color: var(--black-color);
 				h3 {
 					font-size: 14px;
 					margin: 0;
@@ -120,6 +110,7 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				z-index: 2;
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 <script lang="ts">
-	export let playlist = {
-	};
+	export let playlist = {};
 </script>
 
 <div class="playlist__wrapper">
