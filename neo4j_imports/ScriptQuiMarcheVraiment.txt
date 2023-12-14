@@ -1,10 +1,12 @@
-LOAD CSV WITH HEADERS FROM 'file:///recipeImage.csv' AS recipeData
+LOAD CSV WITH HEADERS FROM 'file:///recipe.csv' AS recipeData
 MERGE (recipe:Recipe {idRecipe: recipeData.idRecipe})
 ON CREATE SET 
     recipe.name = recipeData.nameRecipe,
     recipe.difficulty = recipeData.difficulte,
     recipe.price = recipeData.prix,
     recipe.quantity = recipeData.quantite,
+    recipe.preparationTime = recipeData.preparationTime,
+    recipe.totalTime = recipeData.totalTime,
     recipe.image = recipeData.image;
 
 LOAD CSV WITH HEADERS FROM 'file:///recipeStep.csv' AS stepData
