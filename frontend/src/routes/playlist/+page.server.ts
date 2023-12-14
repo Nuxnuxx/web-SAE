@@ -3,7 +3,7 @@ import { error } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
 export const actions: Actions = {
-	createRecipe: async ({ cookies, request }) => {
+	createList: async ({ cookies, request }) => {
 		try {
 			const token = cookies.get("token") || "";
 			const body = await request.formData();

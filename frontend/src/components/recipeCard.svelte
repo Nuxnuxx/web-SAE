@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { RecipeDetail } from "$lib/api/recipe-types";
+	import { enhance } from "$app/forms";
 	import readable from "readable-numbers";
 	export let data: RecipeDetail;
 </script>
@@ -25,7 +26,7 @@
 				<!-- 	</button> -->
 				<!-- </form> -->
 				<!-- {:else} -->
-				<form method="post" action="?/likeRecipe">
+				<form use:enhance method="post" action="?/likeRecipe">
 					<input hidden name="id" value={data.idRecipe} type="text" />
 					<button
 						type="submit"

@@ -15,7 +15,7 @@
 <div class="wrapper">
 	<h2>Vos livres de <span class="">recettes</span></h2>
 
-	<form method="post" action="?/createRecipe">
+	<form method="post" action="?/createList">
 		<input placeholder="Nom livre de recettes..." type="text" name="name" />
 		<button type="submit"
 			>Ajout
