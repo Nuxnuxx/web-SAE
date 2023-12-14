@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import type { User } from "$lib/api/auth-types";
 
 	export let food: string = "";
@@ -36,7 +37,12 @@
 				<span class="button__text">Modifier votre profil</span>
 			</a>
 
-			<form method="post" action="?/logout" class="content__deconnexion">
+			<form
+				use:enhance
+				method="post"
+				action="?/logout"
+				class="content__deconnexion"
+			>
 				<button type="submit">Déconnexion</button>
 			</form>
 		</div>

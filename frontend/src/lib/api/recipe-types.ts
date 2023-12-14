@@ -3,6 +3,7 @@ export type RecipeDetail = {
 	images: string[];
 	quantity: string;
 	price: string;
+	time: string;
 	name: string;
 	idRecipe: number;
 };
@@ -24,4 +25,21 @@ export type RecipeData = {
 	recipeDetail: RecipeDetail;
 	recipeStep: RecipeStep;
 	recipeIngredients: RecipeIngredients;
+};
+
+export const Price = ["", "bon marché", "moyen", "assez cher"];
+
+export const Difficulty = ["", "très facile", "facile", "moyen", "difficile"];
+
+export type Pagination = {
+	currentPage: number;
+	totalPage: number;
+	totalResult: number;
+};
+
+export type Current = {
+	name: string;
+	page: number;
+	price: string;
+	difficulty: string;
 };

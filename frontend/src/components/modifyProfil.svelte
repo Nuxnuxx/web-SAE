@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { ErrorsRegister, User } from "$lib/api/auth-types";
+	import { enhance } from "$app/forms";
 	import Input from "./input.svelte";
 
 	export let data: User;
@@ -21,7 +22,12 @@
 			<img src={profileImg} alt="profile" />
 		</div>
 
-		<form method="post" class="card__form" action="?/modifyPassword">
+		<form
+			use:enhance
+			method="post"
+			class="card__form"
+			action="?/modifyPassword"
+		>
 			<Input
 				name="firstName"
 				placeholder="First name"
@@ -75,7 +81,6 @@
 			font-weight: bold;
 			text-align: center;
 		}
-
 
 		.card__form {
 			margin: 0 4rem;

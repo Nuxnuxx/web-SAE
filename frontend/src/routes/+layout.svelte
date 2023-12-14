@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Footer from "../components/footer.svelte";
 	import Header from "../components/header.svelte";
+	import "$lib/global.scss"
 	import type { LayoutData } from "./$types";
 
 	export let data: LayoutData;
@@ -21,6 +22,5 @@
 <style lang="scss">
 	main {
 		min-height: 100vh;
-		padding: 2rem 0;
 	}
 </style>

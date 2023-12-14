@@ -1,9 +1,16 @@
 <script lang="ts">
 	import Selector from "./selector.svelte";
+	import { Price, Difficulty } from "$lib/api/recipe-types";
+	import { filterStore } from "../store";
 
 	let answers: number[] = [];
 
 	let filter = true;
+
+	$: filterStore.set({
+		price: Price[answers[0]],
+		difficulty: Difficulty[answers[1]],
+	});
 </script>
 
 <div class="filter">
@@ -19,15 +26,9 @@
 			<div class="filter__card__price">
 				<span class="title__text">Prix : </span>
 				<Selector
-					data={[
-						"euro_symbol",
-						"euro_symbol",
-						"euro_symbol",
-						"euro_symbol",
-						"euro_symbol",
-					]}
+					data={["euro_symbol", "euro_symbol", "euro_symbol"]}
 					rating_like={true}
-					bind:selected={answers[1]}
+					bind:selected={answers[0]}
 				/>
 			</div>
 
@@ -39,10 +40,9 @@
 						"sentiment_neutral",
 						"sentiment_content",
 						"sentiment_calm",
-						"sentiment_satisfied",
 					]}
 					rating_like={false}
-					bind:selected={answers[2]}
+					bind:selected={answers[1]}
 				/>
 			</div>
 
@@ -61,6 +61,7 @@
 
 <style lang="scss">
 	.filter {
+		padding: 2rem 3rem;
 		.filter__title {
 			margin-bottom: 1rem;
 

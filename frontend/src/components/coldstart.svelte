@@ -4,10 +4,7 @@
 	let currentQuestion = 0;
 	let answers: number[] = [];
 
-	function SubmitEvent() {
-		// Send answers to the server
-		console.log(answers);
-	}
+	function SubmitEvent() {}
 </script>
 
 <main>

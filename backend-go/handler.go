@@ -9,6 +9,123 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) error {
+	mail := r.Header.Get("Mail")
+	if r.Method == "POST" {
+		if query := r.URL.Query(); len(query) > 0 {
+			id, err := strconv.Atoi(query.Get("id"))
+
+			if err != nil {
+				return err
+			}
+
+			resp, err := s.store.CreateRecipeLiked(mail, id)
+
+			if err != nil {
+				fmt.Println(err)
+				return fmt.Errorf("Internal server error")
+			}
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give a id")
+		}
+	}
+
+	if r.Method == "PUT" {
+		if query := r.URL.Query(); len(query) > 0 {
+			id, err := strconv.Atoi(query.Get("id"))
+
+			if err != nil {
+				return err
+			}
+
+			idList, err := strconv.Atoi(query.Get("idlist"))
+
+			if err != nil {
+				return err
+			}
+
+			check := s.store.CheckListBelongToUser(idList, mail)
+
+			if check != nil {
+				return fmt.Errorf("List doesnt belong to the user")
+			}
+
+			resp, err := s.store.CreateRecipeList(mail, id, idList)
+
+			if err != nil {
+				fmt.Println(err)
+				return fmt.Errorf("Internal server error")
+			}
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give a id")
+		}
+	}
+
+	if r.Method == "GET" {
+		if query := r.URL.Query(); len(query) > 0 {
+			id, err := strconv.Atoi(query.Get("id"))
+
+			check := s.store.CheckListBelongToUser(id, mail)
+
+			if check != nil {
+				return fmt.Errorf("List doesnt belong to the user")
+			}
+
+			if err != nil {
+				return err
+			}
+			resp, err := s.store.GetRecipeList(id)
+
+			if err != nil {
+				fmt.Println(err)
+				return fmt.Errorf("Internal server error")
+			}
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give a id")
+		}
+	}
+
+	if r.Method == "DELETE" {
+		if query := r.URL.Query(); len(query) > 0 {
+			idList, err := strconv.Atoi(query.Get("idlist"))
+
+			if err != nil {
+				return err
+			}
+
+			id, err := strconv.Atoi(query.Get("id"))
+
+			if err != nil {
+				return err
+			}
+
+			check := s.store.CheckListBelongToUser(idList, mail)
+
+			if check != nil {
+				return fmt.Errorf("List doesnt belong to the user")
+			}
+
+			if err != nil {
+				return err
+			}
+			resp, err := s.store.DeleteRecipeList(id, idList)
+
+			if err != nil {
+				fmt.Println(err)
+				return fmt.Errorf("Internal server error")
+			}
+			return writeJSON(w, http.StatusOK, resp)
+		} else {
+			return fmt.Errorf("Please give a id")
+		}
+	}
+
+	return writeJSON(w, http.StatusMethodNotAllowed, "Method not allowed")
+}
+
 func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 	mail := r.Header.Get("Mail")
 	if r.Method == "POST" {
@@ -153,7 +270,7 @@ func (s *APIServer) handleGetProfil(w http.ResponseWriter, r *http.Request) erro
 	user := Account{
 		FirstName: r.Header.Get("firstName"),
 		LastName:  r.Header.Get("lastName"),
-		Gender: r.Header.Get("gender"),
+		Gender:    r.Header.Get("gender"),
 		Mail:      r.Header.Get("mail"),
 	}
 

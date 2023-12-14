@@ -1,18 +1,18 @@
-import { getProfil } from "$lib/api/auth-request";
 import { redirect } from "@sveltejs/kit";
+import { getPlaylist } from "$lib/api/playlist-request";
 import type { LayoutServerLoad } from "../$types";
 
 export const load: LayoutServerLoad = async ({ parent }) => {
 	const { token } = await parent();
 
 	if (!token) {
-		throw redirect(302, "/");
+		throw redirect(302, "/auth");
 	}
 
 	try {
-		const profil = await getProfil(token);
+		const playlists = await getPlaylist(token);
 		return {
-			profil,
+			playlists,
 		};
 	} catch (err) {
 		throw err;
