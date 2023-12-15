@@ -47,7 +47,10 @@
 	form {
 		display: flex;
 		flex-direction: row;
-		width: 40%;
+		width: 80%;
+		@media (min-width: 768px) {
+			width: 40%;
+		}
 		margin: 0 auto;
 		input {
 			border-radius: 10px;
@@ -59,12 +62,15 @@
 
 			&::placeholder {
 				color: var(--light-secondary-color);
-				font-size: 1.1rem;
+				font-size: 1rem;
 			}
 		}
 
 		button {
-			width: 20%;
+			width: 30%;
+			@media (min-width: 768px) {
+				width: 20%;
+			}
 			padding: 0 1rem;
 			text-decoration: none;
 			border-radius: 10px;
@@ -110,7 +116,7 @@
 	.favoris {
 		color: var(--black-color);
 		font-family: Leckerli One;
-		font-size: 2.5rem;
+		font-size: 2rem;
 		text-align: center;
 
 		span {
@@ -119,7 +125,11 @@
 			background-color: var(--light-secondary-color);
 			display: inline-block;
 			vertical-align: middle;
-			margin: 0 2rem;
+			margin: 0 1rem;
+			@media (min-width: 768px) {
+				margin: 0 2rem;
+				width: 30%;
+			}
 		}
 	}
 </style>

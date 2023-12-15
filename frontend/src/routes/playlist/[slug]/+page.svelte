@@ -51,7 +51,9 @@
 		.recipe__wrapper {
 			display: flex;
 			flex-direction: column;
-			row-gap: 1rem;
+			padding: 2rem 0;
+			row-gap: 1.5rem;
+			width: 100%;
 		}
 
 		.no__recipe {

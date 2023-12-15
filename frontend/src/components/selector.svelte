@@ -2,10 +2,15 @@
 	export let data: string[];
 	export let rating_like: boolean = false;
 	export let selected: number = 0;
+	export let coldstart = true;
 	const length = data.length;
 </script>
 
-<div class={rating_like ? "selector rating_like" : "selector"}>
+<div
+	class={`${rating_like ? "selector rating_like" : "selector"} ${
+		coldstart ? "" : "little"
+	}`}
+>
 	{#each data as item, i (i)}
 		<input
 			value={length - i}
@@ -43,7 +48,7 @@
 		& label {
 			float: right;
 			cursor: pointer;
-			color: #dcdcdc;
+			color: var(--light-secondary-color);
 			transition: color 0.3s;
 		}
 
@@ -55,6 +60,17 @@
 		& label:hover {
 			color: var(--secondary-color);
 			transition: color 0.3s;
+		}
+	}
+
+	.little {
+		margin: 1rem 0 1rem 1rem;
+		& label {
+			font-size: 7vw;
+		}
+
+		& > * {
+			margin-right: 3vw;
 		}
 	}
 

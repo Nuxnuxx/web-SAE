@@ -399,3 +399,25 @@ func (s *APIServer) handleRecipes(w http.ResponseWriter, r *http.Request) error 
 
 	return writeJSON(w, http.StatusOK, resp)
 }
+
+func (s *APIServer) handleTrending(w http.ResponseWriter, r *http.Request) error {
+	resp, err := s.store.GetTrending()
+
+	if err != nil {
+		fmt.Println(err)
+		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
+	}
+
+	return writeJSON(w, http.StatusOK, resp)
+}
+
+func (s *APIServer) handleMostLiked(w http.ResponseWriter, r *http.Request) error {
+	resp, err := s.store.GetMostLiked()
+
+	if err != nil {
+		fmt.Println(err)
+		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
+	}
+
+	return writeJSON(w, http.StatusOK, resp)
+}

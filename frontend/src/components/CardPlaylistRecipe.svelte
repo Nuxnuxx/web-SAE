@@ -15,7 +15,7 @@
 		<p>{recipe.time} Recettes</p>
 	</div>
 	<a href={`/recipe/${recipe.idRecipe}`}>
-		<span class="material-symbols-outlined"> arrow_forward </span>
+		<span class="material-symbols-rounded filled"> arrow_forward </span>
 	</a>
 </div>
 
@@ -43,6 +43,11 @@
 			margin-left: auto;
 			text-decoration: none;
 			color: var(--black-color);
+
+			span {
+				font-size: 3rem;
+				font-weight: 600;
+			}
 		}
 	}
 </style>

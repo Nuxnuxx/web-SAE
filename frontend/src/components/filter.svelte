@@ -29,6 +29,7 @@
 					data={["euro_symbol", "euro_symbol", "euro_symbol"]}
 					rating_like={true}
 					bind:selected={answers[0]}
+					coldstart={false}
 				/>
 			</div>
 
@@ -43,6 +44,7 @@
 					]}
 					rating_like={false}
 					bind:selected={answers[1]}
+					coldstart={false}
 				/>
 			</div>
 
@@ -61,16 +63,17 @@
 
 <style lang="scss">
 	.filter {
-		padding: 2rem 3rem;
+		width: 88%;
+		display: flex;
+		flex-direction: column;
+		margin: 0 auto;
 		.filter__title {
-			margin-bottom: 1rem;
-
 			button {
 				all: unset;
-
 				display: flex;
 				align-items: center;
 				cursor: pointer;
+				margin: 1rem 0 1rem 1rem;
 			}
 
 			.material-symbols-outlined {
@@ -81,39 +84,30 @@
 
 			.filter__title__text {
 				color: rgba(0, 0, 0, 0.2);
-				font-family: Inter;
-				font-size: 24px;
-				font-style: normal;
-				font-weight: 400;
-				line-height: normal;
+				font-size: 1.5rem;
 			}
 		}
 
 		.filter__card {
 			display: flex;
 			flex-direction: column;
-			border: 1px solid #e0e0e0;
+			outline: 2px solid #e0e0e0;
 			border-radius: 20px;
 
 			.filter__card__price,
-			.filter__card__difficulty,
-			.filter__card__tag {
+			.filter__card__difficulty {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
 
-				padding-left: 10%;
+				padding-left: 5%;
 			}
 			.title__text {
-				color: #000;
-				font-family: Inter;
-				font-size: 32px;
-				font-style: normal;
-				font-weight: 400;
-				line-height: normal;
-
-				@media screen and (max-width: 850px) {
-					display: none;
+				color: var(--black-color);
+				font-weight: bold;
+				font-size: 1.2rem;
+				@media screen and (min-width: 768px) {
+					font-size: 1.5rem;
 				}
 			}
 		}

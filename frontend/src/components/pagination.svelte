@@ -65,21 +65,29 @@
 
 <style lang="scss">
 	.pagination__wrapper {
-		width: 70%;
+		width: 90%;
+		@media (min-width: 768px) {
+			width: 70%;
+		}
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
-		margin: 0 auto;
+		margin: 4rem auto;
 		a {
 			padding: auto;
-			font-size: 1.2rem;
+			font-size: 1rem;
 			font-weight: bold;
 			text-decoration: none;
 			color: black;
 			aspect-ratio: 1;
-			height: 3rem;
-			line-height: 3rem;
+			height: 2rem;
+			line-height: 2rem;
+			@media (min-width: 768px) {
+				height: 3rem;
+				line-height: 3rem;
+				font-size: 1.2rem;
+			}
 		}
 		.active {
 			color: white;
