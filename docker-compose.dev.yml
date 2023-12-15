@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  backendgo:
+    build: ./backend-go
+    restart: always
+    environment:
+      STAGE: "prod"
+      DB_URL: "neo4j://bdd:7687"
+      JWT_TOKEN: "hunter88888"
+      FRONT_URL: "http://localhost:3000"
+    depends_on:
+      - bdd
+    ports: 
+      - 3001:3001
+    networks:
+      - net
+  bdd:
+    image: neo4j:latest
+    restart: always
+    ports:
+      - 7687:7687
+      - 7474:7474
+    environment:
+      NEO4J_AUTH: none
+      NEO4J_dbms_memory_pagecache_size: 2G
+    volumes:
+      - bd_data:/data
+      - bd_logs:/logs
+      - ./neo4j_imports:/var/lib/neo4j/import
+    networks:
+      - net
+
+volumes:
+  bd_data:
+  bd_logs:
+
+networks: 
+  net:
+    driver: bridge
