@@ -12,6 +12,10 @@ import (
 )
 
 type Storage interface {
+	// Suggestion
+	GetMostLiked() (*APIResponse, error)
+	GetTrending() (*APIResponse, error)
+
 	// Recipe List
 	CreateRecipeLiked(string, int) (*APIResponse, error)
 	CreateRecipeList(string, int, int) (*APIResponse, error)
@@ -70,6 +74,62 @@ func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 		db:  session,
 		ctx: ctx,
 	}, nil
+}
+
+func (s *Neo4jStore) GetTrending() (*APIResponse, error) {
+	query := "MATCH (n:Recipe) RETURN n LIMIT 10"
+
+	resp, err := s.db.Run(s.ctx, query, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	recipeList := make([]RecipeDetail, 0)
+
+	for resp.Next(s.ctx) {
+		recipe := CreateRecipeDetail(*resp.Record(), "n")
+
+		recipeList = append(recipeList, recipe)
+	}
+
+	finalResult := APIResponse{
+		Result: recipeList,
+	}
+
+	return &finalResult, nil
+}
+
+func (s *Neo4jStore) GetMostLiked() (*APIResponse, error) {
+	query := "MATCH (n:Recipe) RETURN n LIMIT 10"
+
+	resp, err := s.db.Run(s.ctx, query, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	recipeList := make([]RecipeDetail, 0)
+
+	for resp.Next(s.ctx) {
+		recipe := CreateRecipeDetail(*resp.Record(), "n")
+
+		recipeList = append(recipeList, recipe)
+	}
+
+	finalResult := APIResponse{
+		Result: recipeList,
+	}
+
+	return &finalResult, nil
 }
 
 func (s *Neo4jStore) DeleteRecipeList(id int, idList int) (*APIResponse, error) {
