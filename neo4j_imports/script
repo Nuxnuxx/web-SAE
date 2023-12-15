@@ -44,7 +44,7 @@ MATCH (step:Step) SET step.step = toInteger(step.step);
 
 LOAD CSV WITH HEADERS FROM 'file:///recipeStep.csv' AS recipeStepData
 MATCH (recipe:Recipe{idRecipe: toInteger(recipeStepData.idRecipe)})
-CREATE (recipe)-[:CONTAINS]->(step:Step {step: recipeStepData.step, name: recipeStepData.name});
+CREATE (recipe)-[:CONTAINS]->(step:Step {step: toInteger(recipeStepData.step), name: recipeStepData.name});
 
 LOAD CSV WITH HEADERS FROM 'file:///joinIngredientRecipe.csv' AS joinData
 MATCH (ingredient:Ingredient {idIngredient: toInteger(joinData.idIngredient)})
