@@ -3,11 +3,13 @@
 
 	export let recipe: RecipeData;
 	//FIXME: image is not displayed maybe the path is wrong
+	// the path is wrong for sure
 </script>
 
 <div class="recipe">
 	<div class="recipe__header">
 		<img
+			class="recipe__header__img"
 			src={recipe.recipeDetail.images[0]}
 			alt={recipe.recipeDetail.name}
 		/>
@@ -66,7 +68,7 @@
 		.recipe__header {
 			display: flex;
 			flex-direction: column;
-			img {
+			.recipe__header__img {
 				width: 100%;
 				height: 15rem;
 			}
@@ -164,17 +166,14 @@
 				}
 			}
 		}
-	}
 
-	@media screen and (min-width: 768px) {
-		.recipe__header {
-			row-gap: 2rem;
-			img {
-				display: none;
-			}
-
-			h2 {
-				font-size: 5rem;
+		@media screen and (min-width: 768px) {
+			.recipe {
+				.recipe__header {
+					.recipe__header__img {
+						display: none;
+					}
+				}
 			}
 		}
 	}
