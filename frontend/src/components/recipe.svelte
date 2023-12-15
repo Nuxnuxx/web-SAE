@@ -5,8 +5,12 @@
 	//FIXME: image is not displayed maybe the path is wrong
 </script>
 
-<div>
+<div class="recipe">
 	<div class="recipe__header">
+		<img
+			src={recipe.recipeDetail.images[0]}
+			alt={recipe.recipeDetail.name}
+		/>
 		<h2>{recipe.recipeDetail.name}</h2>
 		<div class="recipe__header__infos">
 			<div class="recipe__header__infos__item">
@@ -28,35 +32,24 @@
 
 	<div class="recipe__line"> </div>
 
-	<div class="recipe__incredient">
-		<ul class="recipe__ingredient__list">
-			{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
-				<li>
-					<img src={ingredient.urlPicture} alt="" />
-					<span class="recipe__ingredient__text"
-						>{ingredient.name}</span
-					>
-				</li>
-			{/each}
-		</ul>
+	<ul class="recipe__ingredient__list">
+		{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
+			<li>
+				<img src={ingredient.urlPicture} alt="" />
+				<span class="recipe__ingredient__text">{ingredient.name}</span>
+			</li>
+		{/each}
+	</ul>
 
-		<div>
-			<img
-				class="recipe__img"
-				src={recipe.recipeDetail.images[0]}
-				alt="Image de la recette"
-				aria-hidden="true"
-			/>
-		</div>
-	</div>
-
-	<div class="recipe__line">
-		<span class="recipe__line__text"> Préparation </span>
+	<div class="recipe__line__wrapper">
+		<span></span>
+		Préparation
+		<span></span>
 	</div>
 
 	<div class="recipe__instruction">
 		{#each Object.entries(recipe.recipeStep) as [i, instruction]}
-			<p>{i}.</p>
+			<p>Étape {i}</p>
 			<p class="recipe__instruction__text">{instruction.Step}</p>
 		{/each}
 	</div>
@@ -65,126 +58,124 @@
 </div>
 
 <style lang="scss">
-	.recipe__header {
-		h2 {
-			color: #de403e;
-			text-align: center;
-			font-family: Leckerli One;
-			font-size: 96px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-			margin-bottom: 2%;
-		}
+	.recipe {
+		display: flex;
+		flex-direction: column;
+		row-gap: 2rem;
 
-		.recipe__header__infos {
+		.recipe__header {
 			display: flex;
-			justify-content: space-around;
-			margin: 0 auto;
-			width: 50%;
-			margin-bottom: 50px;
-			.recipe__header__infos__item {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
+			flex-direction: column;
+			img {
+				width: 100%;
+				height: 15rem;
+			}
 
-				.material-symbols-rounded {
-					font-size: 35px;
-					color: #de403e;
-					margin-right: 5px;
+			h2 {
+				color: var(--primary-color);
+				text-align: center;
+				font-family: Leckerli One;
+				font-size: 2rem;
+				font-style: normal;
+				font-weight: 400;
+				line-height: normal;
+			}
+
+			.recipe__header__infos {
+				display: flex;
+				justify-content: space-around;
+				margin: 0 auto;
+				width: 90%;
+				.recipe__header__infos__item {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					.material-symbols-rounded {
+						font-size: 2rem;
+						color: var(--primary-color);
+					}
 				}
 			}
 		}
-	}
-
-	.recipe__incredient {
-		@media screen and (min-width: 600px) {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-around;
-		}
 
 		.recipe__ingredient__list {
-			@media screen and (min-width: 500px) {
-				columns: 2;
-				-webkit-columns: 2;
-				-moz-columns: 2;
-			}
-			list-style-type: none;
-
-			/*mettre le texte au centre de la colonne*/
-			text-align: center;
+			display: flex;
+			flex-direction: column;
+			row-gap: 1.5rem;
+			padding-inline-start: 1.5rem;
 
 			li {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				margin-bottom: 5px;
+				font-size: 1rem;
 			}
 
 			img {
-				width: 100px;
-				height: 100px;
-				margin-right: 5px;
-
-				border: 1px solid black;
+				width: 3rem;
+				aspect-ratio: 1;
+				margin-right: 1rem;
+				border: 1.5px solid var(--light-secondary-color);
 				border-radius: 10%;
+			}
+		}
+
+		.recipe__instruction {
+			padding: 0 1.5rem;
+			font-family: Leckerli One;
+
+			p {
+				color: var(--black-color);
+				font-family: Leckerli One;
+				font-size: 1.6rem;
+			}
+
+			.recipe__instruction__text {
+				font-family: Inter;
+				font-size: 1.2rem;
+			}
+		}
+
+		.recipe__line {
+			width: 80%;
+			height: 0px;
+			margin: 0 auto;
+			border-bottom: 1.5px solid var(--light-secondary-color);
+			text-align: center;
+		}
+
+		.recipe__line__wrapper {
+			color: var(--black-color);
+			font-family: Leckerli One;
+			font-size: 1.5rem;
+			text-align: center;
+
+			span {
+				width: 20%;
+				height: 1.5px;
+				background-color: var(--light-secondary-color);
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0 1rem;
+				@media (min-width: 768px) {
+					margin: 0 2rem;
+					width: 30%;
+				}
 			}
 		}
 	}
 
-	.recipe__instruction {
-		padding: 3% 10%;
-		font-size: 20px;
-		font-family: Leckerli One;
-		font-style: normal;
-		font-weight: 400;
-		line-height: normal;
-		text-align: justify;
+	@media screen and (min-width: 768px) {
+		.recipe__header {
+			row-gap: 2rem;
+			img {
+				display: none;
+			}
 
-		p {
-			color: #000;
-			font-family: Leckerli One;
-			font-size: 36px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-		}
-
-		.recipe__instruction__text {
-			color: #000;
-			font-family: Inter;
-			font-size: 24px;
-			font-style: normal;
-			font-weight: 400;
-			line-height: normal;
-		}
-	}
-
-	.recipe__img {
-		width: 250px;
-		height: 250px;
-	}
-
-	.recipe__line {
-		width: 60%;
-		height: 0px;
-		margin: 0 auto;
-		border-bottom: 1px solid black;
-		text-align: center;
-		opacity: 0.5;
-		padding-bottom: 2%;
-
-		@media screen and (max-width: 800px) {
-			margin-bottom: 5%;
-		}
-
-		.recipe__line__text {
-			color: #000;
-			font-family: Leckerli One;
-			font-size: 40px;
-			padding: 0 30px;
-			background-color: #fff;
+			h2 {
+				font-size: 5rem;
+			}
 		}
 	}
 </style>
