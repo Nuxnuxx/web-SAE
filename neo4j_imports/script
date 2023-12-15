@@ -47,19 +47,19 @@ MATCH (recipe:Recipe{idRecipe: toInteger(recipeStepData.idRecipe)})
 CREATE (recipe)-[:CONTAINS]->(step:Step {step: recipeStepData.step, name: recipeStepData.name});
 
 LOAD CSV WITH HEADERS FROM 'file:///joinIngredientRecipe.csv' AS joinData
-MATCH (ingredient:Ingredient {idIngredient: joinData.idIngredient})
-MATCH (recipe:Recipe {idRecipe: joinData.idRecipe})
+MATCH (ingredient:Ingredient {idIngredient: toInteger(joinData.idIngredient)})
+MATCH (recipe:Recipe {idRecipe: toInteger(joinData.idRecipe)})
 MERGE (recipe)-[op:INGREDIENTS]->(ingredient)
 ON CREATE SET op.libelleIngredient = joinData.libelle;
 
 LOAD CSV WITH HEADERS FROM 'file:///fakePlaylist.csv' AS fakePlaylistData
-MATCH (user:User {idUser: fakePlaylistData.idUser})
-MATCH (playlist:Playlist {idPlaylist: fakePlaylistData.id})
+MATCH (user:User {idUser: toInteger(fakePlaylistData.idUser)})
+MATCH (playlist:Playlist {idPlaylist: toInteger(fakePlaylistData.id)})
 MERGE (user)-[op:A_UNE]->(playlist);
 
 LOAD CSV WITH HEADERS FROM 'file:///fakeJoinRecipePlaylist.csv' AS joinRecipePlaylistData
-MATCH (recipe:Recipe {idRecipe: joinRecipePlaylistData.idRcette})
-MATCH (playlist:Playlist {idPlaylist: joinRecipePlaylistData.idPlaylist})
+MATCH (recipe:Recipe {idRecipe: toInteger(joinRecipePlaylistData.idRcette)})
+MATCH (playlist:Playlist {idPlaylist: toInteger(joinRecipePlaylistData.idPlaylist)})
 MERGE (recipe)-[op:EST_DANS]->(playlist);
 
 
