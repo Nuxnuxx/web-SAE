@@ -5,7 +5,7 @@
 
 	let answers: number[] = [];
 
-	let filter = false;
+	let filter = true;
 
 	$: filterStore.set({
 		price: Price[answers[0]],
