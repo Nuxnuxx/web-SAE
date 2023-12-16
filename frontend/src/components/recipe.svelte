@@ -20,11 +20,16 @@
 				<p>{recipe.recipeDetail.time}</p>
 			</div>
 
+			<span class="circle"></span>
+
 			<div class="recipe__header__infos__item">
 				<span class="material-symbols-rounded">sentiment_satisfied</span
 				>
 				<p>{recipe.recipeDetail.difficulty}</p>
 			</div>
+
+			<span class="circle"></span>
+
 			<div class="recipe__header__infos__item">
 				<span class="material-symbols-rounded">euro_symbol</span>
 				<p>{recipe.recipeDetail.price}</p>
@@ -34,14 +39,24 @@
 
 	<div class="recipe__line"> </div>
 
-	<ul class="recipe__ingredient__list">
-		{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
-			<li>
-				<img src={ingredient.urlPicture} alt="" />
-				<span class="recipe__ingredient__text">{ingredient.name}</span>
-			</li>
-		{/each}
-	</ul>
+	<div class="recipe__ingredient__wrapper">
+		<ul class="recipe__ingredient__list">
+			{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
+				<li>
+					<img src={ingredient.urlPicture} alt="" />
+					<span class="recipe__ingredient__text"
+						>{ingredient.name}</span
+					>
+				</li>
+			{/each}
+		</ul>
+
+		<img
+			class="recipe__img"
+			src={recipe.recipeDetail.images[0]}
+			alt={recipe.recipeDetail.name}
+		/>
+	</div>
 
 	<div class="recipe__line__wrapper">
 		<span></span>
@@ -86,6 +101,7 @@
 			.recipe__header__infos {
 				display: flex;
 				justify-content: space-around;
+				align-items: center;
 				margin: 0 auto;
 				width: 90%;
 				.recipe__header__infos__item {
@@ -121,6 +137,10 @@
 				border: 1.5px solid var(--light-secondary-color);
 				border-radius: 10%;
 			}
+		}
+
+		.recipe__img {
+			display: none;
 		}
 
 		.recipe__instruction {
@@ -166,14 +186,110 @@
 				}
 			}
 		}
+	}
 
-		@media screen and (min-width: 768px) {
-			.recipe {
-				.recipe__header {
-					.recipe__header__img {
-						display: none;
+	@media (min-width: 768px) {
+		.recipe {
+			.recipe__header {
+				h2 {
+					font-size: 3rem;
+				}
+
+				.recipe__header__infos {
+					width: 60%;
+					.recipe__header__infos__item {
+						flex-direction: row;
+						p {
+							margin-left: 0.5rem;
+						}
+					}
+
+					.circle {
+						width: 0.5rem;
+						height: 0.5rem;
+						border-radius: 50%;
+						background-color: var(--light-secondary-color);
 					}
 				}
+			}
+
+			.recipe__line {
+				width: 70%;
+			}
+
+			.recipe__ingredient__list {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				padding-inline-start: 4rem;
+
+				li {
+					font-size: 1.5rem;
+				}
+
+				img {
+					width: 4rem;
+				}
+			}
+
+			.recipe__instruction {
+				padding: 0 3rem;
+
+				p {
+					font-size: 1.9rem;
+				}
+
+				.recipe__instruction__text {
+					font-family: Inter;
+					font-size: 1.6rem;
+				}
+			}
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.recipe {
+			.recipe__header {
+				.recipe__header__img {
+					display: none;
+				}
+				h2 {
+					font-size: max(5vw);
+				}
+
+				.recipe__header__infos {
+					width: 60%;
+					.recipe__header__infos__item {
+						p {
+							font-size: 1.2rem;
+						}
+					}
+				}
+			}
+
+			.recipe__line {
+				width: 70%;
+			}
+
+			.recipe__ingredient__wrapper {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.recipe__ingredient__list {
+				width: 50%;
+			}
+
+			.recipe__line__wrapper {
+				font-size: 3rem;
+			}
+
+			.recipe__img {
+				display: unset;
+				width: 50%;
+				height: 23rem;
+				border-radius: 20px;
+				margin: 0 2rem;
 			}
 		}
 	}
