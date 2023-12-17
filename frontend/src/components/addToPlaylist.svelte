@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
     import { onMount } from 'svelte';
     export let idRecipe: number;
     
@@ -16,14 +17,6 @@
       updateDropdownVisibility();
     }
   
-    function addToPlaylist(playlist: string) {
-      // Implement your logic to add to the selected playlist
-      console.log(`Added to playlist: ${playlist}`);
-
-      // Close the dropdown
-      toggleDropdown();
-    }
-  
     function handleOutsideClick(event: Event) {
       const target = event.target as HTMLElement;
       if (!target.closest('.dropdown')) {
@@ -32,9 +25,9 @@
     }
 
     function updateDropdownVisibility() {
-        const dropdownContent = document.querySelector('.dropdown-content');
+        const dropdownContent = document.querySelector('.dropdown-content') as HTMLElement;
         if (dropdownContent) {
-        dropdownContent.style.display = isOpen ? 'block' : 'none';
+        	dropdownContent.style.display = isOpen ? 'block' : 'none';
         }
     }
   </script>
@@ -81,15 +74,21 @@
 
     <div class="dropdown-content">
       <form use:enhance method="post" action="?/addPlaylistRecipe">
-        <input hidden name="id" value={idRecipe} type="text" />
+        <input hidden name="idRecipe" value={idRecipe} type="text" />
           <div>
-            <button name="idPlaylist" value={1} class="dropdown-item">Playlist 1</button>
+            <button type="submit" name="idPlaylist" value={1} class="dropdown-item">
+				Playlist 1
+			</button>
           </div>
           <div>
-            <button name="idPlaylist" value={2} class="dropdown-item">Playlist 2</button>
+            <button type="submit" name="idPlaylist" value={2} class="dropdown-item">
+				Playlist 2
+			</button>
           </div>
           <div>
-            <button name="idPlaylist" value={3} class="dropdown-item">Playlist 3</button>
+            <button type="submit" name="idPlaylist" value={3} class="dropdown-item">
+				Playlist 3
+			</button>
           </div>
       </form>
     </div>
