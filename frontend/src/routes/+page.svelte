@@ -1,5 +1,10 @@
 <script lang="ts">
 	import FoodImage from "$lib/img/homepage_food.png";
+	import { userStore, userDataStore } from "../store";
+
+	const NAME =
+		$userDataStore.firstName.charAt(0).toUpperCase() +
+		$userDataStore.firstName.slice(1);
 </script>
 
 <svelte:head>
@@ -14,15 +19,32 @@
 	/>
 	<img src={FoodImage} class="foodimage foodimage__big" alt="fun display" />
 	<div class="container">
-		<div class="title">
-			<!-- I know having a h1 in a h2 is weird but I need to do this in 
-				order to have at least one h1 in the page -->
-			<h1 id="first">
-				<span class="styled__font">PirateCook</span>, l'inspiration</h1
-			>
-			<h2 id="second">culinaire qui vous</h2>
-			<h2 id="third"><span class="red__highlight">ressemble</span>.</h2>
-		</div>
+		{#if $userStore}
+			<div class="title">
+				<!-- I know having a h1 in a h2 is weird but I need to do this in 
+					order to have at least one h1 in the page -->
+				<h1 id="first">
+					Bonjour <span class="red__highlight">{NAME}</span>,</h1
+				>
+				<h2 id="second"
+					>Qu'est ce qu'on <span class="styled__font">cuisine</span
+					></h2
+				>
+				<h2 id="third">Aujourd'hui ?</h2>
+			</div>
+		{:else}
+			<div class="title">
+				<!-- I know having a h1 in a h2 is weird but I need to do this in 
+					order to have at least one h1 in the page -->
+				<h1 id="first">
+					<span class="styled__font">PirateCook</span>, l'inspiration</h1
+				>
+				<h2 id="second">culinaire qui vous</h2>
+				<h2 id="third"
+					><span class="red__highlight">ressemble</span>.</h2
+				>
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -45,6 +67,8 @@
 			#82d3e6 0%,
 			rgba(130, 211, 230, 0) 70%
 		);
+		position: relative;
+		overflow: hidden;
 		height: 100vh;
 	}
 
@@ -53,14 +77,14 @@
 		object-fit: cover;
 
 		&.foodimage__small {
-			top: 2rem;
+			top: -3rem;
 			right: -12.5vw;
 			height: 25vw;
 			filter: blur(1.5px);
 		}
 
 		&.foodimage__big {
-			top: 4rem;
+			top: -1rem;
 			right: 4vw;
 			height: 47vw;
 			object-fit: cover;
@@ -73,7 +97,7 @@
 
 		.title {
 			position: relative;
-			z-index: 10;
+			z-index: 1;
 			h1,
 			h2 {
 				font-size: 4rem;
@@ -115,7 +139,7 @@
 	@media screen and (max-width: 1024px) {
 		img.foodimage.foodimage__big {
 			height: 40%;
-			top: 12rem;
+			top: 7rem;
 			right: 0;
 		}
 		.container {
@@ -133,7 +157,7 @@
 	@media screen and (max-width: 768px) {
 		img.foodimage.foodimage__big {
 			height: 40%;
-			top: 12rem;
+			top: 7rem;
 			right: 0;
 		}
 		.container {
@@ -149,7 +173,7 @@
 
 	@media screen and (max-width: 550px) {
 		img.foodimage.foodimage__big {
-			top: 11rem;
+			top: 6rem;
 			height: max(15%, 40vw);
 		}
 
