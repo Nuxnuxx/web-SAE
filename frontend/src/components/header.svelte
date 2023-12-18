@@ -3,8 +3,7 @@
 	import LOGO from "$lib/img/LOGO.png";
 	import { onMount } from "svelte";
 	import SearchBar from "./searchBar.svelte";
-
-	export let user = false;
+	import { userStore } from "../store";
 
 	let didScroll: boolean = false;
 	let lastScrollTop = 0;
@@ -48,7 +47,7 @@
 <nav bind:this={nav}>
 	<a href="/"><img alt="PirateCook" src={LOGO} /></a>
 	<SearchBar hiddenMobile={true} />
-	{#if user}
+	{#if $userStore}
 		<div class="nav__iconwrapper">
 			<a href="/playlist" class="nav__iconwrapper__icon"
 				><span class="material-symbols-rounded">book_2</span></a
