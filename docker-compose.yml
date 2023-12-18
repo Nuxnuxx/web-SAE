@@ -15,15 +15,6 @@ services:
       - 3001:3001
     networks:
       - net
-  backend:
-    build: ./backend
-    restart: always
-    ports:
-      - "5000:5000"
-    depends_on:
-      - bdd
-    networks:
-      - net
   frontend:
     build: ./frontend
     restart: always
