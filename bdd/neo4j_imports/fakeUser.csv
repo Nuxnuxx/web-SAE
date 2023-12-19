@@ -1,0 +1,31 @@
+id,firstname,lastname,mail,password,price,diffilty,gender
+0,Tyler,Hudson,Tyler.Hudson@gmail.com,a435e2d26d33b5972b6638363c8dedb38f25166b363b273d7a59fe44975e49b0,bon marché,très facile,chapeau pirate
+1,Austin,Vasquez,Austin.Vasquez@gmail.com,a161e03bf85ef872b83a9b3a13e771deef8e4890110b0ceb641b8b343e27194b,assez cher,facile,masculin
+2,James,Reese,James.Reese@gmail.com,9345a35a6fdf174dff7219282a3ae4879790dbb785c70f6fff91e32fafd66eab,assez cher,très facile,autre
+3,Kyle,Gonzalez,Kyle.Gonzalez@gmail.com,b9ecfab5789d7b96f8765c147fff488e9946ede2797a4ec149c2cc5b35054799,bon marché,facile,autre
+4,Brandy,Leonard,Brandy.Leonard@gmail.com,f648ec6d69fb3828b7b3fae3c0504083bcaf919a904c3ad9f410674eff899620,bon marché,facile,feminin
+5,Toni,Brown,Toni.Brown@gmail.com,13d154350a6a5a1c3fd7f79371f31a52b38bae3b7632f3ca92ce8dffdbce7ad1,moyen,moyenne,chapeau pirate
+6,Andrew,Barnes,Andrew.Barnes@gmail.com,c10873196eb1124ed74461c20a67094e395f2310f6305607b9694ee6b1ee8b43,bon marché,facile,autre
+7,Sandra,Miller,Sandra.Miller@gmail.com,1f02e917fd21530620990a81a8ddce4a8cb1f0e57770e393877e4a68a2984ff8,bon marché,moyenne,masculin
+8,Adriana,Casey,Adriana.Casey@gmail.com,ee6aa9381e07c60412e8bca2932326f413828ccabca7b96380b4170f7e704605,bon marché,moyenne,masculin
+9,Mary,Duffy,Mary.Duffy@gmail.com,aebac53c46bbeff10fdd26ca0e2196a9bfc1d19bf88eb1efd65a36151c581051,moyen,très facile,chapeau pirate
+10,Amy,Taylor,Amy.Taylor@gmail.com,6410ef0d3a6d3324fcba02131e5742215c99301055398a75457a27ac89dffb5f,moyen,facile,autre
+11,Vincent,Meza,Vincent.Meza@gmail.com,f44c4b0766fc9f085ee869651e9e435f80588520e3db0f08a2112891d29dc5ab,bon marché,très facile,autre
+12,Danielle,Dawson,Danielle.Dawson@gmail.com,c1144dfca7ce1f5d8311ba7566a3cbcc7f553025a03e5df6a61b0f17d49451bd,assez cher,moyenne,autre
+13,William,Whitehead,William.Whitehead@gmail.com,190eb3ebae2b41124493ac98ac49717fbd290156ca2e0de5f1d5c25a11e89120,moyen,difficile,masculin
+14,Martin,Morrison,Martin.Morrison@gmail.com,39d3a2e969b3dec11478d65ecb96ee6066ebd98920c816df9de7d131d9c67d0c,moyen,moyenne,chapeau pirate
+15,Susan,Lewis,Susan.Lewis@gmail.com,f6dce2c608ef3fd522dcd3a4ab897f855945309f2d04e64f86e507730137596a,moyen,difficile,chapeau pirate
+16,Amanda,Bernard,Amanda.Bernard@gmail.com,161b5245e4bb6c5fb99407313df9c260dad0e973cc73935572b20913dec08348,assez cher,moyenne,autre
+17,Anthony,Sellers,Anthony.Sellers@gmail.com,3090ad7f5b83a40b050aad6e04d2f663049aca5cf0253e1b2ff592fcfed3ef9c,assez cher,facile,autre
+18,Aaron,Jackson,Aaron.Jackson@gmail.com,324a17d21917a99cf2ac6ea468b73ece5685161d414e9416c16df0018d3c6db5,assez cher,difficile,masculin
+19,Robert,Palmer,Robert.Palmer@gmail.com,2238dd61a1bf83816b40ad894518814b8edf7221d84d897ffd2c0466ace07c41,bon marché,difficile,feminin
+20,Jason,Fisher,Jason.Fisher@gmail.com,7fa8a6e9fde2f4e1dfe6fb029af47c9633d4b7a616a42c3b2889c5226a20238d,moyen,difficile,autre
+21,Amanda,Garcia,Amanda.Garcia@gmail.com,161b5245e4bb6c5fb99407313df9c260dad0e973cc73935572b20913dec08348,assez cher,facile,autre
+22,Elizabeth,Martin,Elizabeth.Martin@gmail.com,248715109e6a2d0c23343a5dda82be162326e4715ec69bb8f24755848739d910,bon marché,facile,chapeau pirate
+23,Juan,Salazar,Juan.Salazar@gmail.com,cb80be76d732c36bd5f71ecdd7b6964556730a19ceccd8b8c1869220bb4c7b7c,bon marché,difficile,masculin
+24,Allison,Ferrell,Allison.Ferrell@gmail.com,580ce4fcc9cac067b963ab35eb7fb0d23f5a5927e0b242135739cf34b19fa0e2,assez cher,facile,chapeau pirate
+25,Austin,Bell,Austin.Bell@gmail.com,a161e03bf85ef872b83a9b3a13e771deef8e4890110b0ceb641b8b343e27194b,assez cher,facile,autre
+26,Joseph,Johnson,Joseph.Johnson@gmail.com,78a1a1dae4e56fb0aba67dadc5ab5ab808f505137efedecfb7c2f12a4195c58b,assez cher,moyenne,chapeau pirate
+27,Daniel,Lawson,Daniel.Lawson@gmail.com,7297db81c2f7916e25b9593f8c8785e1aa1487fa9f3961c50b7cc5f1a541bc82,moyen,difficile,autre
+28,Jacob,Johnson,Jacob.Johnson@gmail.com,8141d2b17b7344d1c058e0cfaa031768e23bab8eb32613d3345655b37876436c,bon marché,facile,chapeau pirate
+29,Heidi,Moore,Heidi.Moore@gmail.com,3b580a08ba9ee0f7435cedf6db25e77b87d9f1e142f2a646887223b30696b30b,moyen,difficile,masculin

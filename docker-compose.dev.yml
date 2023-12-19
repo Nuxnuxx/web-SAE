@@ -17,7 +17,6 @@ services:
       - net
   bdd:
     build: ./bdd
-    image: ghcr.io/Nuxnuxx/bdd 
     restart: always
     environment:
       NEO4J_AUTH: none
