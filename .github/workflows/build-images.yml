@@ -52,7 +52,7 @@ jobs:
             images: ${{ matrix.image}}
 
       - # build the container image and push it to Docker \
-          name: Build and push
+          name: Build and push backend
           uses: docker/build-push-action@v5
           with:
             context: ${{ matrix.context}}
