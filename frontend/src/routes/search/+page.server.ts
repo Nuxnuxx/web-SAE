@@ -45,7 +45,6 @@ export const actions: Actions = {
 		}
 	},
 
-
 	addPlaylistRecipe: async ({ request, cookies }) => {
 		try {
 			const token = cookies.get("token") || "";

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import { onMount } from "svelte";
-	import { getPlaylist } from "$lib/api/playlist-request";
+	import { playlistStore } from "../store";
 	export let idRecipe: number;
 
 	let isOpen = false;
@@ -34,8 +34,12 @@
 		}
 	}
 
+	var playlistsList:any;
 
-	// afficher ce qu'on a récupérer des playlists);
+	$: playlistStore.subscribe(value => {
+		console.log(value);
+		playlistsList = value;
+	});
 </script>
 
 <div class="dropdown">
@@ -47,36 +51,19 @@
 	<div class="dropdown-content">
 		<form use:enhance method="put" action="?/addPlaylistRecipe">
 			<input hidden name="id" value={idRecipe} type="text" />
-			<div>
-				<button
-					type="submit"
-					name="idlist"
-					value={1}
-					class="dropdown-item"
-				>
-					Playlist 1
-				</button>
-			</div>
-			<div>
-				<button
-					type="submit"
-					name="idlist"
-					value={2}
-					class="dropdown-item"
-				>
-					Playlist 2
-				</button>
-			</div>
-			<div>
-				<button
-					type="submit"
-					name="idlist"
-					value={3}
-					class="dropdown-item"
-				>
-					Playlist 3
-				</button>
-			</div>
+
+			{#each playlistsList as playlist}
+				<div>
+					<button
+						type="submit"
+						name="idlist"
+						value={playlist.id}
+						class="dropdown-item"
+					>
+						{playlist.name}
+					</button>
+				</div>
+			{/each}
 		</form>
 	</div>
 </div>

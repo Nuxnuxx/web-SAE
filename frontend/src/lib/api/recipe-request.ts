@@ -46,11 +46,16 @@ export const likeRecipe = async (token: string, id: number) => {
 	}
 };
 
-
-export const addPlaylistRecipe = async (token: string, id: number, idlist: number) => {
+export const addPlaylistRecipe = async (
+	token: string,
+	id: number,
+	idlist: number
+) => {
 	try {
 		const result = await fetch(
-			`${import.meta.env.VITE_API_URL}/list/recipe?id=${id}&idlist=${idlist}`,
+			`${
+				import.meta.env.VITE_API_URL
+			}/list/recipe?id=${id}&idlist=${idlist}`,
 			{
 				method: "PUT",
 				headers: {
