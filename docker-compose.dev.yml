@@ -16,7 +16,8 @@ services:
     networks:
       - net
   bdd:
-    image: neo4j:latest
+    build: ./bdd
+    image: ghcr.io/Nuxnuxx/bdd 
     restart: always
     environment:
       NEO4J_AUTH: none
