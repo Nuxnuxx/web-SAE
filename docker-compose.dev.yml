@@ -25,7 +25,6 @@ services:
     volumes:
       - bd_data:/data
       - bd_logs:/logs
-      - ./neo4j_imports:/var/lib/neo4j/import
     networks:
       - net
 
