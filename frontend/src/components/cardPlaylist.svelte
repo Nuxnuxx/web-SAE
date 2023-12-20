@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let playlist = {};
+	import type { PlaylistDetail } from "$lib/api/playlist-types";
+
+	export let playlist: PlaylistDetail;
 </script>
 
 <div class="playlist__wrapper">
