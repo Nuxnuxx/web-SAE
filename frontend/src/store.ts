@@ -1,5 +1,6 @@
-import { writable } from "svelte/store";
 import type { PlaylistDetail } from "$lib/api/playlist-types";
+import { writable } from "svelte/store";
+import type { User } from "$lib/api/auth-types";
 
 export const filterStore = writable({
 	price: "",
@@ -9,3 +10,6 @@ export const filterStore = writable({
 export const urlStore = writable("search?");
 
 export const playlistStore = writable<PlaylistDetail[]>([]);
+
+export const userStore = writable(false);
+export const userDataStore = writable<User>();

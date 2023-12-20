@@ -6,7 +6,7 @@ import * as yup from "yup";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ cookies }) => {
-	const token = cookies.get("token")
+	const token = cookies.get("token");
 
 	if (token) {
 		throw redirect(302, "/profil");
