@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import type { PlaylistDetail } from "$lib/api/playlist-types";
 
 export const filterStore = writable({
 	price: "",
@@ -7,5 +8,4 @@ export const filterStore = writable({
 
 export const urlStore = writable("search?");
 
-// Permet d'obtenir toutes les playlists de l'utilisateur
-export const playlistStore = writable();
+export const playlistStore = writable<PlaylistDetail[]>([]);

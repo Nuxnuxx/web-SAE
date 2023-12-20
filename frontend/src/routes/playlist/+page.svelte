@@ -1,11 +1,14 @@
 <script lang="ts">
+	import type { PlaylistDetail } from "$lib/api/playlist-types";
 	import type { PageData } from "../$types";
 	import CardPlaylist from "../../components/cardPlaylist.svelte";
 
 	export let data: PageData;
-	const playlistList = data.playlists.result.sort((a, b) => {
-		return a.name === "liked" ? -1 : b.name === "liked" ? 1 : 0;
-	});
+	const playlistList: PlaylistDetail[] = data.playlists.result.sort(
+		(a: PlaylistDetail, b: PlaylistDetail) => {
+			return a.name === "liked" ? -1 : b.name === "liked" ? 1 : 0;
+		}
+	);
 </script>
 
 <svelte:head>
