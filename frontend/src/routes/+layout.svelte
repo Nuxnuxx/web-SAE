@@ -11,14 +11,21 @@
 	let user = false;
 	$: if (data.token) {
 		user = data.token.length > 0 ? false : true;
+		// also if the name is liked rename it "Vos préférés"
 		const playlistList: PlaylistDetail[] = data.playlists.result.sort(
 			(a: PlaylistDetail, b: PlaylistDetail) => {
 				return a.name === "liked" ? -1 : b.name === "liked" ? 1 : 0;
 			}
 		);
+		playlistList &&
+			playlistList.forEach((playlist: PlaylistDetail) => {
+				if (playlist.name === "liked") {
+					playlist.name = "Vos préférés";
+				}
+			});
+
 		userStore.set(true);
 		userDataStore.set({ ...data.profil });
-
 		playlistStore.set(playlistList);
 	}
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Pagination, Current } from "$lib/api/recipe-types";
-	import { filterStore, urlStore } from "../store";
+	import { filterStore, urlStore, isPLaylistAddButtonOpen } from "../store";
 	export let pagination: Pagination;
 	export let current: Current;
 
@@ -47,7 +47,9 @@
 		>
 	{/each}
 	{#if current.page <= computedesenfer}
-		<a>...</a>
+		{#if current.page + 10 < pagination.totalPage}
+			<a href={`${$urlStore}page=${pagination.currentPage + 10}`}>...</a>
+		{/if}
 		<a href={`${$urlStore}page=${pagination.totalPage - 1}`}
 			>{pagination.totalPage}</a
 		>

@@ -49,8 +49,8 @@ export const actions: Actions = {
 		try {
 			const token = cookies.get("token") || "";
 			const body = await request.formData();
-			const id = body.get("id");
-			const idlist = body.get("idlist");
+			const id = body.get("idRecipe");
+			const idlist = body.get("idPlaylist");
 			const result = await addPlaylistRecipe(token, id, idlist);
 			return {
 				result,
