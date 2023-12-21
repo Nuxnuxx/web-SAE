@@ -66,18 +66,6 @@
 		border-radius: 1.5vh;
 		overflow: hidden;
 
-		.card__img {
-			width: 100%;
-			height: 70%;
-			border-radius: 0.3rem;
-			overflow: hidden;
-
-			img {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-			}
-		}
 		.card__content {
 			padding: 5px;
 			display: grid;

@@ -47,9 +47,11 @@
 		>
 	{/each}
 	{#if current.page <= computedesenfer}
-		{#if current.page + 10 < pagination.totalPage}
-			<a href={`${$urlStore}page=${pagination.currentPage + 10}`}>...</a>
-		{/if}
+		<a
+			href={current.page <= pagination.totalPage - 10
+				? `${$urlStore}page=${pagination.currentPage + 10}`
+				: `${$urlStore}page=${current.page}`}>...</a
+		>
 		<a href={`${$urlStore}page=${pagination.totalPage - 1}`}
 			>{pagination.totalPage}</a
 		>
