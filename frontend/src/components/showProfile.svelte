@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
 	import type { User } from "$lib/api/auth-types";
 
 	export let food: string = "";
@@ -38,7 +37,6 @@
 			</a>
 
 			<form
-				use:enhance
 				method="post"
 				action="?/logout"
 				class="content__deconnexion"

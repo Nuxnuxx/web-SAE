@@ -2,9 +2,12 @@
 	import FoodImage from "$lib/img/homepage_food.png";
 	import { userStore, userDataStore } from "../store";
 
-	const NAME =
-		$userDataStore.firstName.charAt(0).toUpperCase() +
-		$userDataStore.firstName.slice(1);
+	let NAME = "";
+	if ($userStore) {
+		NAME =
+			$userDataStore.firstName.charAt(0).toUpperCase() +
+			$userDataStore.firstName.slice(1);
+	}
 </script>
 
 <svelte:head>

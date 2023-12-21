@@ -7,11 +7,7 @@
 <div class="playlist__wrapper">
 	<img src="" alt="image" />
 	<div class="text__wrapper">
-		{#if playlist.name == "liked"}
-			<h3>Vos préférés</h3>
-		{:else}
-			<h3>{playlist.name}</h3>
-		{/if}
+		<h3>{playlist.name}</h3>
 		<p>{playlist.numberRecipes} Recettes</p>
 	</div>
 	<a href={`/playlist/${playlist.idPlaylist}`}>
