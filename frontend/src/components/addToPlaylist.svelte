@@ -38,7 +38,7 @@
 
 	{#if $isPLaylistAddButtonOpen.open && $isPLaylistAddButtonOpen.id == idRecipe && $userStore}
 		<div class="dropdown-content">
-			<form use:enhance method="post" action="?/addPlaylistRecipe">
+			<form method="post" action="?/addPlaylistRecipe">
 				<input hidden name="idRecipe" value={idRecipe} type="text" />
 				<div class="playlist-search-wrapper">
 					<div class="material-symbols-rounded">search</div>
