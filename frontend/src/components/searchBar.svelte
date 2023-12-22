@@ -5,7 +5,7 @@
 	let name = "";
 	let url = "";
 
-	$: url = `search?name=${name}&page=0${
+	$: url = `/search?name=${name}&page=0${
 		$filterStore.price ? `&price=${$filterStore.price}` : ""
 	}${
 		$filterStore.difficulty ? `&difficulty=${$filterStore.difficulty}` : ""
