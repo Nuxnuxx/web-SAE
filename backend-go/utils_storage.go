@@ -10,7 +10,16 @@ import (
 )
 
 func extractProperty(record neo4j.Record, key string, propertyName string) interface{} {
-	return record.AsMap()[key].(neo4j.Node).Props[propertyName]
+	value, ok := record.AsMap()[key]
+	if !ok {
+		return nil
+	}
+
+	if node, ok := value.(neo4j.Node); ok {
+		return node.Props[propertyName]
+	} else {
+		return value.(map[string]interface{})[propertyName]
+	}
 }
 
 func CreateAccount(record neo4j.Record, key string) Account {
@@ -65,14 +74,14 @@ func CreateRecipeStep(record []*neo4j.Record, key string) RecipeStep {
 	return recipe
 }
 
-func CreateRecipeIngredient(record []*neo4j.Record, key string) RecipeIngredients {
+func CreateRecipeIngredient(record []*neo4j.Record, key string, key2 string) RecipeIngredients {
 	recipe := make(RecipeIngredients)
 
 	for _, r := range record {
 		recipeId := extractProperty(*r, key, "idIngredient").(int64)
 
 		recipe[recipeId] = IngredientInfo{
-			Name:       extractProperty(*r, key, "name").(string),
+			Name:       extractProperty(*r, key2, "libelleIngredient").(string),
 			URLPicture: extractProperty(*r, key, "urlPicture").(string),
 		}
 	}
@@ -85,7 +94,7 @@ func createRecipe(record []*neo4j.Record, key []string) Recipe {
 	return Recipe{
 		RecipeDetail:      CreateRecipeDetail(*detailRecord, key[0]),
 		RecipeStep:        CreateRecipeStep(record, key[1]),
-		RecipeIngredients: CreateRecipeIngredient(record, key[2]),
+		RecipeIngredients: CreateRecipeIngredient(record, key[2], key[3]),
 	}
 }
 
