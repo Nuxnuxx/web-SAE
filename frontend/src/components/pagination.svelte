@@ -20,6 +20,7 @@
 
 		urlStore.set(newUrl);
 	}
+	//TODO: condition if there is one page dont render the components
 
 	//FIXME: a refacto bordel je chiale y'a des -1 partout + cette ternaire
 	$: computedesenfer =
