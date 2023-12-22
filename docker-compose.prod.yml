@@ -3,6 +3,7 @@ version: '3'
 services:
   backendgo:
     build: ./backend-go
+    image: ghcr.io/nuxnuxx/backend
     restart: always
     environment:
       STAGE: "prod"
@@ -15,8 +16,19 @@ services:
       - 3001:3001
     networks:
       - net
+  frontend:
+    build: ./frontend
+    image: ghcr.io/nuxnuxx/frontend
+    restart: always
+    depends_on:
+      - backendgo
+    ports:
+      - 3000:3000
+    networks:
+      - net
   bdd:
-    image: neo4j:latest
+    build: ./bdd
+    image: ghcr.io/nuxnuxx/bdd 
     restart: always
     ports:
       - 7687:7687
@@ -27,7 +39,6 @@ services:
     volumes:
       - bd_data:/data
       - bd_logs:/logs
-      - ./neo4j_imports:/var/lib/neo4j/import
     networks:
       - net
 
