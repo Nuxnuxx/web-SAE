@@ -23,6 +23,3 @@ Securite server UPJV
     - credential store avec docker et pass
     - desactivation de la connexion avec mot de passe (cle ssh seulement)
 docker swarm et stack deployement sur serveur UPJV
-
-# TODO
-- [ ] ssh run deploy CI CD if build as succeed
