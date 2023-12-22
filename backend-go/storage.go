@@ -591,8 +591,8 @@ func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 	query := `
 			MATCH (recipe:Recipe {idRecipe: $id})
 			MATCH (recipe)-[:CONTAINS]->(step:Step)
-			MATCH (recipe)-[:INGREDIENTS]->(ingredient:Ingredient)
-			RETURN recipe, ingredient, step
+			MATCH (recipe)-[valueIngredient]->(ingredient:Ingredient)
+			RETURN recipe, ingredient, step, properties(valueIngredient) as realIngredient
 			ORDER BY step.step ASC;
 	`
 
@@ -619,7 +619,7 @@ func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 			return nil, err
 		}
 
-		recipe := createRecipe(data, []string{"recipe", "step", "ingredient"})
+		recipe := createRecipe(data, []string{"recipe", "step", "ingredient", "realIngredient"})
 
 		if err != nil {
 			return nil, err
