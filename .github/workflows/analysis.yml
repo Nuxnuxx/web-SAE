@@ -1,4 +1,4 @@
-name: Analysis Code
+name: Analysis Code (Sonarqube)
 
 on:
   pull_request:
