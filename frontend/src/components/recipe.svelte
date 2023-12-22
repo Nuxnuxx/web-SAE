@@ -44,9 +44,19 @@
 			{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
 				<li>
 					<img src={ingredient.urlPicture} alt="" />
-					<span class="recipe__ingredient__text"
-						>{ingredient.name}</span
-					>
+					<!-- //FIXME : this is not working properly the split is not working -->
+					{#if ingredient.name.split(" ").length > 1}
+						<span class="recipe__ingredient__text">
+							<span>{ingredient.name.split(" ")[0]}</span>
+							{ingredient.name.slice(
+								ingredient.name.indexOf(" ") + 1
+							)}
+						</span>
+					{:else}
+						<span class="recipe__ingredient__text"
+							>{ingredient.name}</span
+						>
+					{/if}
 				</li>
 			{/each}
 		</ul>
@@ -128,6 +138,12 @@
 				flex-direction: row;
 				align-items: center;
 				font-size: 1rem;
+
+				.recipe__ingredient__text {
+					span {
+						font-weight: bold;
+					}
+				}
 			}
 
 			img {
