@@ -2,7 +2,10 @@
 	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import { enhance } from "$app/forms";
 	import readable from "readable-numbers";
+	import AddToPlaylist from "./addToPlaylist.svelte";
 	export let data: RecipeDetail;
+
+	let idRecipe = data.idRecipe;
 </script>
 
 <div class="card">
@@ -46,7 +49,7 @@
 				<!-- 		playlist_add_check -->
 				<!-- 	</button> -->
 				<!-- {:else} -->
-				<button class="material-symbols-rounded"> playlist_add </button>
+				<AddToPlaylist {idRecipe} />
 				<!-- {/if} -->
 			</span>
 		</div>
