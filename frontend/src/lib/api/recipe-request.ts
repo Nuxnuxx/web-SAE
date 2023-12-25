@@ -10,7 +10,6 @@ export const getRecipe = async (id: number) => {
 			}
 		);
 
-		console.log("id recipe", id)
 		if (result.ok) {
 			const data = await result.json();
 			return data;
