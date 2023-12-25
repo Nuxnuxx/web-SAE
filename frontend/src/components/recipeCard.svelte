@@ -4,13 +4,14 @@
 	import readable from "readable-numbers";
 	import AddToPlaylist from "./addToPlaylist.svelte";
 	export let data: RecipeDetail;
+	$: finalArrayImages = data.images.replace(/[\[\]"]+/g, "").split(", ");
 
 	let idRecipe = data.idRecipe;
 </script>
 
 <div class="card">
 	<a href={`/recipe/${data.idRecipe}`} class="card__img">
-		<!-- <img src={data.images.toString()} alt={data.name} /> -->
+		<img src={finalArrayImages[0]} alt={data.name} />
 	</a>
 	<div class="card__content">
 		<a href={`/recipe/${data.idRecipe}`} class="card__title">
