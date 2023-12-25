@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
 	import {
 		playlistStore,
-		isPLaylistAddButtonOpen,
+		isPlaylistAddButtonOpen,
 		userStore,
 	} from "../store";
 	export let idRecipe: number;
@@ -21,22 +20,22 @@
 <div class="dropdown">
 	<button
 		on:click={() => {
-			if ($isPLaylistAddButtonOpen.id != idRecipe) {
-				isPLaylistAddButtonOpen.set({
+			if ($isPlaylistAddButtonOpen.id != idRecipe) {
+				isPlaylistAddButtonOpen.set({
 					id: idRecipe,
 					open: true,
 				});
 			} else {
-				isPLaylistAddButtonOpen.set({
+				isPlaylistAddButtonOpen.set({
 					id: idRecipe,
-					open: !$isPLaylistAddButtonOpen.open,
+					open: !$isPlaylistAddButtonOpen.open,
 				});
 			}
 		}}
 		class="material-symbols-rounded">playlist_add</button
 	>
 
-	{#if $isPLaylistAddButtonOpen.open && $isPLaylistAddButtonOpen.id == idRecipe && $userStore}
+	{#if $isPlaylistAddButtonOpen.open && $isPlaylistAddButtonOpen.id == idRecipe && $userStore}
 		<div class="dropdown-content">
 			<form method="post" action="?/addPlaylistRecipe">
 				<input hidden name="idRecipe" value={idRecipe} type="text" />
@@ -64,7 +63,7 @@
 				{/each}
 			</form>
 		</div>
-	{:else if $isPLaylistAddButtonOpen.open && $isPLaylistAddButtonOpen.id == idRecipe && !$userStore}
+	{:else if $isPlaylistAddButtonOpen.open && $isPlaylistAddButtonOpen.id == idRecipe && !$userStore}
 		<div class="dropdown-content">
 			<p>Apprenons a te connaitre d'abord</p>
 			<button on:click={() => goto("/auth")} class="nav__login">
