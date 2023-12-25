@@ -2,10 +2,11 @@
 	import type { RecipeDetail } from "$lib/api/recipe-types";
 
 	export let recipe: RecipeDetail;
+	$: finalArrayImages = recipe.images.replace(/[\[\]"]+/g, "").split(", ");
 </script>
 
 <div class="recipe__wrapper">
-	<img src={recipe.images[0]} alt={recipe.name} />
+	<img src={finalArrayImages[0]} alt={recipe.name} />
 	<div class="text__wrapper">
 		{#if recipe.name == "liked"}
 			<h3>Vos préférés</h3>
@@ -26,10 +27,11 @@
 		flex-direction: row;
 		align-items: center;
 		margin: 0 auto;
-		padding: 0 1rem;
+		padding-right: 1rem;
 		width: 80%;
 		border: 1px solid var(--light-secondary-color);
 		border-radius: 10px;
+		overflow: hidden;
 		.text__wrapper {
 			margin-left: 2rem;
 			display: flex;
