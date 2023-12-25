@@ -2,15 +2,16 @@
 	import type { RecipeData } from "$lib/api/recipe-types";
 
 	export let recipe: RecipeData;
-	//FIXME: image is not displayed maybe the path is wrong
-	// the path is wrong for sure
+	let finalArrayImages = recipe.recipeDetail.images
+		.replace(/[\[\]"]+/g, "")
+		.split(", ");
 </script>
 
 <div class="recipe">
 	<div class="recipe__header">
 		<img
 			class="recipe__header__img"
-			src={recipe.recipeDetail.images[0]}
+			src={finalArrayImages[0]}
 			alt={recipe.recipeDetail.name}
 		/>
 		<h2>{recipe.recipeDetail.name}</h2>
@@ -63,7 +64,7 @@
 
 		<img
 			class="recipe__img"
-			src={recipe.recipeDetail.images[0]}
+			src={finalArrayImages[0]}
 			alt={recipe.recipeDetail.name}
 		/>
 	</div>
@@ -95,6 +96,7 @@
 			flex-direction: column;
 			.recipe__header__img {
 				width: 100%;
+				object-fit: cover;
 				height: 15rem;
 			}
 
@@ -302,6 +304,7 @@
 
 			.recipe__img {
 				display: unset;
+				object-fit: cover;
 				width: 50%;
 				height: 23rem;
 				border-radius: 20px;

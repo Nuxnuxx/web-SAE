@@ -1,6 +1,7 @@
 export type RecipeDetail = {
 	difficulty: string;
-	images: string[];
+	//FIXME: should be array of string
+	images: string;
 	quantity: string;
 	price: string;
 	time: string;
