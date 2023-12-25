@@ -8,11 +8,17 @@
 	export let idRecipe: number;
 
 	let filter = "";
-	$: playlistList = $playlistStore.filter((a) => {
+	// dont include Vos préférés playlist
+	$: playlistWithoutFav = $playlistStore.filter((a) => {
+		if (a.name != "Vos préférés") {
+			return a;
+		}
+	});
+	$: playlistList = playlistWithoutFav.filter((a) => {
 		if (filter != "") {
 			return a.name.toLowerCase().includes(filter.toLowerCase());
-		} else {
-			return a.name != "Vos préférés";
+		} else if (a.name != "Vos préférés") {
+			return a;
 		}
 	});
 </script>
