@@ -100,7 +100,7 @@
 					display: flex;
 					align-items: center;
 					height: 40%;
-					color: #c4c4c4;
+					color: var(--very-light-secondary-color);
 					font-size: 12px;
 					.material-symbols-rounded {
 						font-size: inherit;

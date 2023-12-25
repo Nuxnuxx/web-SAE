@@ -40,16 +40,16 @@
 			border-radius: 10px 0 0 10px;
 			width: 40vw;
 			transition: all 300ms;
-			outline: 2px solid #dcdcdc;
+			outline: 2px solid var(--light-secondary-color);
 		}
 
 		input:focus {
-			outline: 2px solid #c4c4c4;
+			outline: 2px solid var(--very-light-secondary-color);
 		}
 
 		input::-webkit-input-placeholder {
 			font-weight: normal;
-			color: #c4c4c4;
+			color: var(--very-light-secondary-color);
 		}
 
 		input::-webkit-search-cancel-button {

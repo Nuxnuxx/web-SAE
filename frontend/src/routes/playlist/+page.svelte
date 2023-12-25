@@ -70,7 +70,7 @@
 		input {
 			border-radius: 10px;
 			border: none;
-			outline: 2px solid #dcdcdc;
+			outline: 2px solid var(--light-secondary-color);
 			margin-right: 1rem;
 			padding: 0.5rem 1rem;
 			width: 70%;
