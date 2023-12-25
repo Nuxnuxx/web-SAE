@@ -4,7 +4,7 @@
 
 	let name = "";
 
-	// function to know if th en new name of the playlist is already taken in the store
+	// function to know if the new name of the playlist is already taken in the store
 	function isNameAlreadyTaken(name: string) {
 		return $playlistStore.some((playlist) => playlist.name == name);
 	}
@@ -18,8 +18,13 @@
 	<h2>Vos livres de <span class="">recettes</span></h2>
 
 	<form method="post" action="?/createList">
-		<input placeholder="Nom livre de recettes..." type="text" name="name" bind:value={name} />
-		{#if isNameAlreadyTaken(name)}
+		<input
+			placeholder="Nom livre de recettes..."
+			type="text"
+			name="name"
+			bind:value={name}
+		/>
+		{#if isNameAlreadyTaken(name) || name.length < 1}
 			<!-- Bouton grisé -->
 			<button type="submit" disabled>
 				Ajout
@@ -97,7 +102,7 @@
 				font-size: 2rem;
 			}
 
-			&:disabled{
+			&:disabled {
 				background-color: var(--light-secondary-color);
 				border: 3px solid var(--light-secondary-color);
 				cursor: not-allowed;
