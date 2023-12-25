@@ -9,11 +9,11 @@
 </script>
 
 <div class="card">
-	<a href={`/recipe/${data.idRecipe}`} class="card__img">
+	<a data-sveltekit-preload-data="tap" href={`/recipe/${data.idRecipe}`} class="card__img">
 		<!-- <img src={data.images.toString()} alt={data.name} /> -->
 	</a>
 	<div class="card__content">
-		<a href={`/recipe/${data.idRecipe}`} class="card__title">
+		<a data-sveltekit-preload-data="tap" href={`/recipe/${data.idRecipe}`} class="card__title">
 			<h3>{data.name}</h3>
 			<div class="card__likes">
 				<span class="card__likes__number">{readable(100000, 1)}</span>
