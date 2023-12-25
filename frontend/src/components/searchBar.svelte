@@ -22,7 +22,7 @@
 		type="search"
 		on:keypress={(event) => (event.key === "Enter" ? goto(url) : null)}
 	/>
-	<a href={url} class="material-symbols-rounded">search</a>
+	<a data-sveltekit-preload-data="tap" href={url} class="material-symbols-rounded">search</a>
 </div>
 
 <style lang="scss">

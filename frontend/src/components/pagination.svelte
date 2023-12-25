@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Pagination, Current } from "$lib/api/recipe-types";
-	import { filterStore, urlStore, isPLaylistAddButtonOpen } from "../store";
+	import { filterStore, urlStore } from "../store";
 	export let pagination: Pagination;
 	export let current: Current;
 
