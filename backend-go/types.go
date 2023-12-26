@@ -12,9 +12,9 @@ type APIResponse struct {
 }
 
 type PlaylistDetail struct {
-	Name       string `json:"name"`
-	IdPlaylist int64  `json:"idPlaylist"`
-	NumberRecipes int64 `json:"numberRecipes"`
+	Name          string `json:"name"`
+	IdPlaylist    int64  `json:"idPlaylist"`
+	NumberRecipes int64  `json:"numberRecipes"`
 }
 
 type Recipe struct {
@@ -35,16 +35,18 @@ type RecipeStep map[int64]struct {
 }
 
 type RecipeDetail struct {
-	Difficulty string `json:"difficulty"`
-	Images     string `json:"images"`
-	Quantity   string `json:"quantity"`
-	Price      string `json:"price"`
-	Name       string `json:"name"`
-	PreparationTime       string `json:"time"`
-	IdRecipe   int64  `json:"idRecipe"`
+	Difficulty      string `json:"difficulty"`
+	Images          string `json:"images"`
+	Quantity        string `json:"quantity"`
+	Price           string `json:"price"`
+	Name            string `json:"name"`
+	PreparationTime string `json:"time"`
+	IdRecipe        int64  `json:"idRecipe"`
 }
 
 type UpdateProfilRequest struct {
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
 	NewPassWord string `json:"newPassword"`
 }
 
