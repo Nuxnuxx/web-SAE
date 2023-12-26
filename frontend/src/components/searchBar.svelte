@@ -5,7 +5,7 @@
 	let name = "";
 	let url = "";
 
-	$: url = `/search?name=${name}&page=0${
+	$: url = `/search${name ? `?name=${name}&` : "?"}page=0${
 		$filterStore.price ? `&price=${$filterStore.price}` : ""
 	}${
 		$filterStore.difficulty ? `&difficulty=${$filterStore.difficulty}` : ""
@@ -22,7 +22,11 @@
 		type="search"
 		on:keypress={(event) => (event.key === "Enter" ? goto(url) : null)}
 	/>
-	<a data-sveltekit-preload-data="tap" href={url} class="material-symbols-rounded">search</a>
+	<a
+		data-sveltekit-preload-data="tap"
+		href={url}
+		class="material-symbols-rounded">search</a
+	>
 </div>
 
 <style lang="scss">
