@@ -2,9 +2,12 @@
 	import FoodImage from "$lib/img/homepage_food.png";
 	import { userStore, userDataStore } from "../store";
 
-	const NAME =
-		$userDataStore.firstName.charAt(0).toUpperCase() +
-		$userDataStore.firstName.slice(1);
+	let NAME = "";
+	if ($userStore) {
+		NAME =
+			$userDataStore.firstName.charAt(0).toUpperCase() +
+			$userDataStore.firstName.slice(1);
+	}
 </script>
 
 <svelte:head>
@@ -64,7 +67,7 @@
 	.background {
 		background: linear-gradient(
 			160deg,
-			#82d3e6 0%,
+			var(--secondary-color) 0%,
 			rgba(130, 211, 230, 0) 70%
 		);
 		position: relative;
