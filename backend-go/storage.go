@@ -269,11 +269,12 @@ func (s *Neo4jStore) CreateRecipeLiked(mail string, idRecipe int) (*APIResponse,
 
 func (s *Neo4jStore) GetList(mail string) (*APIResponse, error) {
 	query := `
-MATCH (u:User {mail: $mail})-[:A_UNE]->(p:Playlist)
-OPTIONAL MATCH (r:Recipe)-[:est_dans]->(p)
-WITH p, COUNT(r) AS numberOfRecipes
-SET p.numberOfRecipes = numberOfRecipes
-RETURN p
+		MATCH (u:User {mail: $mail})-[:A_UNE]->(p:Playlist)
+		OPTIONAL MATCH (r:Recipe)-[:est_dans]->(p)
+		WITH p, COUNT(r) AS numberOfRecipes, r as recipe
+		SET p.numberOfRecipes = numberOfRecipes
+		SET p.image = toString(recipe.image)
+		RETURN p
 	`
 
 	params := map[string]interface{}{

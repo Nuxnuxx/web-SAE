@@ -24,18 +24,13 @@
 			name="name"
 			bind:value={name}
 		/>
-		{#if isNameAlreadyTaken(name) || name.length < 1}
-			<!-- Bouton grisé -->
-			<button type="submit" disabled>
-				Ajout
-				<span class="material-symbols-outlined"> add </span>
-			</button>
-		{:else}
-			<button type="submit"
-				>Ajout
-				<span class="material-symbols-outlined"> add </span>
-			</button>
-		{/if}
+		<button
+			type="submit"
+			disabled={isNameAlreadyTaken(name) || name.length < 1}
+		>
+			Ajout
+			<span class="material-symbols-outlined"> add </span>
+		</button>
 	</form>
 
 	<div class="favoris">
