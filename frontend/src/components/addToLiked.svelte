@@ -22,6 +22,9 @@
 	>
 		<button
 			on:click={() => {
+				// Check if the pop up id open on store is the same as the idRecipe
+				// if not we set the store data to the new recipe clicked and open it
+				// else we can just close the one already open
 				if ($isLikedButtonOpen.id != idRecipe) {
 					isLikedButtonOpen.set({
 						id: idRecipe,
