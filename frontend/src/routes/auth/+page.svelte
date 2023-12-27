@@ -17,7 +17,12 @@
 	export let form: ActionData;
 	if (form == undefined) {
 		form = {
-			id: "login",
+			id: "",
+			errors: {},
+			values: {
+				mail: "",
+				password: "",
+			},
 		};
 	}
 
@@ -27,15 +32,11 @@
 	let loginValue: User;
 	if (form.id == "register") {
 		selectedButton = "register";
-		//@ts-ignore
 		registerErrors = form.errors;
-		//@ts-ignore
 		registerValue = form.values;
 	} else if (form.id == "login") {
 		selectedButton = "login";
-		//@ts-ignore
 		loginErrors = form.errors;
-		//@ts-ignore
 		loginValue = form.values;
 	}
 </script>
