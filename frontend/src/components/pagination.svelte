@@ -22,13 +22,16 @@
 	}
 
 	//FIXME: a refacto bordel je chiale y'a des -1 partout + cette ternaire mama
-	$: computedesenfer =
-		pagination.totalPage % 5 == 0
-			? pagination.totalPage - 6
-			: pagination.totalPage - (pagination.totalPage % 5) - 1;
+	//FIXME2: j'ai tenté mettre une const pour rendre le tout plus claire
+	const nbItemPerPage: number = 5;
 
-	$: start = Math.floor(current.page / 5) * 5;
-	$: end = Math.min(start + 5, pagination.totalPage);
+	$: computedesenfer =
+		pagination.totalPage % nbItemPerPage == 0
+			? pagination.totalPage - nbItemPerPage + 1
+			: pagination.totalPage - (pagination.totalPage % nbItemPerPage) - 1;
+
+	$: start = Math.floor(current.page / nbItemPerPage) * nbItemPerPage;
+	$: end = Math.min(start + nbItemPerPage, pagination.totalPage);
 </script>
 
 {#if pagination.totalPage > 1}
@@ -78,7 +81,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 		margin: 4rem auto;
 		a {
 			padding: auto;
@@ -104,6 +107,12 @@
 		&:last-child {
 			.material-symbols-rounded {
 				font-size: 1.7rem;
+				&:first-child {
+					margin-right: 2rem;
+				}
+				&:last-child {
+					margin-left: 2rem;
+				}
 			}
 		}
 	}
