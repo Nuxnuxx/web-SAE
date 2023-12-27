@@ -1,11 +1,13 @@
 <script lang="ts">
-	import type { PageData } from "../$types";
+	import { playlistStore } from "../../store";
 	import CardPlaylist from "../../components/cardPlaylist.svelte";
 
-	export let data: PageData;
-	const playlistList = data.playlists.result.sort((a, b) => {
-		return a.name === "liked" ? -1 : b.name === "liked" ? 1 : 0;
-	});
+	let name = "";
+
+	// function to know if the new name of the playlist is already taken in the store
+	function isNameAlreadyTaken(name: string) {
+		return $playlistStore.some((playlist) => playlist.name == name);
+	}
 </script>
 
 <svelte:head>
@@ -16,9 +18,17 @@
 	<h2>Vos livres de <span class="">recettes</span></h2>
 
 	<form method="post" action="?/createList">
-		<input placeholder="Nom livre de recettes..." type="text" name="name" />
-		<button type="submit"
-			>Ajout
+		<input
+			placeholder="Nom livre de recettes..."
+			type="text"
+			name="name"
+			bind:value={name}
+		/>
+		<button
+			type="submit"
+			disabled={isNameAlreadyTaken(name) || name.length < 1}
+		>
+			Ajout
 			<span class="material-symbols-outlined"> add </span>
 		</button>
 	</form>
@@ -30,7 +40,7 @@
 	</div>
 
 	<div class="playlist__list__wrapper">
-		{#each playlistList as playlist}
+		{#each $playlistStore as playlist}
 			<CardPlaylist {playlist} />
 		{/each}
 	</div>
@@ -55,7 +65,7 @@
 		input {
 			border-radius: 10px;
 			border: none;
-			outline: 2px solid #dcdcdc;
+			outline: 2px solid var(--light-secondary-color);
 			margin-right: 1rem;
 			padding: 0.5rem 1rem;
 			width: 70%;
@@ -85,6 +95,12 @@
 			font-size: 1rem;
 			span {
 				font-size: 2rem;
+			}
+
+			&:disabled {
+				background-color: var(--light-secondary-color);
+				border: 3px solid var(--light-secondary-color);
+				cursor: not-allowed;
 			}
 		}
 	}

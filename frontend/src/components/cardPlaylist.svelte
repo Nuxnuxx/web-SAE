@@ -1,15 +1,19 @@
 <script lang="ts">
-	export let playlist = {};
+	import type { PlaylistDetail } from "$lib/api/playlist-types";
+	import DEFAULT from "$lib/img/default_playlist.png";
+
+	export let playlist: PlaylistDetail;
+	let finalArrayImages = playlist.images.replace(/[\[\]"]+/g, "").split(", ");
 </script>
 
 <div class="playlist__wrapper">
-	<img src="" alt="image" />
+	<!--INFO: need to get a image of the first recipe to put in the ternary -->
+	<img
+		src={playlist.numberRecipes >= 1 ? finalArrayImages[0] : DEFAULT}
+		alt={playlist.name}
+	/>
 	<div class="text__wrapper">
-		{#if playlist.name == "liked"}
-			<h3>Vos préférés</h3>
-		{:else}
-			<h3>{playlist.name}</h3>
-		{/if}
+		<h3>{playlist.name}</h3>
 		<p>{playlist.numberRecipes} Recettes</p>
 	</div>
 	<a href={`/playlist/${playlist.idPlaylist}`}>
@@ -27,10 +31,16 @@
 		flex-direction: row;
 		align-items: center;
 		margin: 0 auto;
-		padding: 0 1rem;
+		padding-right: 1rem;
 		width: 80%;
 		border: 1px solid var(--light-secondary-color);
 		border-radius: 10px;
+		overflow: hidden;
+
+		img {
+			width: 12%;
+		}
+
 		.text__wrapper {
 			margin-left: 2rem;
 			display: flex;

@@ -4,6 +4,7 @@ import type { ErrorWithId, User } from "$lib/api/auth-types";
 import { fail, type Actions, redirect } from "@sveltejs/kit";
 import * as yup from "yup";
 import type { PageServerLoad } from "./$types";
+import { createPlaylist } from "$lib/api/playlist-request";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const token = cookies.get("token");
@@ -83,6 +84,12 @@ export const actions: Actions = {
 				cookies.set("token", result.result, {
 					path: "/",
 				});
+				const token = cookies.get("token");
+
+				if (token === undefined || token === null) {
+					throw new Error("token is not defined");
+				}
+				const playlist = await createPlaylist(token, "liked");
 				return {
 					location: "/",
 				};
