@@ -3,11 +3,15 @@
 	import DEFAULT from "$lib/img/default_playlist.png";
 
 	export let playlist: PlaylistDetail;
+	let finalArrayImages = playlist.images.replace(/[\[\]"]+/g, "").split(", ");
 </script>
 
 <div class="playlist__wrapper">
 	<!--INFO: need to get a image of the first recipe to put in the ternary -->
-	<img src={playlist.numberRecipes < 1 ? DEFAULT : DEFAULT} alt={playlist.name} />
+	<img
+		src={playlist.numberRecipes >= 1 ? finalArrayImages[0] : DEFAULT}
+		alt={playlist.name}
+	/>
 	<div class="text__wrapper">
 		<h3>{playlist.name}</h3>
 		<p>{playlist.numberRecipes} Recettes</p>

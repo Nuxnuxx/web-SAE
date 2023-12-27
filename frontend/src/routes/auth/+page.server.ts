@@ -84,8 +84,12 @@ export const actions: Actions = {
 				cookies.set("token", result.result, {
 					path: "/",
 				});
-				const token = cookies.get("token") || " ";
-				const playlist = await createPlaylist(token, "liked")
+				const token = cookies.get("token");
+
+				if (token === undefined || token === null) {
+					throw new Error("token is not defined");
+				}
+				const playlist = await createPlaylist(token, "liked");
 				return {
 					location: "/",
 				};

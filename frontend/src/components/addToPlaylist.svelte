@@ -21,6 +21,7 @@
 			return a;
 		}
 	});
+
 </script>
 
 <div class="dropdown">
