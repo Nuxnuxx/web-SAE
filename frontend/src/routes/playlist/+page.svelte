@@ -2,7 +2,12 @@
 	import { playlistStore } from "../../store";
 	import CardPlaylist from "../../components/cardPlaylist.svelte";
 
+	let name = "";
 
+	// function to know if the new name of the playlist is already taken in the store
+	function isNameAlreadyTaken(name: string) {
+		return $playlistStore.some((playlist) => playlist.name == name);
+	}
 </script>
 
 <svelte:head>
@@ -13,11 +18,24 @@
 	<h2>Vos livres de <span class="">recettes</span></h2>
 
 	<form method="post" action="?/createList">
-		<input placeholder="Nom livre de recettes..." type="text" name="name" />
-		<button type="submit"
-			>Ajout
-			<span class="material-symbols-outlined"> add </span>
-		</button>
+		<input
+			placeholder="Nom livre de recettes..."
+			type="text"
+			name="name"
+			bind:value={name}
+		/>
+		{#if isNameAlreadyTaken(name) || name.length < 1}
+			<!-- Bouton grisé -->
+			<button type="submit" disabled>
+				Ajout
+				<span class="material-symbols-outlined"> add </span>
+			</button>
+		{:else}
+			<button type="submit"
+				>Ajout
+				<span class="material-symbols-outlined"> add </span>
+			</button>
+		{/if}
 	</form>
 
 	<div class="favoris">
@@ -52,7 +70,7 @@
 		input {
 			border-radius: 10px;
 			border: none;
-			outline: 2px solid #dcdcdc;
+			outline: 2px solid var(--light-secondary-color);
 			margin-right: 1rem;
 			padding: 0.5rem 1rem;
 			width: 70%;
@@ -82,6 +100,12 @@
 			font-size: 1rem;
 			span {
 				font-size: 2rem;
+			}
+
+			&:disabled {
+				background-color: var(--light-secondary-color);
+				border: 3px solid var(--light-secondary-color);
+				cursor: not-allowed;
 			}
 		}
 	}

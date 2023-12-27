@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { PlaylistDetail } from "$lib/api/playlist-types";
+	import DEFAULT from "$lib/img/default_playlist.png";
 
 	export let playlist: PlaylistDetail;
 </script>
 
 <div class="playlist__wrapper">
-	<img src="" alt="image" />
+	<!--INFO: need to get a image of the first recipe to put in the ternary -->
+	<img src={playlist.numberRecipes < 1 ? DEFAULT : DEFAULT} alt={playlist.name} />
 	<div class="text__wrapper">
 		<h3>{playlist.name}</h3>
 		<p>{playlist.numberRecipes} Recettes</p>
@@ -25,10 +27,16 @@
 		flex-direction: row;
 		align-items: center;
 		margin: 0 auto;
-		padding: 0 1rem;
+		padding-right: 1rem;
 		width: 80%;
 		border: 1px solid var(--light-secondary-color);
 		border-radius: 10px;
+		overflow: hidden;
+
+		img {
+			width: 12%;
+		}
+
 		.text__wrapper {
 			margin-left: 2rem;
 			display: flex;

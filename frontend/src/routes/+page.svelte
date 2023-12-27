@@ -67,7 +67,7 @@
 	.background {
 		background: linear-gradient(
 			160deg,
-			#82d3e6 0%,
+			var(--secondary-color) 0%,
 			rgba(130, 211, 230, 0) 70%
 		);
 		position: relative;

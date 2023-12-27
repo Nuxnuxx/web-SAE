@@ -1,19 +1,24 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
 	import {
 		playlistStore,
-		isPLaylistAddButtonOpen,
+		isPlaylistAddButtonOpen,
 		userStore,
 	} from "../store";
 	export let idRecipe: number;
 
 	let filter = "";
-	$: playlistList = $playlistStore.filter((a) => {
+	// dont include Vos préférés playlist
+	$: playlistWithoutFav = $playlistStore.filter((a) => {
+		if (a.name != "Vos préférés") {
+			return a;
+		}
+	});
+	$: playlistList = playlistWithoutFav.filter((a) => {
 		if (filter != "") {
 			return a.name.toLowerCase().includes(filter.toLowerCase());
-		} else {
-			return a.name != "Vos préférés";
+		} else if (a.name != "Vos préférés") {
+			return a;
 		}
 	});
 </script>
@@ -26,22 +31,22 @@
 >
 	<button
 		on:click={() => {
-			if ($isPLaylistAddButtonOpen.id != idRecipe) {
-				isPLaylistAddButtonOpen.set({
+			if ($isPlaylistAddButtonOpen.id != idRecipe) {
+				isPlaylistAddButtonOpen.set({
 					id: idRecipe,
 					open: true,
 				});
 			} else {
-				isPLaylistAddButtonOpen.set({
+				isPlaylistAddButtonOpen.set({
 					id: idRecipe,
-					open: !$isPLaylistAddButtonOpen.open,
+					open: !$isPlaylistAddButtonOpen.open,
 				});
 			}
 		}}
 		class="material-symbols-rounded">playlist_add</button
 	>
 
-	{#if $isPLaylistAddButtonOpen.open && $isPLaylistAddButtonOpen.id == idRecipe && $userStore}
+	{#if $isPlaylistAddButtonOpen.open && $isPlaylistAddButtonOpen.id == idRecipe && $userStore}
 		<div class="dropdown-content">
 			<form method="post" action="?/addPlaylistRecipe">
 				<input hidden name="idRecipe" value={idRecipe} type="text" />
@@ -69,7 +74,7 @@
 				{/each}
 			</form>
 		</div>
-	{:else if $isPLaylistAddButtonOpen.open && $isPLaylistAddButtonOpen.id == idRecipe && !$userStore}
+	{:else if $isPlaylistAddButtonOpen.open && $isPlaylistAddButtonOpen.id == idRecipe && !$userStore}
 		<div class="dropdown-content">
 			<p>Apprenons a te connaitre d'abord</p>
 			<button on:click={() => goto("/auth")} class="nav__login">

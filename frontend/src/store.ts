@@ -14,7 +14,12 @@ export const playlistStore = writable<PlaylistDetail[]>([]);
 export const userStore = writable(false);
 export const userDataStore = writable<User>();
 
-export const isPLaylistAddButtonOpen = writable({
+export const isPlaylistAddButtonOpen = writable({
+	id: 0,
+	open: false,
+});
+
+export const isLikedButtonOpen = writable({
 	id: 0,
 	open: false,
 });
