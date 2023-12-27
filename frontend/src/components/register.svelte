@@ -14,81 +14,85 @@
 	{#if errors?.server}
 		<span class="error">{errors?.server}</span>
 	{/if}
-	<div>
-		<label for="mail"></label>
-		<input
-			type="text"
-			id="mail"
-			name="mail"
-			placeholder="Mail*"
-			value={value?.mail || ""}
-			autocomplete="username"
-		/>
-		{#if errors?.mail}
-			<span class="error">{errors?.mail}</span>
-		{/if}
-	</div>
-
-	<div class="name">
+	<div class="input__wrapper">
 		<div>
-			<label for="firstName"></label>
+			<label for="mail"></label>
 			<input
 				type="text"
-				id="firstName"
-				name="firstName"
-				placeholder="Prénom*"
-				value={value?.firstName || ""}
-				autocomplete="given-name"
+				id="mail"
+				name="mail"
+				placeholder="Mail*"
+				value={value?.mail || ""}
+				autocomplete="username"
 			/>
-			{#if errors?.firstName}
-				<span class="error">{errors?.firstName}</span>
+			{#if errors?.mail}
+				<span class="error">{errors?.mail}</span>
+			{/if}
+		</div>
+
+		<div class="input">
+			<div class="name__wrapper">
+				<div>
+					<label for="firstName"></label>
+					<input
+						type="text"
+						id="firstName"
+						name="firstName"
+						placeholder="Prénom*"
+						value={value?.firstName || ""}
+						autocomplete="given-name"
+					/>
+					{#if errors?.firstName}
+						<span class="error">{errors?.firstName}</span>
+					{/if}
+				</div>
+
+				<div>
+					<label for="lastName"></label>
+					<input
+						type="text"
+						id="lastName"
+						name="lastName"
+						placeholder="Nom*"
+						value={value?.lastName || ""}
+						autocomplete="family-name"
+					/>
+					{#if errors?.lastName}
+						<span class="error">{errors?.lastName}</span>
+					{/if}
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<label for="password"> </label>
+			<input
+				type="password"
+				id="password"
+				name="password"
+				placeholder="Mot de passe*"
+				value={value?.password || ""}
+				autocomplete="new-password"
+			/>
+			{#if errors?.password}
+				<span class="error">{errors?.password}</span>
 			{/if}
 		</div>
 
 		<div>
-			<label for="lastName"></label>
+			<label for="password"> </label>
 			<input
-				type="text"
-				id="lastName"
-				name="lastName"
-				placeholder="Nom*"
-				value={value?.lastName || ""}
-				autocomplete="family-name"
+				type="password"
+				id="confirmPassword"
+				name="confirmPassword"
+				placeholder="Confirmer mot de passe*"
+				value={value?.confirmPassword || ""}
+				autocomplete="new-password"
 			/>
-			{#if errors?.lastName}
-				<span class="error">{errors?.lastName}</span>
+			{#if errors?.confirmPassword}
+				<span class="error">{errors?.confirmPassword}</span>
 			{/if}
 		</div>
-	</div>
-
-	<div>
-		<label for="password"> </label>
-		<input
-			type="password"
-			id="password"
-			name="password"
-			placeholder="Mot de passe*"
-			value={value?.password || ""}
-			autocomplete="new-password"
-		/>
-		{#if errors?.password}
-			<span class="error">{errors?.password}</span>
-		{/if}
-	</div>
-
-	<div>
-		<label for="password"> </label>
-		<input
-			type="password"
-			id="confirmPassword"
-			name="confirmPassword"
-			placeholder="Confirmer mot de passe*"
-			value={value?.confirmPassword || ""}
-			autocomplete="new-password"
-		/>
-		{#if errors?.confirmPassword}
-			<span class="error">{errors?.confirmPassword}</span>
-		{/if}
 	</div>
 
 	<div>
@@ -154,17 +158,27 @@
 		color: var(--black-color);
 		font-weight: normal;
 		font-size: 1.4rem;
+		width: 80%;
+		margin: 0 auto;
+		margin-bottom: 2rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		row-gap: 1rem;
 		width: 40%;
 		margin: 0 auto;
 		min-width: 350px;
 		max-width: 700px;
+
+		.input__wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+			width: 100%;
+		}
 
 		.error {
 			color: var(--primary-color);
@@ -182,10 +196,10 @@
 
 		button {
 			display: flex;
-			margin: 0 auto;
 			align-items: center;
 			gap: 0.5rem;
 			padding: 0.5rem 1rem;
+			margin: 1rem 0 0 0;
 			border-radius: 2rem;
 			background-color: var(--primary-color);
 			color: var(--white-color);
@@ -196,6 +210,10 @@
 
 		.genre {
 			color: var(--light-black-color);
+			margin: 1.5rem 0 0 0;
+
+			width: 85%;
+			text-align: start;
 		}
 
 		div {
@@ -219,25 +237,23 @@
 			}
 			&::placeholder {
 				opacity: 0.4;
-				transition: 0.5s;
+				transition: 300ms ease-in-out;
 			}
 
 			&:focus::placeholder {
-				color: transparent;
+				transform: translateY(-2rem);
 			}
 		}
+		.input {
+			width: 100%;
+			.name__wrapper {
+				width: 88%;
+				flex-direction: row;
+				justify-content: space-between;
 
-		.name {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-
-			div {
-				width: fit-content;
-				align-items: inherit;
-			}
-			input {
-				width: 55%;
+				div {
+					width: 100%;
+				}
 			}
 		}
 
@@ -248,7 +264,7 @@
 			color: var(--light-black-color);
 
 			.radio-wrapper {
-				margin: 20px 0 20px 0;
+				margin: 1rem 0 1rem 0;
 				min-width: fit-content;
 				display: flex;
 				justify-content: space-around;
