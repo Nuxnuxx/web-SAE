@@ -33,7 +33,7 @@ export const getPlaylistRecipe = async (token: string, id: number) => {
 			}
 		);
 
-		if (result.status == 200) {
+		if (result.ok) {
 			const data = await result.json();
 			return data;
 		} else {

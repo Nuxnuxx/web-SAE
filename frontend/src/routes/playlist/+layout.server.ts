@@ -8,13 +8,4 @@ export const load: LayoutServerLoad = async ({ parent }) => {
 	if (!token) {
 		throw redirect(302, "/auth");
 	}
-
-	try {
-		const playlists = await getPlaylist(token);
-		return {
-			playlists,
-		};
-	} catch (err) {
-		throw err;
-	}
 };

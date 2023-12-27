@@ -40,7 +40,7 @@
 
 	.input {
 		width: fill-available;
-		border: solid 1.5px #c4c4c4;
+		border: solid 1.5px var(--very-light-secondary-color);
 		border-radius: 0.5rem;
 		background: #fff;
 		padding: 0.5rem 1rem;
@@ -52,7 +52,7 @@
 	.input:focus,
 	input:valid {
 		outline: none;
-		border: 1.5px solid #82d3e6;
+		border: 1.5px solid var(--secondary-color);
 	}
 
 	.input:focus ~ label,
@@ -60,12 +60,12 @@
 		transform: translateY(-50%) scale(0.8);
 		background-color: #fff;
 		padding: 0 0.2em;
-		color: #82d3e6;
+		color: var(--secondary-color);
 	}
 	.user-label {
 		position: absolute;
 		left: 15px;
-		color: #c4c4c4;
+		color: var(--very-light-secondary-color);
 		pointer-events: none;
 		transform: translateY(0.5rem);
 		transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);

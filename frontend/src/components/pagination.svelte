@@ -20,9 +20,8 @@
 
 		urlStore.set(newUrl);
 	}
-	//TODO: condition if there is one page dont render the components
 
-	//FIXME: a refacto bordel je chiale y'a des -1 partout + cette ternaire
+	//FIXME: a refacto bordel je chiale y'a des -1 partout + cette ternaire mama
 	$: computedesenfer =
 		pagination.totalPage % 5 == 0
 			? pagination.totalPage - 6
@@ -32,37 +31,43 @@
 	$: end = Math.min(start + 5, pagination.totalPage);
 </script>
 
-<div class="pagination__wrapper">
-	<a
-		class="material-symbols-rounded"
-		class:active={true}
-		href={`${$urlStore}page=${
-			current.page === 0 ? pagination.totalPage - 1 : current.page - 1
-		}`}
-	>
-		chevron_left
-	</a>
-	{#each Array.from({ length: end - start }, (_, i) => i + start) as i}
-		<a href={`${$urlStore}page=${i}`} class:active={i === current.page}
-			>{i + 1}</a
+{#if pagination.totalPage > 1}
+	<div class="pagination__wrapper">
+		<a
+			class="material-symbols-rounded"
+			class:active={true}
+			href={`${$urlStore}page=${
+				current.page === 0 ? pagination.totalPage - 1 : current.page - 1
+			}`}
 		>
-	{/each}
-	{#if current.page <= computedesenfer}
-		<a>...</a>
-		<a href={`${$urlStore}page=${pagination.totalPage - 1}`}
-			>{pagination.totalPage}</a
+			chevron_left
+		</a>
+		{#each Array.from({ length: end - start }, (_, i) => i + start) as i}
+			<a href={`${$urlStore}page=${i}`} class:active={i === current.page}
+				>{i + 1}</a
+			>
+		{/each}
+		{#if current.page <= computedesenfer}
+			<a
+				href={current.page < pagination.totalPage - 10
+					? `${$urlStore}page=${pagination.currentPage + 10}`
+					: `${$urlStore}page=${current.page}`}>...</a
+			>
+			<a href={`${$urlStore}page=${pagination.totalPage - 1}`}
+				>{pagination.totalPage}</a
+			>
+		{/if}
+		<a
+			class="material-symbols-rounded"
+			class:active={true}
+			href={`${$urlStore}page=${
+				current.page === pagination.totalPage - 1 ? 0 : current.page + 1
+			}`}
 		>
-	{/if}
-	<a
-		class="material-symbols-rounded"
-		class:active={true}
-		href={`${$urlStore}page=${
-			current.page === pagination.totalPage - 1 ? 0 : current.page + 1
-		}`}
-	>
-		chevron_right
-	</a>
-</div>
+			chevron_right
+		</a>
+	</div>
+{/if}
 
 <style lang="scss">
 	.pagination__wrapper {

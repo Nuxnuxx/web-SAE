@@ -72,7 +72,7 @@
 		overflow: auto;
 		border-radius: 1rem;
 		background: #fff;
-		box-shadow: 0px 0px 10px 0px #dcdcdc;
+		box-shadow: 0px 0px 10px 0px var(--light-secondary-color);
 
 		.error {
 			color: var(--primary-color);
@@ -108,7 +108,7 @@
 			margin: 1.5rem auto;
 
 			padding: 10px 20px;
-			background-color: #de403e;
+			background-color: var(--primary-color);
 			color: #fff;
 			border: none;
 			border-radius: 20px;
