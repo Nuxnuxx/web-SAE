@@ -41,8 +41,17 @@ func CreatePagination(total int64, currentPage int) Pagination {
 }
 
 func CreatePlaylistDetail(record neo4j.Record, key string) PlaylistDetail {
+	var image string
+
+	if prop := extractProperty(record, key, "image"); prop != nil {
+		if imageVal, ok := prop.(string); ok {
+			image = imageVal
+		}
+	}
+
 	return PlaylistDetail{
 		Name:          extractProperty(record, key, "name").(string),
+		Image:         image,
 		IdPlaylist:    extractProperty(record, key, "idPlaylist").(int64),
 		NumberRecipes: extractProperty(record, key, "numberOfRecipes").(int64),
 	}
