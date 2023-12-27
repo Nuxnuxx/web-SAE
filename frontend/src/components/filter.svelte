@@ -2,15 +2,18 @@
 	import Selector from "./selector.svelte";
 	import { Price, Difficulty } from "$lib/api/recipe-types";
 	import { filterStore } from "../store";
+	import { goto } from "$app/navigation";
 
 	let answers: number[] = [];
 
 	let filter = true;
 
-	$: filterStore.set({
-		price: Price[answers[0]],
-		difficulty: Difficulty[answers[1]],
-	});
+	$: {
+		filterStore.set({
+			price: Price[answers[0]],
+			difficulty: Difficulty[answers[1]],
+		});
+	}
 </script>
 
 <div class="filter">
@@ -48,6 +51,22 @@
 				/>
 			</div>
 
+			<div class="row">
+				<button
+					on:click={() => {
+						answers = [];
+					}}
+				>
+					Réinitialiser
+				</button>
+
+				<button
+					on:click={() => {
+					}}
+				>
+					Appliquer
+				</button>
+			</div>
 			<!-- TODO: tag filtering -->
 			<!-- <div class="filter__card__tag"> -->
 			<!-- 	<span class="title__text">Tags</span> -->
@@ -108,6 +127,31 @@
 				font-size: 1.2rem;
 				@media screen and (min-width: 768px) {
 					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.row {
+			display: flex;
+			flex-direction: row;
+
+			button {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0.5rem 1rem;
+				margin: 2rem auto;
+				border-radius: 1rem;
+				background-color: var(--primary-color);
+				color: var(--white-color);
+				font-weight: medium;
+				font-size: 1rem;
+				border: none;
+				cursor: pointer;
+				transition: all 0.2s ease-out;
+
+				&:hover {
+					transform: scale(1.02);
 				}
 			}
 		}
