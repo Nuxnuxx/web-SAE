@@ -71,31 +71,29 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding-top: 4rem;
 		margin: 20px 0 20px 0;
 	}
 
 	button {
-		/*border uniquement en bas*/
 		border-top: none;
 		border-left: none;
 		border-right: none;
 		background-color: transparent;
 		cursor: pointer;
-
-		border-bottom: 2px solid #000;
-
-		opacity: 0.3;
+		color: var(--light-secondary-color);
+		border-bottom: 2px solid var(--light-secondary-color);
 
 		font-size: 18px;
 	}
 
 	.login {
-		margin-right: 100px;
+		margin-right: 5vw;
 	}
 
 	.active {
-		border-bottom-color: red;
-		color: red;
+		border-bottom-color: var(--primary-color);
+		color: var(--primary-color);
 		font-weight: bold;
 		opacity: 1;
 	}
