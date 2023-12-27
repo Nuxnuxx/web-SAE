@@ -44,11 +44,11 @@
 			border-radius: 10px 0 0 10px;
 			width: 40vw;
 			transition: all 300ms;
-			outline: 2px solid var(--light-secondary-color);
+			outline: 2px solid var(--very-light-secondary-color);
 		}
 
 		input:focus {
-			outline: 2px solid var(--very-light-secondary-color);
+			outline: 2px solid var(--light-secondary-color);
 		}
 
 		input::-webkit-input-placeholder {

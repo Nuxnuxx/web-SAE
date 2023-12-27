@@ -84,16 +84,20 @@
 					color: var(--white-color);
 					&.dribbble__icon {
 						margin: auto;
-						background: url("../lib/img/dribbble_icon.svg")
-							no-repeat 50% 50%;
+						background: var(--white-color);
+						mask-image: url("../lib/img/dribbble_icon.svg");
+						mask-size: 100% 100%;
+						mask-repeat: no-repeat;
 						background-size: cover;
 						width: 1.75rem;
 						height: 1.75rem;
 					}
 					&.github__icon {
 						margin: auto;
-						background: url("../lib/img/github_icon.svg") no-repeat
-							50% 50%;
+						background: var(--white-color);
+						mask-image: url("../lib/img/github_icon.svg");
+						mask-size: 100% 100%;
+						mask-repeat: no-repeat;
 						background-size: cover;
 						width: 1.75rem;
 						height: 1.75rem;
