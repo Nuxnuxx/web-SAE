@@ -24,9 +24,9 @@
 </script>
 
 <div
-	class="dropdown {$isPLaylistAddButtonOpen.open &&
-	$isPLaylistAddButtonOpen.id == idRecipe
-		? 'slected'
+	class="dropdown {$isPlaylistAddButtonOpen.open &&
+	$isPlaylistAddButtonOpen.id == idRecipe
+		? 'selected'
 		: ''}"
 >
 	<button
@@ -88,7 +88,7 @@
 <style lang="scss">
 	.dropdown {
 		position: relative;
-		&.slected::before {
+		&.selected::before {
 			z-index: 2;
 			content: "";
 			position: absolute;
@@ -192,7 +192,7 @@
 
 	@media (max-width: 768px) {
 		.dropdown {
-			&.slected::before {
+			&.selected::before {
 				display: none;
 			}
 		}
