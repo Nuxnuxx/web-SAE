@@ -113,7 +113,7 @@ func buildQueryAndParams(query url.Values, page int) (string, map[string]interfa
 
 	for key := range query {
 		if key == "name" {
-			values.Add(key, fmt.Sprintf("n.%s CONTAINS $%s", key, key))
+			values.Add(key, fmt.Sprintf("n.%s =~ '(?i).*'+$%s+'.*'", key, key))
 		} else {
 			values.Add(key, fmt.Sprintf("n.%s = $%s", key, key))
 		}
