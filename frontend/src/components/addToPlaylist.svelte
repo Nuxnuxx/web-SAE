@@ -18,7 +18,12 @@
 	});
 </script>
 
-<div class="dropdown">
+<div
+	class="dropdown {$isPLaylistAddButtonOpen.open &&
+	$isPLaylistAddButtonOpen.id == idRecipe
+		? 'slected'
+		: ''}"
+>
 	<button
 		on:click={() => {
 			if ($isPLaylistAddButtonOpen.id != idRecipe) {
@@ -76,27 +81,32 @@
 </div>
 
 <style lang="scss">
-	.dropdown-content {
-		display: block;
-		position: absolute;
-		background-color: var(--white-color);
-		border: 3px solid var(--light-secondary-color);
-		border-radius: 10px;
-		width: 12rem;
-		&::before {
-			//TODO: tom fais ce truc
+	.dropdown {
+		position: relative;
+		&.slected::before {
+			z-index: 2;
 			content: "";
 			position: absolute;
-			top: -7%;
-			left: 0%;
-			width: 10%;
-			height: 10%;
+			top: 1.4rem;
+			left: 5%;
+			width: 0.7rem;
+			height: 0.7rem;
 			border: 2.5px solid var(--light-secondary-color);
 			border-bottom: none;
 			border-right: none;
 			background-color: var(--white-color);
 			transform: rotate(45deg);
 		}
+	}
+	.dropdown-content {
+		display: block;
+		position: absolute;
+		z-index: 1;
+		background-color: var(--white-color);
+		border: 3px solid var(--light-secondary-color);
+		border-radius: 10px;
+		width: 12rem;
+		left: -100%;
 
 		form {
 			display: flex;
@@ -173,5 +183,18 @@
 		padding: 0;
 		cursor: pointer;
 		outline: inherit;
+	}
+
+	@media (max-width: 768px) {
+		.dropdown {
+			&.slected::before {
+				display: none;
+			}
+		}
+		.dropdown-content {
+			position: fixed;
+			left: 50%;
+			transform: translate(-50%);
+		}
 	}
 </style>

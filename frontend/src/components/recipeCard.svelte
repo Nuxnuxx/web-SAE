@@ -58,13 +58,14 @@
 
 <style lang="scss">
 	.card {
+		position: relative;
 		color: black;
 		text-decoration: none;
 		aspect-ratio: 1/1;
 		display: flex;
 		flex-direction: column;
 		border-radius: 1.5vh;
-		overflow: hidden;
+		// overflow: hidden;
 
 		.card__content {
 			padding: 5px;
