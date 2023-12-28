@@ -11,33 +11,35 @@
 	{#if errors?.server}
 		<span class="error">{errors?.server}</span>
 	{/if}
-	<label for="mail">
-		<input
-			id="mail"
-			name="mail"
-			type="text"
-			placeholder="Mail*"
-			value={value?.mail || ""}
-			autocomplete="username"
-		/>
-		{#if errors?.mail}
-			<span class="error">{errors?.mail}</span>
-		{/if}
-	</label>
+	<div class="input__wrapper">
+		<label for="mail">
+			<input
+				id="mail"
+				name="mail"
+				type="text"
+				placeholder="Mail*"
+				value={value?.mail || ""}
+				autocomplete="username"
+			/>
+			{#if errors?.mail}
+				<span class="error">{errors?.mail}</span>
+			{/if}
+		</label>
 
-	<label for="password">
-		<input
-			id="password"
-			name="password"
-			type="password"
-			value={value?.password || ""}
-			placeholder="Mot de passe*"
-			autocomplete="current-password"
-		/>
-		{#if errors?.password}
-			<span class="error">{errors?.password}</span>
-		{/if}
-	</label>
+		<label for="password">
+			<input
+				id="password"
+				name="password"
+				type="password"
+				value={value?.password || ""}
+				placeholder="Mot de passe*"
+				autocomplete="current-password"
+			/>
+			{#if errors?.password}
+				<span class="error">{errors?.password}</span>
+			{/if}
+		</label>
+	</div>
 
 	<!-- TODO: Ajouter un lien vers la page de réinitialisation du mot de passe -->
 	<a href="/">Mot de passe oublié ?</a>
@@ -56,7 +58,7 @@
 		font-size: 1.4rem;
 		width: 80%;
 		margin: 0 auto;
-		margin-bottom: 2.8rem;
+		margin-bottom: 2rem;
 	}
 
 	form {
@@ -64,10 +66,17 @@
 		flex-direction: column;
 		align-items: center;
 		margin: 0 auto;
-		row-gap: 1.5rem;
 		width: 40%;
 		min-width: 350px;
 		max-width: 700px;
+
+		.input__wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+			width: 100%;
+		}
 
 		.error {
 			color: var(--primary-color);
@@ -93,18 +102,20 @@
 				outline: none;
 				&::placeholder {
 					opacity: 0.4;
-					transition: 0.5s;
+					transition: 300ms ease-in-out;
 				}
 
 				&:focus::placeholder {
-					color: transparent;
+					transform: translateY(-2rem);
 				}
 			}
 		}
 		a {
-			text-decoration: none;
 			color: var(--light-black-color);
 			text-decoration: underline;
+			width: 85%;
+			text-align: end;
+			margin: 0.5rem 0;
 			font-size: 0.9rem;
 		}
 
@@ -113,6 +124,7 @@
 			align-items: center;
 			gap: 0.5rem;
 			padding: 0.5rem 1rem;
+			margin: 1rem 0 0 0;
 			border-radius: 2rem;
 			background-color: var(--primary-color);
 			color: var(--white-color);

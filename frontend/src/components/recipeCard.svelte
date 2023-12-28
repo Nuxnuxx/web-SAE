@@ -61,12 +61,14 @@
 	.card {
 		position: relative;
 		color: black;
+		text-align: left;
 		text-decoration: none;
 		aspect-ratio: 1/1;
 		display: flex;
 		flex-direction: column;
 		border-radius: 1.5vh;
-		// overflow: hidden;
+		overflow: hidden;
+		outline: 1px solid var(--white-color);
 
 		.card__img {
 			height: 60%;
@@ -78,11 +80,12 @@
 
 		.card__content {
 			padding: 5px;
+			margin-top: auto;
 			display: grid;
 			// grid-auto-flow: column;
 			grid-template-columns: 1fr auto;
 			gap: 5px;
-			height: 30%;
+			height: 40%;
 			background-color: var(--white-color);
 			.card__title {
 				text-decoration: none;
