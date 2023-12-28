@@ -15,7 +15,7 @@ export const actions: Actions = {
 	modifyPassword: async ({ cookies, request }) => {
 		const body = await request.formData();
 
-		const firstName: string = body.get("firstName")?.toString() || "oui";
+		const firstName: string = body.get("firstName")?.toString() || "";
 		const lastName: string = body.get("lastName")?.toString() || "";
 		const newPassword: string = body.get("newPassword")?.toString() || "";
 		const token: string = cookies.get("token") || "";
