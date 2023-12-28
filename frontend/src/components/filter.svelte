@@ -52,19 +52,29 @@
 			</div>
 
 			<div class="row">
-				<button
+				<button class = "button__primary"
+					on:click={() => {
+					}}
+				>
+					Appliquer
+					<span
+						class="material-symbols-rounded"
+					>
+						check
+					</span>
+				</button>
+
+				<button class = "button__secondary"
 					on:click={() => {
 						answers = [];
 					}}
 				>
 					Réinitialiser
-				</button>
-
-				<button
-					on:click={() => {
-					}}
-				>
-					Appliquer
+					<span
+						class="material-symbols-rounded"
+					>
+						sync
+					</span>
 				</button>
 			</div>
 			<!-- TODO: tag filtering -->
@@ -134,13 +144,15 @@
 		.row {
 			display: flex;
 			flex-direction: row;
+			gap: 1rem;
+			padding-left: 5%;
 
 			button {
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
 				padding: 0.5rem 1rem;
-				margin: 2rem auto;
+				margin: 1rem 0;
 				border-radius: 1rem;
 				background-color: var(--primary-color);
 				color: var(--white-color);
@@ -152,6 +164,27 @@
 
 				&:hover {
 					transform: scale(1.02);
+				}
+
+				&.button__primary {
+					background-color: var(--primary-color);
+				}
+
+				&.button__secondary {
+					background-color: var(--white-color);
+					color: var(--light-black-color);
+					border: 1px solid var(--light-black-color);
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 425px) {
+		.filter{
+			.row {
+				button {
+					.material-symbols-rounded {
+						display:none;
+					}
 				}
 			}
 		}

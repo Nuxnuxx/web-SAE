@@ -70,7 +70,7 @@
 		}
 
 		& > * {
-			margin-right: 3vw;
+			margin-right: 1rem;
 		}
 	}
 
@@ -80,12 +80,22 @@
 				font-size: 5vw;
 			}
 		}
+		.little {
+			& label {
+				font-size: 7vw;
+			}
+		}
 	}
 
 	@media (min-width: 1024px) {
 		.selector {
 			& label {
-				font-size: 4vw;
+				font-size: 2rem;
+			}
+		}
+		.little {
+			& label {
+				font-size: 3rem;
 			}
 		}
 	}
