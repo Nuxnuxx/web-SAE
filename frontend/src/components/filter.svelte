@@ -52,29 +52,19 @@
 			</div>
 
 			<div class="row">
-				<button class = "button__primary"
-					on:click={() => {
-					}}
-				>
+				<button class="button__primary" on:click={() => {}}>
 					Appliquer
-					<span
-						class="material-symbols-rounded"
-					>
-						check
-					</span>
+					<span class="material-symbols-rounded"> check </span>
 				</button>
 
-				<button class = "button__secondary"
+				<button
+					class="button__secondary"
 					on:click={() => {
 						answers = [];
 					}}
 				>
 					Réinitialiser
-					<span
-						class="material-symbols-rounded"
-					>
-						sync
-					</span>
+					<span class="material-symbols-rounded"> sync </span>
 				</button>
 			</div>
 			<!-- TODO: tag filtering -->
@@ -179,11 +169,11 @@
 		}
 	}
 	@media screen and (max-width: 425px) {
-		.filter{
+		.filter {
 			.row {
 				button {
 					.material-symbols-rounded {
-						display:none;
+						display: none;
 					}
 				}
 			}
