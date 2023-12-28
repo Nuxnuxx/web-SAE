@@ -15,7 +15,7 @@ export const actions: Actions = {
 	modifyPassword: async ({ cookies, request }) => {
 		const body = await request.formData();
 
-		const firstName: string = body.get("firstName")?.toString() || "";
+		const firstName: string = body.get("firstName")?.toString() || "oui";
 		const lastName: string = body.get("lastName")?.toString() || "";
 		const newPassword: string = body.get("newPassword")?.toString() || "";
 		const token: string = cookies.get("token") || "";
@@ -26,7 +26,12 @@ export const actions: Actions = {
 					"Password is too short - should be 8 chars minimum."
 				);
 			}
-			const result = await sendModifyProfil(token, firstName, lastName, newPassword);
+			const result = await sendModifyProfil(
+				token,
+				firstName,
+				lastName,
+				newPassword
+			);
 			if (result) {
 				cookies.set("token", result.result, {
 					path: "/",

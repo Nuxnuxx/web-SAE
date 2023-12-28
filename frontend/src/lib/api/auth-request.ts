@@ -46,7 +46,12 @@ export const getRecipes = async (
 	}
 };
 
-export const sendModifyProfil = async (token: string, firstName: string, lastName: string, newPassword: string) => {
+export const sendModifyProfil = async (
+	token: string,
+	firstName: string,
+	lastName: string,
+	newPassword: string
+) => {
 	try {
 		const result = await fetch(
 			`${import.meta.env.VITE_API_URL}/auth/profil`,
