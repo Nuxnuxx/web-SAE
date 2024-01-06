@@ -29,6 +29,6 @@
 		"autoprefixer": "^10.4.16",
 		"postcss": "^8.4.32",
 		"readable-numbers": "^1.0.8",
-		"yup": "^1.3.2"
+		"yup": "^1.3.3"
 	}
 }
