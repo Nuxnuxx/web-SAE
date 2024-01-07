@@ -25,7 +25,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 
 			if err != nil {
 				fmt.Println(err)
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf(utils.ErrorInternal)
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
@@ -57,7 +57,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 
 			if err != nil {
 				fmt.Println(err)
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf(utils.ErrorInternal)
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
@@ -82,7 +82,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 
 			if err != nil {
 				fmt.Println(err)
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf(utils.ErrorInternal)
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
@@ -117,7 +117,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 
 			if err != nil {
 				fmt.Println(err)
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf(utils.ErrorInternal)
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
@@ -141,7 +141,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			resp, err := s.store.CreateList(query.Get("name"), mail)
 
 			if err != nil {
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf(utils.ErrorInternal)
 			}
 
 			return writeJSON(w, http.StatusOK, resp)
@@ -208,7 +208,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			resp, err := s.store.DeleteList(id)
 
 			if err != nil {
-				return fmt.Errorf("Internal server error")
+				return fmt.Errorf(utils.ErrorInternal)
 			}
 
 			return writeJSON(w, http.StatusOK, resp)
