@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"encoding/json"
@@ -7,6 +7,8 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"backend/types"
+	"backend/utils"
 )
 
 func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) error {
@@ -219,13 +221,13 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) error {
-	var req UpdateProfilRequest
+	var req types.UpdateProfilRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		return err
 	}
 
-	account, err := NewAccount(r.Header.Get("Gender"), r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
+	account, err := utils.NewAccount(r.Header.Get("Gender"), r.Header.Get("FirstName"), r.Header.Get("LastName"), r.Header.Get("Mail"), req.NewPassWord)
 
 	if err != nil {
 		return err
@@ -243,7 +245,7 @@ func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) e
 		return err
 	}
 
-	response := APIResponse{
+	response := types.APIResponse{
 		Result: token,
 	}
 
@@ -259,7 +261,7 @@ func (s *APIServer) handleDeleteProfil(w http.ResponseWriter, r *http.Request) e
 		return fmt.Errorf("Internal Server Error")
 	}
 
-	response := APIResponse{
+	response := types.APIResponse{
 		Result: "Account deleted",
 	}
 
@@ -267,7 +269,7 @@ func (s *APIServer) handleDeleteProfil(w http.ResponseWriter, r *http.Request) e
 }
 
 func (s *APIServer) handleGetProfil(w http.ResponseWriter, r *http.Request) error {
-	user := Account{
+	user := types.Account{
 		FirstName: r.Header.Get("firstName"),
 		LastName:  r.Header.Get("lastName"),
 		Gender:    r.Header.Get("gender"),
@@ -296,7 +298,7 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
 
-	var req LoginRequest
+	var req types.LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		return err
 	}
@@ -317,7 +319,7 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 		return fmt.Errorf("Invalid Credentials")
 	}
 
-	finalResponse := APIResponse{
+	finalResponse := types.APIResponse{
 		Result: token,
 	}
 
@@ -325,14 +327,14 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error {
-	req := new(CreateAccountRequest)
+	req := new(types.CreateAccountRequest)
 
 	// decode the body and store it in the req variable
 	if err := json.NewDecoder(r.Body).Decode(req); err != nil {
 		return err
 	}
 
-	account, err := NewAccount(req.Gender, req.FirstName, req.LastName, req.Mail, req.Password)
+	account, err := utils.NewAccount(req.Gender, req.FirstName, req.LastName, req.Mail, req.Password)
 
 	if err != nil {
 		return err
@@ -348,7 +350,7 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 
 	token, err := createJWT(account)
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: token,
 	}
 
