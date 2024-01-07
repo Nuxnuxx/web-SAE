@@ -20,3 +20,8 @@ func NewAccount(gender, firstName, lastName, mail, password string) (*types.Acco
 		EncryptedPassword: string(encpw),
 	}, nil
 }
+
+var ErrorNoId = "Please give a id"
+var ErrorDoesntBelong = "List doesn't belong to the user"
+var ErrorInternal = "Internal Server Error"
+var ErrorInvalidCredentials = "Invalid credentials"

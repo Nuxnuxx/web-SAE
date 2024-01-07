@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
 	"backend/types"
 	"backend/utils"
+	"github.com/gorilla/mux"
 )
 
 func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) error {
@@ -29,7 +29,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
-			return fmt.Errorf("Please give a id")
+			return fmt.Errorf(utils.ErrorNoId)
 		}
 	}
 
@@ -50,7 +50,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			check := s.store.CheckListBelongToUser(idList, mail)
 
 			if check != nil {
-				return fmt.Errorf("List doesnt belong to the user")
+				return fmt.Errorf(utils.ErrorDoesntBelong)
 			}
 
 			resp, err := s.store.CreateRecipeList(mail, id, idList)
@@ -61,7 +61,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
-			return fmt.Errorf("Please give a id")
+			return fmt.Errorf(utils.ErrorNoId)
 		}
 	}
 
@@ -72,7 +72,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			check := s.store.CheckListBelongToUser(id, mail)
 
 			if check != nil {
-				return fmt.Errorf("List doesnt belong to the user")
+				return fmt.Errorf(utils.ErrorDoesntBelong)
 			}
 
 			if err != nil {
@@ -86,7 +86,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
-			return fmt.Errorf("Please give a id")
+			return fmt.Errorf(utils.ErrorNoId)
 		}
 	}
 
@@ -107,7 +107,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			check := s.store.CheckListBelongToUser(idList, mail)
 
 			if check != nil {
-				return fmt.Errorf("List doesnt belong to the user")
+				return fmt.Errorf(utils.ErrorDoesntBelong)
 			}
 
 			if err != nil {
@@ -121,7 +121,7 @@ func (s *APIServer) handleListRecipe(w http.ResponseWriter, r *http.Request) err
 			}
 			return writeJSON(w, http.StatusOK, resp)
 		} else {
-			return fmt.Errorf("Please give a id")
+			return fmt.Errorf(utils.ErrorNoId)
 		}
 	}
 
@@ -165,7 +165,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			id, err := strconv.Atoi(query.Get("id"))
 
 			if err != nil {
-				return fmt.Errorf("Please give a id")
+				return fmt.Errorf(utils.ErrorNoId)
 			}
 
 			name := query.Get("name")
@@ -173,7 +173,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			check := s.store.CheckListBelongToUser(id, mail)
 
 			if check != nil {
-				return fmt.Errorf("List doesnt belong to the user")
+				return fmt.Errorf(utils.ErrorDoesntBelong)
 			}
 
 			check = s.store.CheckListAlreadyExist(name, mail)
@@ -185,7 +185,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			resp, err := s.store.UpdateList(id, name)
 
 			if err != nil {
-				return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
+				return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 			}
 
 			return writeJSON(w, http.StatusOK, resp)
@@ -202,7 +202,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 			check := s.store.CheckListBelongToUser(id, mail)
 
 			if check != nil {
-				return fmt.Errorf("List doesnt belong to the user")
+				return fmt.Errorf(utils.ErrorDoesntBelong)
 			}
 
 			resp, err := s.store.DeleteList(id)
@@ -217,7 +217,7 @@ func (s *APIServer) handleList(w http.ResponseWriter, r *http.Request) error {
 		}
 	}
 
-	return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
+	return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 }
 
 func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) error {
@@ -258,7 +258,7 @@ func (s *APIServer) handleDeleteProfil(w http.ResponseWriter, r *http.Request) e
 	}
 
 	if err := s.store.DeleteAccount(r.Header.Get("Mail")); err != nil {
-		return fmt.Errorf("Internal Server Error")
+		return fmt.Errorf(utils.ErrorInternal)
 	}
 
 	response := types.APIResponse{
@@ -304,19 +304,19 @@ func (s *APIServer) handleLogin(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if err := s.store.FindAccountByMail(req.Mail); err == nil {
-		return fmt.Errorf("Invalid Credentials")
+		return fmt.Errorf(utils.ErrorInvalidCredentials)
 	}
 
 	account, err := s.store.Login(req)
 
 	if err != nil {
-		return fmt.Errorf("Invalid Credentials")
+		return fmt.Errorf(utils.ErrorInvalidCredentials)
 	}
 
 	token, err := createJWT(account)
 
 	if err != nil {
-		return fmt.Errorf("Invalid Credentials")
+		return fmt.Errorf(utils.ErrorInvalidCredentials)
 	}
 
 	finalResponse := types.APIResponse{
@@ -361,14 +361,14 @@ func (s *APIServer) handleGetRecipe(w http.ResponseWriter, r *http.Request) erro
 	id, err := strconv.Atoi(mux.Vars(r)["id"])
 
 	if err != nil {
-		return writeJSON(w, http.StatusBadRequest, "Please give a id")
+		return writeJSON(w, http.StatusBadRequest, utils.ErrorNoId)
 	}
 
 	resp, err := s.store.GetRecipeById(id)
 
 	if err != nil {
 		fmt.Println(err)
-		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
+		return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 	}
 	return writeJSON(w, http.StatusOK, resp)
 }
@@ -387,7 +387,7 @@ func (s *APIServer) handleRecipes(w http.ResponseWriter, r *http.Request) error 
 
 		if err != nil {
 			fmt.Println(err)
-			return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
+			return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 		}
 
 		return writeJSON(w, http.StatusOK, resp)
@@ -396,7 +396,7 @@ func (s *APIServer) handleRecipes(w http.ResponseWriter, r *http.Request) error 
 	resp, err := s.store.GetRecipes(page)
 
 	if err != nil {
-		return writeJSON(w, http.StatusInternalServerError, "Internal Server Error")
+		return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 	}
 
 	return writeJSON(w, http.StatusOK, resp)
@@ -407,7 +407,7 @@ func (s *APIServer) handleTrending(w http.ResponseWriter, r *http.Request) error
 
 	if err != nil {
 		fmt.Println(err)
-		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
+		return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 	}
 
 	return writeJSON(w, http.StatusOK, resp)
@@ -418,7 +418,7 @@ func (s *APIServer) handleMostLiked(w http.ResponseWriter, r *http.Request) erro
 
 	if err != nil {
 		fmt.Println(err)
-		return writeJSON(w, http.StatusInternalServerError, "Internal Server error")
+		return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
 	}
 
 	return writeJSON(w, http.StatusOK, resp)

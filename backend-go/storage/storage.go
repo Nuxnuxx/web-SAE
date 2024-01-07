@@ -9,6 +9,8 @@ import (
 
 	"backend/config"
 	"backend/types"
+	"backend/utils"
+
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -578,7 +580,7 @@ func (s *Neo4jStore) Login(req types.LoginRequest) (*types.Account, error) {
 		data := extractProperty(*resp.Record(), "u", "password").(string)
 
 		if err := bcrypt.CompareHashAndPassword([]byte(data), []byte(req.Password)); err != nil {
-			return nil, fmt.Errorf("Invalid Credentials")
+			return nil, fmt.Errorf(utils.ErrorInvalidCredentials)
 		}
 
 		account := CreateAccount(*resp.Record(), "u")
