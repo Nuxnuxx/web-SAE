@@ -8,15 +8,11 @@
 <div class="recipe__wrapper">
 	<img src={finalArrayImages[0]} alt={recipe.name} />
 	<div class="text__wrapper">
-		{#if recipe.name == "liked"}
-			<h3>Vos préférés</h3>
-		{:else}
-			<h3>{recipe.name}</h3>
-		{/if}
-		<p>{recipe.time} Recettes</p>
+		<h3>{recipe.name}</h3>
+		<p>{recipe.time}</p>
 	</div>
 	<a href={`/recipe/${recipe.idRecipe}`}>
-		<span class="material-symbols-rounded filled"> arrow_forward </span>
+		<span class="material-symbols-rounded"> arrow_forward </span>
 	</a>
 </div>
 
@@ -25,20 +21,31 @@
 		display: flex;
 		text-align: left;
 		flex-direction: row;
+		gap: 1rem;
 		align-items: center;
 		margin: 0 auto;
-		padding-right: 1rem;
+		padding-right: 0.5rem;
 		width: 80%;
 		border: 1px solid var(--light-secondary-color);
 		border-radius: 10px;
 		overflow: hidden;
+
+		img {
+			height: 7rem;
+			object-fit: cover;
+			aspect-ratio: 1/1;
+		}
+
 		.text__wrapper {
-			margin-left: 2rem;
 			display: flex;
 			flex-direction: column;
 
+			h3 {
+				margin: 0 0 0.5rem 0;
+			}
 			p {
 				color: var(--light-black-color);
+				margin: 0;
 			}
 		}
 		a {
@@ -49,6 +56,7 @@
 			span {
 				font-size: 3rem;
 				font-weight: 600;
+				padding-right: 1rem;
 			}
 		}
 	}
