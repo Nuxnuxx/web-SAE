@@ -46,13 +46,18 @@ export const getRecipes = async (
 	}
 };
 
-export const sendModifyProfil = async (token: string, newPassword: string) => {
+export const sendModifyProfil = async (
+	token: string,
+	firstName: string,
+	lastName: string,
+	newPassword: string
+) => {
 	try {
 		const result = await fetch(
 			`${import.meta.env.VITE_API_URL}/auth/profil`,
 			{
 				method: "PUT",
-				body: JSON.stringify({ newPassword }),
+				body: JSON.stringify({ firstName, lastName, newPassword }),
 				headers: {
 					"Content-type": "application/json",
 					Authorization: "Bearer " + token,
