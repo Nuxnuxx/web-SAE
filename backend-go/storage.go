@@ -446,8 +446,9 @@ func (s *Neo4jStore) CreateList(name string, mail string) (*APIResponse, error) 
 	return &result, nil
 }
 
-//INFO: If it return a error then the email has been found
-// 			If response is nil then the account is not found
+// INFO: If it return a error then the email has been found
+//
+//	If response is nil then the account is not found
 func (s *Neo4jStore) FindAccountByMail(mail string) error {
 	query := "MATCH (u:User {mail: $mail}) RETURN u"
 
@@ -516,8 +517,9 @@ func (s *Neo4jStore) DeleteAccount(mail string) error {
 
 func (s *Neo4jStore) UpdateAccount(acc *Account) error {
 
-	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) SET u.password = $password RETURN u",
+	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) SET u.password = $password, u.name = $name RETURN u",
 		map[string]interface{}{
+			"name":     acc.FirstName + " " + acc.LastName,
 			"mail":     acc.Mail,
 			"password": acc.EncryptedPassword,
 		},
