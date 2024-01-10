@@ -59,6 +59,7 @@
 
 <style lang="scss">
 	.card {
+		position: relative;
 		color: black;
 		text-align: left;
 		text-decoration: none;

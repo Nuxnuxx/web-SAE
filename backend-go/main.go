@@ -1,6 +1,9 @@
 package main
 
 import (
+	"backend/api"
+	"backend/config"
+	"backend/storage"
 	"context"
 	"log"
 	"os"
@@ -11,25 +14,25 @@ func main() {
 	ctx := context.Background()
 	stage := os.Getenv("STAGE")
 	if stage != "prod" {
-		err := DotEnvInit()
+		err := config.DotEnvInit()
 
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
-	err := initEnvVar()
+	err := config.InitEnvVar()
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	store, err := NewNeo4jStore(ctx)
+	store, err := storage.NewNeo4jStore(ctx)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	server := NewAPIServer(":3001", store)
+	server := api.NewAPIServer(":3001", store)
 	server.Run()
 }

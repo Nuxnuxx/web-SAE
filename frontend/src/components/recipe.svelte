@@ -9,11 +9,9 @@
 
 <div class="recipe">
 	<div class="recipe__header">
-		<img
-			class="recipe__header__img"
-			src={finalArrayImages[0]}
-			alt={recipe.recipeDetail.name}
-		/>
+		<div class="recipe__header__img">
+			<img src={finalArrayImages[0]} alt={recipe.recipeDetail.name} />
+		</div>
 		<h2>{recipe.recipeDetail.name}</h2>
 		<div class="recipe__header__infos">
 			<div class="recipe__header__infos__item">
@@ -45,7 +43,7 @@
 			{#each Object.entries(recipe.recipeIngredients) as [_, ingredient]}
 				<li>
 					<img src={ingredient.urlPicture} alt="" />
-					<!-- //FIXME : this is not working properly the split is not working -->
+					<!-- //FIXME : this is not working properly the split is not working | EDIT TOM : care to explain what should be happening ? -->
 					{#if ingredient.name.split(" ").length > 1}
 						<span class="recipe__ingredient__text">
 							<span>{ingredient.name.split(" ")[0]}</span>
@@ -95,9 +93,23 @@
 			display: flex;
 			flex-direction: column;
 			.recipe__header__img {
-				width: 100%;
-				object-fit: cover;
 				height: 15rem;
+				width: 100%;
+				position: relative;
+				&::after {
+					content: "";
+					position: absolute;
+					top: 35%;
+					left: 0;
+					background: linear-gradient(to top, #fff, transparent);
+					width: 100%;
+					height: 65%;
+				}
+				img {
+					object-fit: cover;
+					width: 100%;
+					height: 100%;
+				}
 			}
 
 			h2 {
@@ -306,8 +318,8 @@
 				display: unset;
 				object-fit: cover;
 				width: 50%;
-				height: 23rem;
-				border-radius: 20px;
+				aspect-ratio: 1/1;
+				border-radius: 15px;
 				margin: 0 2rem;
 			}
 		}

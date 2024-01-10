@@ -1,14 +1,17 @@
-package main
+package api
 
 import (
 	"fmt"
 	"net/http"
 	"strings"
 
+	"backend/config"
 	"github.com/golang-jwt/jwt/v4"
+	"backend/types"
+	"backend/storage"
 )
 
-func withJWTAuth(handlerFunc http.HandlerFunc, s Storage) http.HandlerFunc {
+func withJWTAuth(handlerFunc http.HandlerFunc, s storage.Storage) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokenString := r.Header.Get("Authorization")
@@ -41,7 +44,6 @@ func withJWTAuth(handlerFunc http.HandlerFunc, s Storage) http.HandlerFunc {
 		handlerFunc(w, r)
 	}
 }
-
 func makeHTTPHandleFunc(f apiFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := f(w, r); err != nil {
@@ -56,11 +58,11 @@ func validateJWT(tokenString string) (*jwt.Token, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return []byte(Jwt_token), nil
+		return []byte(config.Jwt_token), nil
 	})
 }
 
-func createJWT(account *Account) (string, error) {
+func createJWT(account *types.Account) (string, error) {
 	claims := &jwt.MapClaims{
 		"ExpiresAt": 15000,
 		"Mail":      account.Mail,
@@ -72,5 +74,5 @@ func createJWT(account *Account) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return token.SignedString([]byte(Jwt_token))
+	return token.SignedString([]byte(config.Jwt_token))
 }

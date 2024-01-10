@@ -1,4 +1,4 @@
-package main
+package storage
 
 import (
 	"context"
@@ -7,42 +7,46 @@ import (
 	"os"
 	"strings"
 
+	"backend/config"
+	"backend/types"
+	"backend/utils"
+
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Storage interface {
 	// Suggestion
-	GetMostLiked() (*APIResponse, error)
-	GetTrending() (*APIResponse, error)
+	GetMostLiked() (*types.APIResponse, error)
+	GetTrending() (*types.APIResponse, error)
 
 	// Recipe List
-	CreateRecipeLiked(string, int) (*APIResponse, error)
-	CreateRecipeList(string, int, int) (*APIResponse, error)
-	DeleteRecipeList(int, int) (*APIResponse, error)
-	GetRecipeList(int) (*APIResponse, error)
+	CreateRecipeLiked(string, int) (*types.APIResponse, error)
+	CreateRecipeList(string, int, int) (*types.APIResponse, error)
+	DeleteRecipeList(int, int) (*types.APIResponse, error)
+	GetRecipeList(int) (*types.APIResponse, error)
 
 	// List
-	CreateList(string, string) (*APIResponse, error)
-	GetList(string) (*APIResponse, error)
-	DeleteList(int) (*APIResponse, error)
-	UpdateList(int, string) (*APIResponse, error)
+	CreateList(string, string) (*types.APIResponse, error)
+	GetList(string) (*types.APIResponse, error)
+	DeleteList(int) (*types.APIResponse, error)
+	UpdateList(int, string) (*types.APIResponse, error)
 	CheckListAlreadyExist(string, string) error
 	CheckListBelongToUser(int, string) error
 
 	// Account
-	CreateAccount(*Account) error
-	GetAccountByMail(string) (*Account, error)
+	CreateAccount(*types.Account) error
+	GetAccountByMail(string) (*types.Account, error)
 	DeleteAccount(string) error
-	UpdateAccount(*Account) error
+	UpdateAccount(*types.Account) error
 	FindAccountByMail(string) error
-	Login(LoginRequest) (*Account, error)
+	Login(types.LoginRequest) (*types.Account, error)
 
 	// Recipe
-	GetRecipeById(int) (*APIResponse, error)
-	GetRecipes(int) (*APIResponse, error)
-	GetRecipesWithFilter(int, url.Values) (*APIResponse, error)
-	GetMetadata(int, string, map[string]interface{}) (*Pagination, error)
+	GetRecipeById(int) (*types.APIResponse, error)
+	GetRecipes(int) (*types.APIResponse, error)
+	GetRecipesWithFilter(int, url.Values) (*types.APIResponse, error)
+	GetMetadata(int, string, map[string]interface{}) (*types.Pagination, error)
 }
 
 type Neo4jStore struct {
@@ -54,7 +58,7 @@ func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 	uri := os.Getenv("DB_URL")
 	auth := neo4j.NoAuth()
 
-	if Stage == "dev" {
+	if config.Stage == "dev" {
 		auth = neo4j.BasicAuth(os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), "")
 	}
 
@@ -76,7 +80,7 @@ func NewNeo4jStore(ctx context.Context) (*Neo4jStore, error) {
 	}, nil
 }
 
-func (s *Neo4jStore) GetTrending() (*APIResponse, error) {
+func (s *Neo4jStore) GetTrending() (*types.APIResponse, error) {
 	query := "MATCH (n:Recipe) RETURN n LIMIT 10"
 
 	resp, err := s.db.Run(s.ctx, query, nil)
@@ -89,7 +93,7 @@ func (s *Neo4jStore) GetTrending() (*APIResponse, error) {
 		return nil, err
 	}
 
-	recipeList := make([]RecipeDetail, 0)
+	recipeList := make([]types.RecipeDetail, 0)
 
 	for resp.Next(s.ctx) {
 		recipe := CreateRecipeDetail(*resp.Record(), "n")
@@ -97,14 +101,14 @@ func (s *Neo4jStore) GetTrending() (*APIResponse, error) {
 		recipeList = append(recipeList, recipe)
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: recipeList,
 	}
 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) GetMostLiked() (*APIResponse, error) {
+func (s *Neo4jStore) GetMostLiked() (*types.APIResponse, error) {
 	query := "MATCH (n:Recipe) RETURN n LIMIT 10"
 
 	resp, err := s.db.Run(s.ctx, query, nil)
@@ -117,7 +121,7 @@ func (s *Neo4jStore) GetMostLiked() (*APIResponse, error) {
 		return nil, err
 	}
 
-	recipeList := make([]RecipeDetail, 0)
+	recipeList := make([]types.RecipeDetail, 0)
 
 	for resp.Next(s.ctx) {
 		recipe := CreateRecipeDetail(*resp.Record(), "n")
@@ -125,14 +129,14 @@ func (s *Neo4jStore) GetMostLiked() (*APIResponse, error) {
 		recipeList = append(recipeList, recipe)
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: recipeList,
 	}
 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) DeleteRecipeList(id int, idList int) (*APIResponse, error) {
+func (s *Neo4jStore) DeleteRecipeList(id int, idList int) (*types.APIResponse, error) {
 	query := "MATCH (r:Recipe{idRecipe:$idRecipe})-[l:est_dans]->(p:Playlist{idPlaylist:$idList}) delete l"
 
 	params := map[string]interface{}{
@@ -154,14 +158,14 @@ func (s *Neo4jStore) DeleteRecipeList(id int, idList int) (*APIResponse, error) 
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: "The recipe has been deleted",
 	}
 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) GetRecipeList(id int) (*APIResponse, error) {
+func (s *Neo4jStore) GetRecipeList(id int) (*types.APIResponse, error) {
 	query := "MATCH (r:Recipe)-[:est_dans]->(p:Playlist{idPlaylist:$id}) return r"
 
 	params := map[string]interface{}{
@@ -179,7 +183,7 @@ func (s *Neo4jStore) GetRecipeList(id int) (*APIResponse, error) {
 	}
 
 	// create array of recipeDetail
-	recipes := make([]RecipeDetail, 0)
+	recipes := make([]types.RecipeDetail, 0)
 	for resp.Next(s.ctx) {
 		recipe := CreateRecipeDetail(*resp.Record(), "r")
 		recipes = append(recipes, recipe)
@@ -189,14 +193,14 @@ func (s *Neo4jStore) GetRecipeList(id int) (*APIResponse, error) {
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: recipes,
 	}
 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) CreateRecipeList(mail string, id, idList int) (*APIResponse, error) {
+func (s *Neo4jStore) CreateRecipeList(mail string, id, idList int) (*types.APIResponse, error) {
 	query := `
 		MATCH (p:Playlist{idPlaylist:$idList})
 		MATCH (u:User) WHERE u.mail = $mail
@@ -225,14 +229,14 @@ func (s *Neo4jStore) CreateRecipeList(mail string, id, idList int) (*APIResponse
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: "The recipe has been added",
 	}
 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) CreateRecipeLiked(mail string, idRecipe int) (*APIResponse, error) {
+func (s *Neo4jStore) CreateRecipeLiked(mail string, idRecipe int) (*types.APIResponse, error) {
 	query := `
 		MATCH (p:Playlist{name:'liked'})
 		MATCH (u:User) WHERE u.mail = $mail
@@ -260,14 +264,14 @@ func (s *Neo4jStore) CreateRecipeLiked(mail string, idRecipe int) (*APIResponse,
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: "The recipe has been added",
 	}
 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) GetList(mail string) (*APIResponse, error) {
+func (s *Neo4jStore) GetList(mail string) (*types.APIResponse, error) {
 	query := `
 		MATCH (u:User {mail: $mail})-[:A_UNE]->(p:Playlist)
 		OPTIONAL MATCH (r:Recipe)-[:est_dans]->(p)
@@ -291,7 +295,7 @@ func (s *Neo4jStore) GetList(mail string) (*APIResponse, error) {
 		return nil, err
 	}
 
-	playlistList := make([]PlaylistDetail, 0)
+	playlistList := make([]types.PlaylistDetail, 0)
 
 	for resp.Next(s.ctx) {
 		playlist := CreatePlaylistDetail(*resp.Record(), "p")
@@ -302,7 +306,7 @@ func (s *Neo4jStore) GetList(mail string) (*APIResponse, error) {
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result: playlistList,
 	}
 
@@ -359,7 +363,7 @@ func (s *Neo4jStore) CheckListAlreadyExist(name, mail string) error {
 
 }
 
-func (s *Neo4jStore) UpdateList(id int, name string) (*APIResponse, error) {
+func (s *Neo4jStore) UpdateList(id int, name string) (*types.APIResponse, error) {
 	query := "match (p:Playlist{idPlaylist:$id}) SET p.name = $name"
 
 	params := map[string]interface{}{
@@ -377,13 +381,13 @@ func (s *Neo4jStore) UpdateList(id int, name string) (*APIResponse, error) {
 		return nil, err
 	}
 
-	result := APIResponse{
+	result := types.APIResponse{
 		Result: "Playlist has been updated",
 	}
 	return &result, nil
 }
 
-func (s *Neo4jStore) DeleteList(id int) (*APIResponse, error) {
+func (s *Neo4jStore) DeleteList(id int) (*types.APIResponse, error) {
 	queryString := `
 		MATCH (p:Playlist{idPlaylist:$id}) MATCH ()-[l:A_UNE]->(p) OPTIONAL MATCH ()-[l2:est_dans]->(p) delete l,l2,p
 	`
@@ -402,13 +406,13 @@ func (s *Neo4jStore) DeleteList(id int) (*APIResponse, error) {
 		return nil, err
 	}
 
-	result := APIResponse{
+	result := types.APIResponse{
 		Result: "Playlist has been deleted",
 	}
 	return &result, nil
 }
 
-func (s *Neo4jStore) CreateList(name string, mail string) (*APIResponse, error) {
+func (s *Neo4jStore) CreateList(name string, mail string) (*types.APIResponse, error) {
 	queryString := `
 		MERGE(id: UniqueId { name: 'Playlist' })
 		ON CREATE SET id.count = 100
@@ -440,14 +444,15 @@ func (s *Neo4jStore) CreateList(name string, mail string) (*APIResponse, error) 
 		return nil, err
 	}
 
-	result := APIResponse{
+	result := types.APIResponse{
 		Result: "Playlist has been created",
 	}
 	return &result, nil
 }
 
-//INFO: If it return a error then the email has been found
-// 			If response is nil then the account is not found
+// INFO: If it return a error then the email has been found
+//
+//	If response is nil then the account is not found
 func (s *Neo4jStore) FindAccountByMail(mail string) error {
 	query := "MATCH (u:User {mail: $mail}) RETURN u"
 
@@ -472,7 +477,7 @@ func (s *Neo4jStore) FindAccountByMail(mail string) error {
 	return nil
 }
 
-func (s *Neo4jStore) GetAccountByMail(mail string) (*Account, error) {
+func (s *Neo4jStore) GetAccountByMail(mail string) (*types.Account, error) {
 	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) return u;",
 		map[string]interface{}{
 			"mail": mail,
@@ -514,10 +519,11 @@ func (s *Neo4jStore) DeleteAccount(mail string) error {
 	return nil
 }
 
-func (s *Neo4jStore) UpdateAccount(acc *Account) error {
+func (s *Neo4jStore) UpdateAccount(acc *types.Account) error {
 
-	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) SET u.password = $password RETURN u",
+	resp, err := s.db.Run(s.ctx, "MATCH (u:User {mail: $mail}) SET u.password = $password, u.name = $name RETURN u",
 		map[string]interface{}{
+			"name":     acc.FirstName + " " + acc.LastName,
 			"mail":     acc.Mail,
 			"password": acc.EncryptedPassword,
 		},
@@ -534,7 +540,7 @@ func (s *Neo4jStore) UpdateAccount(acc *Account) error {
 	return nil
 }
 
-func (s *Neo4jStore) CreateAccount(acc *Account) error {
+func (s *Neo4jStore) CreateAccount(acc *types.Account) error {
 
 	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password, gender: $gender}) RETURN u",
 		map[string]interface{}{
@@ -556,7 +562,7 @@ func (s *Neo4jStore) CreateAccount(acc *Account) error {
 	return nil
 }
 
-func (s *Neo4jStore) Login(req LoginRequest) (*Account, error) {
+func (s *Neo4jStore) Login(req types.LoginRequest) (*types.Account, error) {
 	query := "MATCH (u:User {mail: $mail}) RETURN u"
 
 	resp, err := s.db.Run(s.ctx, query,
@@ -576,7 +582,7 @@ func (s *Neo4jStore) Login(req LoginRequest) (*Account, error) {
 		data := extractProperty(*resp.Record(), "u", "password").(string)
 
 		if err := bcrypt.CompareHashAndPassword([]byte(data), []byte(req.Password)); err != nil {
-			return nil, fmt.Errorf("Invalid Credentials")
+			return nil, fmt.Errorf(utils.ErrorInvalidCredentials)
 		}
 
 		account := CreateAccount(*resp.Record(), "u")
@@ -587,7 +593,7 @@ func (s *Neo4jStore) Login(req LoginRequest) (*Account, error) {
 	return nil, err
 }
 
-func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
+func (s *Neo4jStore) GetRecipeById(id int) (*types.APIResponse, error) {
 
 	query := `
 			MATCH (recipe:Recipe {idRecipe: $id})
@@ -626,7 +632,7 @@ func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 			return nil, err
 		}
 
-		finalResult := APIResponse{
+		finalResult := types.APIResponse{
 			Result: recipe,
 		}
 
@@ -636,7 +642,7 @@ func (s *Neo4jStore) GetRecipeById(id int) (*APIResponse, error) {
 	return nil, err
 }
 
-func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
+func (s *Neo4jStore) GetRecipes(page int) (*types.APIResponse, error) {
 	query := "MATCH (n:Recipe) RETURN n SKIP $page LIMIT $limit"
 
 	params := map[string]interface{}{
@@ -656,7 +662,7 @@ func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 		return nil, err
 	}
 
-	recipeList := make([]RecipeDetail, 0)
+	recipeList := make([]types.RecipeDetail, 0)
 
 	for resp.Next(s.ctx) {
 		recipe := CreateRecipeDetail(*resp.Record(), "n")
@@ -670,7 +676,7 @@ func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result:     recipeList,
 		Pagination: recipePagination,
 	}
@@ -678,7 +684,7 @@ func (s *Neo4jStore) GetRecipes(page int) (*APIResponse, error) {
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIResponse, error) {
+func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*types.APIResponse, error) {
 	queryString, params := buildQueryAndParams(query, page)
 
 	resp, err := s.db.Run(s.ctx, queryString,
@@ -693,7 +699,7 @@ func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIRespo
 		return nil, err
 	}
 
-	recipeList := make([]RecipeDetail, 0)
+	recipeList := make([]types.RecipeDetail, 0)
 
 	for resp.Next(s.ctx) {
 		recipe := CreateRecipeDetail(*resp.Record(), "n")
@@ -707,7 +713,7 @@ func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIRespo
 		return nil, err
 	}
 
-	finalResult := APIResponse{
+	finalResult := types.APIResponse{
 		Result:     recipeList,
 		Pagination: recipePagination,
 	}
@@ -716,7 +722,7 @@ func (s *Neo4jStore) GetRecipesWithFilter(page int, query url.Values) (*APIRespo
 
 }
 
-func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]interface{}) (*Pagination, error) {
+func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]interface{}) (*types.Pagination, error) {
 
 	query = strings.ReplaceAll(query, "RETURN n", "RETURN count(n) as total")
 
