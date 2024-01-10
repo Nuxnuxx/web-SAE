@@ -17,12 +17,8 @@
 		href={`/recipe/${data.idRecipe}`}
 		class="card__img"
 	>
-		<!-- TODO: change the "https://..." accordingly to the db -->
 		<img
-			src={finalArrayImages[0] ==
-			"https://assets.afcdn.com/recipe/20100101/magazine-2020-04-05_h150.jpg"
-				? DEFAULT
-				: finalArrayImages[0]}
+			src={finalArrayImages[0] == "" ? DEFAULT : finalArrayImages[0]}
 			alt={data.name}
 		/>
 	</a>
