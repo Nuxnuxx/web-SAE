@@ -149,3 +149,35 @@ export const sendRegister = async (data: User) => {
 		throw err;
 	}
 };
+
+export const sendColdstart = async (
+	token: string,
+	price: string,
+	difficulty: string
+) => {
+	try {
+		const result = await fetch(
+			`${
+				import.meta.env.VITE_API_URL
+			}/auth/coldstart?price=${price}&difficulty=${difficulty}`,
+			{
+				method: "POST",
+				body: JSON.stringify({ price, difficulty }),
+				headers: {
+					"Content-type": "application/json",
+					Authorization: "Bearer " + token,
+				},
+			}
+		);
+
+		if (result.ok) {
+			const data = await result.json();
+			return data;
+		} else {
+			const { error } = await result.json();
+			throw new Error(error);
+		}
+	} catch (err) {
+		throw err;
+	}
+};

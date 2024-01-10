@@ -8,6 +8,11 @@ export interface User {
 	gender?: string;
 }
 
+export interface Coldstart {
+	price?: string;
+	difficulty: string;
+}
+
 export type ErrorsRegister = Record<string, string>;
 export type ErrorWithId = {
 	id: string;

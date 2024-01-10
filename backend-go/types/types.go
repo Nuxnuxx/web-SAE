@@ -64,12 +64,18 @@ type CreateAccountRequest struct {
 	Password  string `json:"password"`
 }
 
+type CreateColdstartRequest struct {
+	Price      string `json:"price"`
+	Difficulty string `json:"difficulty"`
+}
+
 type Account struct {
 	IdUser            int64  `json:"idUser"`
 	FirstName         string `json:"firstName"`
 	LastName          string `json:"lastName"`
 	Gender            string `json:"gender"`
 	Price             string `json:"price"`
+	Difficulty        string `json:"difficulty"`
 	EncryptedPassword string `json:"-"`
 	Mail              string `json:"mail"`
 }

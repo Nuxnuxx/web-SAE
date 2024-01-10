@@ -1,6 +1,10 @@
-import { sendLogin, sendRegister } from "$lib/api/auth-request";
-import { schemaLogin, schemaRegister } from "$lib/api/auth-schema";
-import type { ErrorWithId, User } from "$lib/api/auth-types";
+import { sendLogin, sendRegister, sendColdstart } from "$lib/api/auth-request";
+import {
+	schemaLogin,
+	schemaRegister,
+	schemaColdstart,
+} from "$lib/api/auth-schema";
+import type { ErrorWithId, User, Coldstart } from "$lib/api/auth-types";
 import { fail, type Actions, redirect } from "@sveltejs/kit";
 import * as yup from "yup";
 import type { PageServerLoad } from "./$types";
@@ -91,7 +95,7 @@ export const actions: Actions = {
 				}
 				const playlist = await createPlaylist(token, "liked");
 				return {
-					location: "/",
+					location: "/auth/coldstart",
 				};
 			}
 		} catch (err) {
@@ -112,5 +116,33 @@ export const actions: Actions = {
 			}
 			return fail(400, errors);
 		}
+	},
+
+	coldstart: async ({ cookies, request }) => {
+		const body = await request.formData();
+		const coldstart = {
+			price: body.get("price")?.toString() || "",
+			difficulty: body.get("difficulty")?.toString() || "",
+		};
+
+		try {
+			await schemaColdstart.validate(coldstart, {
+				abortEarly: false,
+			});
+			const token = cookies.get("token");
+			if (token === undefined || token === null) {
+				throw new Error("token is not defined");
+			}
+			const result = await sendColdstart(
+				token,
+				coldstart.price,
+				coldstart.difficulty
+			);
+			if (result) {
+				return {
+					location: "/",
+				};
+			}
+		} catch (err) {}
 	},
 };

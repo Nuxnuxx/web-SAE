@@ -41,6 +41,7 @@ type Storage interface {
 	UpdateAccount(*types.Account) error
 	FindAccountByMail(string) error
 	Login(types.LoginRequest) (*types.Account, error)
+	CreateColdstart(*types.CreateColdstartRequest, string) error
 
 	// Recipe
 	GetRecipeById(int) (*types.APIResponse, error)
@@ -542,12 +543,14 @@ func (s *Neo4jStore) UpdateAccount(acc *types.Account) error {
 
 func (s *Neo4jStore) CreateAccount(acc *types.Account) error {
 
-	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password, gender: $gender}) RETURN u",
+	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password, gender: $gender, price: $price, difficulty: $difficulty}) RETURN u",
 		map[string]interface{}{
-			"name":     acc.FirstName + " " + acc.LastName,
-			"mail":     acc.Mail,
-			"gender":   acc.Gender,
-			"password": acc.EncryptedPassword,
+			"name":      acc.FirstName + " " + acc.LastName,
+			"mail":      acc.Mail,
+			"gender":    acc.Gender,
+			"password":  acc.EncryptedPassword,
+			"price":     acc.Price,
+			"dificulty": acc.Difficulty,
 		},
 	)
 
@@ -591,6 +594,33 @@ func (s *Neo4jStore) Login(req types.LoginRequest) (*types.Account, error) {
 	}
 
 	return nil, err
+}
+
+func (s *Neo4jStore) CreateColdstart(req *types.CreateColdstartRequest, mail string) error {
+	query := `
+		MATCH (u:User)
+		WHERE u.mail = $mail
+		SET u.price = $price
+		SET u.difficulty = $difficulty
+	`
+
+	params := map[string]interface{}{
+		"mail":       mail,
+		"price":      req.Price,
+		"difficulty": req.Difficulty,
+	}
+
+	resp, err := s.db.Run(s.ctx, query, params)
+
+	if err != nil {
+		return err
+	}
+
+	if resp.Err() != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *Neo4jStore) GetRecipeById(id int) (*types.APIResponse, error) {
