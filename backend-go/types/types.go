@@ -1,4 +1,4 @@
-package main
+package types
 
 type Pagination struct {
 	CurrentPage int `json:"currentPage"`
