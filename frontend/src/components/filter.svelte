@@ -2,15 +2,28 @@
 	import Selector from "./selector.svelte";
 	import { Price, Difficulty } from "$lib/api/recipe-types";
 	import { filterStore } from "../store";
+	import { makeUrl } from "$lib/utils";
 
 	let answers: number[] = [];
 
 	let filter = true;
 
-	$: filterStore.set({
-		price: Price[answers[0]],
-		difficulty: Difficulty[answers[1]],
-	});
+	let url = "";
+
+	$: {
+		filterStore.update((store) => {
+			return {
+				...store,
+				price: Price[answers[0]],
+				difficulty: Difficulty[answers[1]],
+			};
+		});
+		url = makeUrl(
+			$filterStore.name,
+			$filterStore.price,
+			$filterStore.difficulty
+		);
+	}
 </script>
 
 <div class="filter">
@@ -48,6 +61,22 @@
 				/>
 			</div>
 
+			<div class="row">
+				<a class="button button__primary" href={url}>
+					Appliquer
+					<span class="material-symbols-rounded"> check </span>
+				</a>
+
+				<button
+					class="button button__secondary"
+					on:click={() => {
+						answers = [];
+					}}
+				>
+					Réinitialiser
+					<span class="material-symbols-rounded"> sync </span>
+				</button>
+			</div>
 			<!-- TODO: tag filtering -->
 			<!-- <div class="filter__card__tag"> -->
 			<!-- 	<span class="title__text">Tags</span> -->
@@ -108,6 +137,55 @@
 				font-size: 1.2rem;
 				@media screen and (min-width: 768px) {
 					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.row {
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+			padding-left: 5%;
+
+			.button {
+				display: flex;
+				text-decoration: none;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0.5rem 1rem;
+				margin: 1rem 0;
+				border-radius: 1rem;
+				background-color: var(--primary-color);
+				color: var(--white-color);
+				font-weight: medium;
+				font-size: 1rem;
+				border: none;
+				cursor: pointer;
+				transition: all 0.2s ease-out;
+
+				&:hover {
+					transform: scale(1.02);
+				}
+
+				&.button__primary {
+					background-color: var(--primary-color);
+				}
+
+				&.button__secondary {
+					background-color: var(--white-color);
+					color: var(--light-black-color);
+					border: 1px solid var(--light-black-color);
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 425px) {
+		.filter {
+			.row {
+				button {
+					.material-symbols-rounded {
+						display: none;
+					}
 				}
 			}
 		}
