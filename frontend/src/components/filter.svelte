@@ -2,17 +2,27 @@
 	import Selector from "./selector.svelte";
 	import { Price, Difficulty } from "$lib/api/recipe-types";
 	import { filterStore } from "../store";
-	import { goto } from "$app/navigation";
+	import { makeUrl } from "$lib/utils";
 
 	let answers: number[] = [];
 
 	let filter = true;
 
+	let url = "";
+
 	$: {
-		filterStore.set({
-			price: Price[answers[0]],
-			difficulty: Difficulty[answers[1]],
+		filterStore.update((store) => {
+			return {
+				...store,
+				price: Price[answers[0]],
+				difficulty: Difficulty[answers[1]],
+			};
 		});
+		url = makeUrl(
+			$filterStore.name,
+			$filterStore.price,
+			$filterStore.difficulty
+		);
 	}
 </script>
 
@@ -52,13 +62,13 @@
 			</div>
 
 			<div class="row">
-				<button class="button__primary" on:click={() => {}}>
+				<a class="button button__primary" href={url}>
 					Appliquer
 					<span class="material-symbols-rounded"> check </span>
-				</button>
+				</a>
 
 				<button
-					class="button__secondary"
+					class="button button__secondary"
 					on:click={() => {
 						answers = [];
 					}}
@@ -137,8 +147,9 @@
 			gap: 1rem;
 			padding-left: 5%;
 
-			button {
+			.button {
 				display: flex;
+				text-decoration: none;
 				align-items: center;
 				gap: 0.5rem;
 				padding: 0.5rem 1rem;
