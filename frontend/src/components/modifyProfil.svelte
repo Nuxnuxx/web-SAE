@@ -8,7 +8,6 @@
 	export let backgroundColor: string = "";
 	export let errors: ErrorsRegister;
 
-	//FIXME: this is a workaround to get the image path, it may do nothing on a server but it throws an error on localhost
 	const profileImg = new URL(
 		`../routes/profil/food/${food}.png`,
 		import.meta.url
@@ -56,10 +55,17 @@
 				<span class="error">{errors?.server}</span>
 			{/if}
 
-			<button type="submit" class="form__button">
-				<span class="button__text">Sauvegarder</span>
-				<span class="material-symbols-rounded"> done </span>
-			</button>
+			<div class="button__wrapper">
+				<a class="btn button__secondary" href="/profil">
+					Annuler
+					<span class="material-symbols-rounded"> close </span>
+				</a>
+
+				<button type="submit" class="btn button__primary">
+					Sauvegarder
+					<span class="material-symbols-rounded"> done </span>
+				</button>
+			</div>
 		</form>
 	</div>
 </main>
@@ -104,24 +110,40 @@
 				vertical-align: middle;
 			}
 		}
-		.form__button {
-			margin: 1.5rem auto;
-
-			padding: 10px 20px;
-			background-color: var(--primary-color);
-			color: #fff;
-			border: none;
-			border-radius: 20px;
-			cursor: pointer;
-			font-size: 1.2rem;
+		.button__wrapper {
 			display: flex;
-			align-items: center;
-			justify-content: space-between;
+			gap: 2rem;
+			padding: 0 1rem;
+			.btn {
+				width: fill-available;
+				margin: 1.5rem auto;
 
-			@media screen and (max-width: 1150px) {
-				font-size: 1rem;
-				margin-right: auto;
-				margin-left: auto;
+				padding: 10px 20px;
+				border-radius: 20px;
+				cursor: pointer;
+				font-size: 1.2rem;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				text-decoration: none;
+
+				&.button__primary {
+					background-color: var(--primary-color);
+					color: var(--white-color);
+					border: none;
+				}
+
+				&.button__secondary {
+					background-color: var(--white-color);
+					color: var(--light-black-color);
+					border: 1px solid var(--light-black-color);
+				}
+
+				@media screen and (max-width: 1150px) {
+					font-size: 1rem;
+					margin-right: auto;
+					margin-left: auto;
+				}
 			}
 		}
 	}

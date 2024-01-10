@@ -29,18 +29,14 @@
 				<span>France</span>
 			</div>
 
-			<a type="button" class="content__button" href="/profil/modify">
+			<a type="button" class="btn button__primary" href="/profil/modify">
 				<span class="material-symbols-rounded button__icon">
 					edit
 				</span>
 				<span class="button__text">Modifier votre profil</span>
 			</a>
 
-			<form
-				method="post"
-				action="?/logout"
-				class="content__deconnexion"
-			>
+			<form method="post" action="?/logout" class="content__deconnexion">
 				<button type="submit">Déconnexion</button>
 			</form>
 		</div>
@@ -102,20 +98,24 @@
 				font-size: 1rem;
 			}
 
-			.content__button {
-				padding: 0.4rem;
+			.btn {
+				width: fill-available;
+				margin: 0 2rem;
 
-				background-color: var(--primary-color);
-				color: #fff;
-				border: none;
-				border-radius: 10px;
+				padding: 10px 20px;
+				border-radius: 20px;
 				cursor: pointer;
-				font-size: 1rem;
+				font-size: 1.2rem;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				text-decoration: none;
 
+				&.button__primary {
+					background-color: var(--primary-color);
+					color: var(--white-color);
+					border: none;
+				}
 				@media screen and (max-width: 1150px) {
 					font-size: 1rem;
 				}
@@ -127,8 +127,7 @@
 				}
 
 				.button__icon {
-					margin-left: auto;
-					margin-right: auto;
+					margin: 0 auto 0 0;
 				}
 			}
 
