@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"os"
@@ -17,7 +17,7 @@ func DotEnvInit() error {
 	return nil
 }
 
-func initEnvVar() error {
+func InitEnvVar() error {
 	Stage = os.Getenv("STAGE")
 	Jwt_token = os.Getenv("JWT_TOKEN")
 	return nil

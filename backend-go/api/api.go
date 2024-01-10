@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"log"
@@ -7,14 +7,15 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"backend/storage"
 )
 
 type APIServer struct {
 	listenAddr string
-	store      Storage
+	store  storage.Storage
 }
 
-func NewAPIServer(listenAddr string, store Storage) *APIServer {
+func NewAPIServer(listenAddr string, store storage.Storage) *APIServer {
 	return &APIServer{
 		listenAddr: listenAddr,
 		store:      store,
