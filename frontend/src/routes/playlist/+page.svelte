@@ -28,7 +28,7 @@
 			type="submit"
 			disabled={isNameAlreadyTaken(name) || name.length < 1}
 		>
-			Ajout
+			<span class="text"> Ajout </span>
 			<span class="material-symbols-outlined"> add </span>
 		</button>
 	</form>
@@ -68,7 +68,7 @@
 			outline: 2px solid var(--light-secondary-color);
 			margin-right: 1rem;
 			padding: 0.5rem 1rem;
-			width: 70%;
+			width: fill-available;
 
 			&::placeholder {
 				color: var(--light-secondary-color);
@@ -77,10 +77,6 @@
 		}
 
 		button {
-			width: 30%;
-			@media (min-width: 768px) {
-				width: 20%;
-			}
 			padding: 0 1rem;
 			text-decoration: none;
 			border-radius: 10px;
@@ -90,11 +86,25 @@
 			cursor: pointer;
 			display: flex;
 			flex-direction: row;
+			gap: 0.5rem;
 			align-items: center;
 			font-weight: bold;
 			font-size: 1rem;
+
+			@media screen and (max-width: 425px) {
+				padding: 0;
+			}
+
 			span {
-				font-size: 2rem;
+				&.material-symbols-outlined {
+					font-size: 2rem;
+				}
+
+				@media screen and (max-width: 425px) {
+					&.text {
+						display: none;
+					}
+				}
 			}
 
 			&:disabled {
