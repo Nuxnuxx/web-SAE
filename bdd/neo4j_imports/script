@@ -62,4 +62,14 @@ MATCH (recipe:Recipe {idRecipe: toInteger(joinRecipePlaylistData.idRcette)})
 MATCH (playlist:Playlist {idPlaylist: toInteger(joinRecipePlaylistData.idPlaylist)})
 MERGE (recipe)-[op:EST_DANS]->(playlist);
 
-
+MATCH (r:Recipe)
+WITH r, r.difficulty AS nomDifficulty
+SET r.difficultyNumeric =
+    CASE
+        WHEN nomDifficulty = "très facile" THEN 1
+        WHEN nomDifficulty = "facile" THEN 2
+        WHEN nomDifficulty = "moyenne" THEN 3
+        WHEN nomDifficulty = "difficile" THEN 4
+        ELSE 0
+    END
+RETURN r;
