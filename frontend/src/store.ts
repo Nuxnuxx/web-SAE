@@ -3,6 +3,7 @@ import { writable } from "svelte/store";
 import type { User } from "$lib/api/auth-types";
 
 export const filterStore = writable({
+	name: "",
 	price: "",
 	difficulty: "",
 });

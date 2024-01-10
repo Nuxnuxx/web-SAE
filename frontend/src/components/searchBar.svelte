@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { makeUrl } from "$lib/utils";
 	import { filterStore } from "../store";
 
 	let name = "";
+
+	$: filterStore.update((store) => {
+		return { ...store, name };
+	});
+
 	let url = "";
 
-	$: url = `/search${name ? `?name=${name}&` : "?"}page=0${
-		$filterStore.price ? `&price=${$filterStore.price}` : ""
-	}${
-		$filterStore.difficulty ? `&difficulty=${$filterStore.difficulty}` : ""
-	}`;
+	$: url = makeUrl(name, $filterStore.price, $filterStore.difficulty);
 
 	export let hiddenMobile = false;
 </script>
@@ -23,7 +25,7 @@
 		on:keypress={(event) => (event.key === "Enter" ? goto(url) : null)}
 	/>
 	<a
-		data-sveltekit-preload-data="tap"
+		data-sveltekit-preload-data="hover"
 		href={url}
 		class="material-symbols-rounded">search</a
 	>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { RecipeData } from "$lib/api/recipe-types";
+	import DEFAULT from "$lib/img/sample.png";
 
 	export let recipe: RecipeData;
 	let finalArrayImages = recipe.recipeDetail.images
@@ -10,7 +11,10 @@
 <div class="recipe">
 	<div class="recipe__header">
 		<div class="recipe__header__img">
-			<img src={finalArrayImages[0]} alt={recipe.recipeDetail.name} />
+			<img
+				src={finalArrayImages[0] == "" ? DEFAULT : finalArrayImages[0]}
+				alt={recipe.recipeDetail.name}
+			/>
 		</div>
 		<h2>{recipe.recipeDetail.name}</h2>
 		<div class="recipe__header__infos">
