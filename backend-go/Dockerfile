@@ -1,5 +1,4 @@
 FROM golang:1.21-alpine
-
 RUN apk add --no-cache make
 
 RUN adduser -D backend
@@ -11,7 +10,11 @@ WORKDIR /app/
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
-COPY *.go .
+COPY /api/ .
+COPY /config/ .
+COPY /storage/ .
+COPY /types/ .
+COPY /utils/ .
 COPY Makefile .
 RUN make build
 
