@@ -3,6 +3,8 @@
 	import readable from "readable-numbers";
 	import AddToPlaylist from "./addToPlaylist.svelte";
 	import AddToLiked from "./addToLiked.svelte";
+	import DEFAULT from "$lib/img/sample.png";
+
 	export let data: RecipeDetail;
 	$: finalArrayImages = data.images.replace(/[\[\]"]+/g, "").split(", ");
 
@@ -15,7 +17,14 @@
 		href={`/recipe/${data.idRecipe}`}
 		class="card__img"
 	>
-		<img src={finalArrayImages[0]} alt={data.name} />
+		<!-- TODO: change the "https://..." accordingly to the db -->
+		<img
+			src={finalArrayImages[0] ==
+			"https://assets.afcdn.com/recipe/20100101/magazine-2020-04-05_h150.jpg"
+				? DEFAULT
+				: finalArrayImages[0]}
+			alt={data.name}
+		/>
 	</a>
 	<div class="card__content">
 		<a
@@ -66,12 +75,12 @@
 		aspect-ratio: 1/1;
 		display: flex;
 		flex-direction: column;
-		border-radius: 1.5vh;
-		overflow: hidden;
 		outline: 1px solid var(--white-color);
 
 		.card__img {
-			height: 60%;
+			height: 80%;
+			border-radius: 1.5vh 1.5vh 0.7vh 0.7vh;
+			overflow: hidden;
 			img {
 				object-fit: cover;
 				width: 100%;
@@ -82,7 +91,6 @@
 			padding: 5px;
 			margin-top: auto;
 			display: grid;
-			// grid-auto-flow: column;
 			grid-template-columns: 1fr auto;
 			gap: 5px;
 			height: 40%;

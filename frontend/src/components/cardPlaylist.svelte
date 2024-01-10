@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PlaylistDetail } from "$lib/api/playlist-types";
-	import DEFAULT from "$lib/img/default_playlist.png";
+	import DEFAULT from "$lib/img/sample.png";
 
 	export let playlist: PlaylistDetail;
 	let finalArrayImages = playlist.images.replace(/[\[\]"]+/g, "").split(", ");
