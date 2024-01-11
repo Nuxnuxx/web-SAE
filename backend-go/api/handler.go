@@ -413,6 +413,29 @@ func (s *APIServer) handleTrending(w http.ResponseWriter, r *http.Request) error
 	return writeJSON(w, http.StatusOK, resp)
 }
 
+func (s *APIServer) handleSimilarRecipes(w http.ResponseWriter, r *http.Request) error {
+	id, err := strconv.Atoi(mux.Vars(r)["id"])
+
+	if err != nil {
+		return writeJSON(w, http.StatusBadRequest, utils.ErrorNoId)
+	}
+
+	number, err := strconv.Atoi(mux.Vars(r)["number"])
+
+	if err != nil {
+		return writeJSON(w, http.StatusBadRequest, utils.ErrorNoNumber)
+	}
+
+	resp, err := s.store.GetSimilarRecipes(id, number)
+
+	if err != nil {
+		fmt.Println(err)
+		return writeJSON(w, http.StatusInternalServerError, utils.ErrorInternal)
+	}
+
+	return writeJSON(w, http.StatusOK, resp)
+}
+
 func (s *APIServer) handleMostLiked(w http.ResponseWriter, r *http.Request) error {
 	resp, err := s.store.GetMostLiked()
 

@@ -22,6 +22,7 @@ func NewAccount(gender, firstName, lastName, mail, password string) (*types.Acco
 }
 
 var ErrorNoId = "Please give a id"
+var ErrorNoNumber = "Please give a number"
 var ErrorDoesntBelong = "List doesn't belong to the user"
 var ErrorInternal = "Internal Server Error"
 var ErrorInvalidCredentials = "Invalid credentials"
