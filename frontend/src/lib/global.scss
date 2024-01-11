@@ -1,0 +1,39 @@
+:root {
+	--primary-color: #de403e;
+	--secondary-color: #82d3e6;
+	--white-color: #fff;
+	--black-color: #000000;
+	--light-black-color: #939393;
+	--light-primary-color: #f93362;
+	--light-secondary-color: #C4C4C4;
+	--very-light-secondary-color: #DCDCDC;
+	--last-color: #40d133;
+}
+
+@font-face {
+	font-family: "Inter";
+	src: url("./fonts/Inter/Inter-VariableFont.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Leckerli One";
+	src: url("./fonts/Leckerli_One/LeckerliOne-Regular.ttf") format("truetype");
+}
+
+* {
+	font-family: "Inter", sans-serif;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+body {
+	margin: 0;
+}
+main {
+	margin-top: 5rem;
+	font-size: 16px;
+}
+
+.highlight {
+	color: var(--primary-color);
+	font-weight: bold;
+}

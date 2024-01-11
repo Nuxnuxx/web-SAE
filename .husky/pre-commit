@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run format; git add -A
+git diff --name-only --cached --diff-filter=d | grep -E '.(ts|json|js|svelte)$' | xargs -r prettier --write && git diff --name-only --cached --diff-filter=d | grep -E '.(ts|json|js|svelte)$' | xargs -r git add
