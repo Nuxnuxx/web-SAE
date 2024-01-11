@@ -4,6 +4,28 @@
 	import { userStore, isLikedButtonOpen } from "../store";
 
 	export let idRecipe: number;
+
+	let mouseHover = false;
+	let mouseFocus = false;
+
+	function openTab() {
+		mouseFocus = true;
+		if (mouseHover && mouseFocus) {
+			isLikedButtonOpen.set({
+				id: idRecipe,
+				open: true,
+			});
+		}
+	}
+	function closeTab(force = false) {
+		mouseFocus = false;
+		if (!mouseHover && !mouseFocus) {
+			isLikedButtonOpen.set({
+				id: idRecipe,
+				open: false,
+			});
+		}
+	}
 </script>
 
 {#if $userStore}
@@ -14,29 +36,18 @@
 		</button>
 	</form>
 {:else}
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
+		on:mouseenter={() => (mouseHover = true)}
+		on:mouseleave={() => (mouseHover = false)}
 		class="dropdown {$isLikedButtonOpen.open &&
 		$isLikedButtonOpen.id == idRecipe
 			? 'selected'
 			: ''}"
 	>
 		<button
-			on:click={() => {
-				// Check if the pop up id open on store is the same as the idRecipe
-				// if not we set the store data to the new recipe clicked and open it
-				// else we can just close the one already open
-				if ($isLikedButtonOpen.id != idRecipe) {
-					isLikedButtonOpen.set({
-						id: idRecipe,
-						open: true,
-					});
-				} else {
-					isLikedButtonOpen.set({
-						id: idRecipe,
-						open: !$isLikedButtonOpen.open,
-					});
-				}
-			}}
+			on:blur={() => closeTab()}
+			on:focus={() => openTab()}
 			class="material-symbols-rounded">favorite</button
 		>
 		{#if $isLikedButtonOpen.open && $isLikedButtonOpen.id == idRecipe && !$userStore}
