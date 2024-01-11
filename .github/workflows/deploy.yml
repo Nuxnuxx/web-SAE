@@ -1,15 +1,18 @@
 name: Deploy through SSH
 on: [push, pull_request, workflow_dispatch]
+
 jobs:
   deploy_on_server:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Install OpenVPN
         run: |
           sudo apt update
           sudo apt install -y openvpn openvpn-systemd-resolved
+
       - name: Connect to VPN
         uses: "kota65535/github-openvpn-connect-action@v2"
         with:
@@ -19,22 +22,17 @@ jobs:
           client_key: ${{ secrets.USER_KEY }}
 
       - name: Executing remote ssh commands using keys
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          PORT: ${{ secrets.SSH_PORT }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
         run: |
           mkdir -p ~/.ssh/
-          echo "$key" > ~/.ssh/id_rsa
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          cat >>~/.ssh/config <<END
-          Host deploy
-            HostName $host
-            User $username
-            Port $port
-            IdentityFile ~/.ssh/id_rsa
-            StrictHostKeyChecking no
-          END
-          ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa <<< "$passphrase"; ssh -p $port $username@$host "whoami"'
-        env:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa <<< "$SSH_PASSPHRASE"
+          ssh-add -L
+          ssh -o StrictHostKeyChecking=no -p $PORT $SSH_USERNAME@$SSH_HOST "whoami"
