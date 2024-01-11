@@ -48,17 +48,17 @@ export const schemaLogin = yup.object().shape({
 
 enum Price {
 	// 3 price "bon marché", "moyen", "assez cher"
-	BON_MARCHE = "bon marché",
-	MOYEN = "moyen",
-	ASSEZ_CHER = "assez cher",
+	BON_MARCHE = "0",
+	MOYEN = "1",
+	ASSEZ_CHER = "2",
 }
 
 enum Difficulty {
 	// 4 difficulty "très facile", "facile", "moyen", "difficile"
-	TRES_FACILE = "très facile",
-	FACILE = "facile",
-	MOYEN = "moyen",
-	DIFFICILE = "difficile",
+	TRES_FACILE = "0",
+	FACILE = "1",
+	MOYEN = "2",
+	DIFFICILE = "3",
 }
 
 export const schemaColdstart = yup.object().shape({
