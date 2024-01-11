@@ -76,7 +76,6 @@
 		</div>
 	{:else if $isPlaylistAddButtonOpen.open && $isPlaylistAddButtonOpen.id == idRecipe && !$userStore}
 		<div class="dropdown-content">
-			<p>Apprenons a te connaitre d'abord</p>
 			<button on:click={() => goto("/auth")} class="nav__login">
 				<span class="material-symbols-rounded">person</span>
 				Connexion
@@ -155,11 +154,6 @@
 			}
 		}
 
-		p {
-			font-size: 0.8rem;
-			font-weight: bold;
-		}
-
 		.nav__login {
 			display: flex;
 			align-items: center;
@@ -168,13 +162,11 @@
 			border-radius: 1rem;
 			background-color: var(--primary-color);
 			color: var(--white-color);
-			font-weight: medium;
 			font-size: 1rem;
 			border: none;
 			cursor: pointer;
 			transition: all 0.2s ease-out;
-			margin: 0 auto;
-			margin-bottom: 1rem;
+			margin: 1rem auto 1rem auto;
 
 			&:hover {
 				transform: scale(1.02);
