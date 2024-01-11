@@ -1,43 +1,48 @@
-<script>
-	import { goto } from "$app/navigation";
+<script lang="ts">
+	import type { ErrorsRegister, User } from "$lib/api/auth-types";
 
-	let email = "";
-	let password = "";
-
-	function handleLogin() {
-		// TODO:Ajoutez ici la logique de connexion
-		console.log("Email:", email);
-		console.log("Mot de passe:", password);
-		goto("/");
-	}
+	export let errors: ErrorsRegister;
+	export let value: User;
 </script>
 
 <h2>Quel plaisir de vous voir à nouveau !</h2>
 
-<form on:submit|preventDefault={handleLogin}>
-	<label for="email">
-		<input
-			id="email"
-			type="email"
-			bind:value={email}
-			required
-			placeholder="Email"
-			autocomplete="username"
-		/>
-	</label>
+<form method="post" action="?/login">
+	{#if errors?.server}
+		<span class="error">{errors?.server}</span>
+	{/if}
+	<div class="input__wrapper">
+		<label for="mail">
+			<input
+				id="mail"
+				name="mail"
+				type="text"
+				placeholder="Mail*"
+				value={value?.mail || ""}
+				autocomplete="username"
+			/>
+			{#if errors?.mail}
+				<span class="error">{errors?.mail}</span>
+			{/if}
+		</label>
 
-	<label for="password">
-		<input
-			id="password"
-			type="password"
-			bind:value={password}
-			required
-			placeholder="Mot de passe"
-			autocomplete="current-password"
-		/>
-	</label>
+		<label for="password">
+			<input
+				id="password"
+				name="password"
+				type="password"
+				value={value?.password || ""}
+				placeholder="Mot de passe*"
+				autocomplete="current-password"
+			/>
+			{#if errors?.password}
+				<span class="error">{errors?.password}</span>
+			{/if}
+		</label>
+	</div>
 
-	<a href="#">Mot de passe oublié ?</a>
+	<!-- TODO: Ajouter un lien vers la page de réinitialisation du mot de passe -->
+	<a href="/">Mot de passe oublié ?</a>
 
 	<button type="submit"
 		>Connexion
@@ -45,103 +50,92 @@
 	</button>
 </form>
 
-<style>
+<style lang="scss">
 	h2 {
 		text-align: center;
-		color: #333;
-		font-weight: bold;
-		font-size: 22px;
+		color: var(--black-color);
+		font-weight: normal;
+		font-size: 1.4rem;
+		width: 80%;
+		margin: 0 auto;
+		margin-bottom: 2rem;
 	}
 
 	form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 20px;
-	}
-
-	label {
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 10px;
-		/*min-width: 80%;*/
-		/*width selon taille de l'écran*/
-		width: 50%;
+		margin: 0 auto;
+		width: 40%;
 		min-width: 350px;
-		padding: 20px;
-	}
+		max-width: 700px;
 
-	input {
-		border: 1px solid #ccc;
-		border-radius: 3%;
-		border-top: none;
-		border-left: none;
-		border-right: none;
+		.input__wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1.5rem;
+			width: 100%;
+		}
 
-		/*padding du texte*/
-		padding: 5px 15px;
-		font-size: 16px;
-		outline: none;
-	}
+		.error {
+			color: var(--primary-color);
+			margin-top: 0.1rem;
+			font-size: 0.8rem;
+			font-weight: bold;
+			text-align: center;
+		}
 
-	/*rend le placeholder un peu plus transparent par défaut*/
-	input::-webkit-input-placeholder {
-		opacity: 0.4;
-	}
+		label {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			input {
+				border-bottom: 1px solid var(--light-secondary-color);
+				border-top: none;
+				border-left: none;
+				border-right: none;
+				width: 80%;
 
-	/* ajoute de la transparence pour le placeholder lors du focus */
-	input::-webkit-input-placeholder {
-		-webkit-transition: 0.5s;
-	}
-	input:-moz-input-placeholder {
-		-moz-transition: 0.5s;
-	}
-	input::-moz-input-placeholder {
-		-moz-transition: 0.5s;
-	}
-	input:-ms-input-placeholder {
-		-ms-transition: 0.5s;
-	}
+				padding: 0.5rem 1rem;
+				outline: none;
+				&::placeholder {
+					opacity: 0.4;
+					transition: 300ms ease-in-out;
+				}
 
-	input:focus::-webkit-input-placeholder {
-		color: transparent;
-	}
-	input:focus:-moz-placeholder {
-		color: transparent;
-	} /* FF 4-18 */
-	input:focus::-moz-placeholder {
-		color: transparent;
-	} /* FF 19+ */
-	input:focus:-ms-input-placeholder {
-		color: transparent;
-	} /* IE 10+ */
+				&:focus::placeholder {
+					transform: translateY(-2rem);
+				}
+			}
+		}
+		a {
+			color: var(--light-black-color);
+			text-decoration: underline;
+			width: 85%;
+			text-align: end;
+			margin: 0.5rem 0;
+			font-size: 0.9rem;
+		}
 
-	a {
-		text-decoration: none;
-		color: #9f9f9f;
-		text-decoration: underline;
-		font-size: 14px;
-		margin-top: -20px;
-		margin-bottom: 25px;
-		margin-right: -40%;
-	}
+		button {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 1rem;
+			margin: 1rem 0 0 0;
+			border-radius: 2rem;
+			background-color: var(--primary-color);
+			color: var(--white-color);
+			font-size: 1rem;
+			border: none;
+			cursor: pointer;
+		}
 
-	button {
-		padding: 10px 20px;
-		background-color: #de403e;
-		color: #fff;
-		border: none;
-		border-radius: 20px;
-		cursor: pointer;
-		font-size: 16px;
-		display: flex;
-		align-items: center;
-	}
-
-	.material-symbols-rounded {
-		font-size: 20px;
-		font-weight: bold;
-		margin-left: 10px;
-		margin-right: -10px;
+		.material-symbols-rounded {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
 	}
 </style>

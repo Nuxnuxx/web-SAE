@@ -1,15 +1,44 @@
-<nav>
-	<h1>This is the header</h1>
-	<a href="/">Home</a>
-	<a href="/">About</a>
-	<a href="/">Settings</a>
-</nav>
+<script lang="ts">
+	import Footer from "../components/footer.svelte";
+	import Header from "../components/header.svelte";
+	import "$lib/global.scss";
+	import type { LayoutData } from "./$types";
+	import { playlistStore, userDataStore, userStore } from "../store";
+	import type { PlaylistDetail } from "$lib/api/playlist-types";
 
-<slot />
+	export let data: LayoutData;
 
-<nav>
-	<h1>This is the footer</h1>
-	<a href="/">Link1</a>
-	<a href="/">Link2</a>
-	<a href="/">Link3</a>
-</nav>
+	let user = false;
+	$: if (data.token) {
+		user = data.token.length > 0 ? false : true;
+		// also if the name is liked rename it "Vos préférés"
+		const playlistList: PlaylistDetail[] = data.playlists.result.sort(
+			(a: PlaylistDetail, b: PlaylistDetail) => {
+				return a.name === "liked" ? -1 : b.name === "liked" ? 1 : 0;
+			}
+		);
+		playlistList &&
+			playlistList.forEach((playlist: PlaylistDetail) => {
+				if (playlist.name === "liked") {
+					playlist.name = "Vos préférés";
+				}
+			});
+
+		userStore.set(true);
+		userDataStore.set({ ...data.profil });
+		playlistStore.set(playlistList);
+	}
+</script>
+
+<Header />
+<main>
+	<slot />
+</main>
+
+<Footer />
+
+<style lang="scss">
+	main {
+		min-height: 100vh;
+	}
+</style>

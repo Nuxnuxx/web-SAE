@@ -1,17 +1,16 @@
 <script lang="ts">
-	import type { Recipe } from "../app";
+	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import RecipeCard from "../components/recipeCard.svelte";
-	export let listRecipe: Recipe[];
+	export let listRecipe: RecipeDetail[];
 </script>
 
-<h2>Test liste éléments : </h2>
 <div class="list">
 	{#each listRecipe as recipe}
 		<RecipeCard data={recipe} />
 	{/each}
 </div>
 
-<style>
+<style lang="scss">
 	.list {
 		margin: 1rem;
 		display: grid;
@@ -21,13 +20,8 @@
 	}
 	@media (min-width: 768px) {
 		.list {
-			margin: 1rem 2rem;
+			margin: 2rem 0rem;
 			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-	@media (min-width: 1024px) {
-		.list {
-			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 </style>

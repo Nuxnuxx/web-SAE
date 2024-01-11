@@ -1,70 +1,62 @@
 <script lang="ts">
+	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import readable from "readable-numbers";
-	import type { Recipe } from "../app";
-	export let data: Recipe;
+	import AddToPlaylist from "./addToPlaylist.svelte";
+	import AddToLiked from "./addToLiked.svelte";
+	import DEFAULT from "$lib/img/sample.png";
 
-	const like = () => {
-		data.liked = !data.liked;
-	};
-	const save = () => {
-		data.saved = !data.saved;
-	};
+	export let data: RecipeDetail;
+	$: finalArrayImages = data.images.replace(/[\[\]"]+/g, "").split(", ");
+
+	let idRecipe = data.idRecipe;
 </script>
 
-<!-- link need to be replaced by a local style-->
-<link
-	rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
-
 <div class="card">
-	<div class="card__img">
-		<img src={data.img} alt={data.title} />
-	</div>
+	<a
+		data-sveltekit-preload-data="tap"
+		href={`/recipe/${data.idRecipe}`}
+		class="card__img"
+	>
+		<img
+			src={finalArrayImages[0] == "" ? DEFAULT : finalArrayImages[0]}
+			alt={data.name}
+		/>
+	</a>
 	<div class="card__content">
-		<div class="card__title">
-			<h3>{data.title}</h3>
+		<a
+			data-sveltekit-preload-data="tap"
+			href={`/recipe/${data.idRecipe}`}
+			class="card__title"
+		>
+			<h3>{data.name}</h3>
 			<div class="card__likes">
-				<span class="card__likes__number"
-					>{readable(data.nbLikes, 1)}</span
-				>
+				<span class="card__likes__number">{readable(100000, 1)}</span>
 				<span class="material-symbols-rounded filled"> favorite </span>
 			</div>
-		</div>
+		</a>
 		<div class="card__icons">
 			<span class="card__likes__icon">
-				{#if data.liked}
-					<button
-						on:click={() => like()}
-						class="material-symbols-rounded filled red"
-					>
-						favorite
-					</button>
-				{:else}
-					<button
-						on:click={() => like()}
-						class="material-symbols-rounded"
-					>
-						favorite
-					</button>
-				{/if}
+				<!-- {#if data.liked} -->
+				<!-- <form action="?/likeRecipe"> -->
+				<!-- 	<button class="material-symbols-rounded filled red"> -->
+				<!-- 		favorite -->
+				<!-- 	</button> -->
+				<!-- </form> -->
+				<!-- {:else} -->
+				<!-- {/if} -->
+				<AddToLiked {idRecipe} />
 			</span>
 			<span class="card__saved__icon">
-				{#if data.saved}
-					<button
-						on:click={() => save()}
-						class="material-symbols-rounded green"
-					>
-						playlist_add_check
-					</button>
-				{:else}
-					<button
-						on:click={() => save()}
-						class="material-symbols-rounded"
-					>
-						playlist_add
-					</button>
-				{/if}
+				<!-- {#if data.saved} -->
+				<!-- 	<button -->
+				<!-- 		on:click={() => save()} -->
+				<!-- 		class="material-symbols-rounded green" -->
+				<!-- 	> -->
+				<!-- 		playlist_add_check -->
+				<!-- 	</button> -->
+				<!-- {:else} -->
+				<AddToPlaylist {idRecipe} />
+				<!-- {/if} -->
 			</span>
 		</div>
 	</div>
@@ -72,33 +64,36 @@
 
 <style lang="scss">
 	.card {
+		position: relative;
+		color: black;
+		text-align: left;
+		text-decoration: none;
 		aspect-ratio: 1/1;
 		display: flex;
 		flex-direction: column;
-		border-radius: 1.5vh;
-		overflow: hidden;
-		// box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		outline: 1px solid var(--white-color);
 
 		.card__img {
-			width: 100%;
-			height: 70%;
-			border-radius: 5px;
+			height: 80%;
+			border-radius: 1.5vh 1.5vh 0.7vh 0.7vh;
 			overflow: hidden;
-
 			img {
-				width: 100%;
-				height: 100%;
 				object-fit: cover;
+				width: 100%;
 			}
 		}
+
 		.card__content {
 			padding: 5px;
+			margin-top: auto;
 			display: grid;
-			// grid-auto-flow: column;
-			grid-template-columns: 1fr auto; /* The first column takes all available space, the second takes only necessary space */
-			gap: 5px; /* Adjust the gap as needed */
-			height: 30%;
+			grid-template-columns: 1fr auto;
+			gap: 5px;
+			height: 40%;
+			background-color: var(--white-color);
 			.card__title {
+				text-decoration: none;
+				color: var(--black-color);
 				h3 {
 					font-size: 14px;
 					margin: 0;
@@ -113,7 +108,7 @@
 					display: flex;
 					align-items: center;
 					height: 40%;
-					color: #c4c4c4;
+					color: var(--very-light-secondary-color);
 					font-size: 12px;
 					.material-symbols-rounded {
 						font-size: inherit;
@@ -125,42 +120,18 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				z-index: 2;
 			}
 		}
 	}
 
-	button.material-symbols-rounded {
-		/* reset all button properties */
-		background: none;
-		border: none;
-		padding: 0;
-		cursor: pointer;
-		outline: inherit;
-	}
-
-	.material-symbols-rounded {
-		width: max-content;
-		font-variation-settings:
-			"FILL" 0,
-			"wght" 400,
-			"GRAD" 0,
-			"opsz" 24;
-	}
-
+	// this class is for the like button
 	.material-symbols-rounded.filled {
 		font-variation-settings:
 			"FILL" 1,
 			"wght" 400,
 			"GRAD" 0,
 			"opsz" 24;
-	}
-
-	.material-symbols-rounded.red {
-		color: #f93362;
-	}
-
-	.material-symbols-rounded.green {
-		color: #40d133;
 	}
 
 	@media (min-width: 768px) {
