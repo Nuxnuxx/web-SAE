@@ -772,7 +772,7 @@ ORDER BY similarity DESCENDING, recipe1, recipe2`
 
 	params := map[string]interface{}{
 		"number": number,
-		"id":id
+		"id":id,
 	}
 
 	resp, err := s.db.Run(s.ctx, query,
