@@ -19,11 +19,22 @@ jobs:
           client_key: ${{ secrets.USER_KEY }}
 
       - name: Executing remote ssh commands using keys
-        uses: appleboy/ssh-action@v1.0.3
-        with:
+        run:
+          mkdir -p ~/.ssh/
+          echo "$key" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat >>~/.ssh/config <<END
+          Host deploy
+            HostName $host
+            User $username
+            Port $port
+            IdentityFile ~/.ssh/id_rsa
+            StrictHostKeyChecking no
+          END
+          ssh deploy 'whoami'
+        env:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: whoami
