@@ -228,7 +228,7 @@ func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) e
 		return err
 	}
 
-	account, err := utils.NewAccount(r.Header.Get("Gender"), req.FirstName, req.LastName, r.Header.Get("Mail"), req.NewPassWord, "0", "0")
+	account, err := utils.NewAccount(r.Header.Get("Gender"), req.FirstName, req.LastName, r.Header.Get("Mail"), req.NewPassWord, r.Header.Get("price"), r.Header.Get("difficulty"))
 
 	if err != nil {
 		return err
