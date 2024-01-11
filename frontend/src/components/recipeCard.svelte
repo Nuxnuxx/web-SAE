@@ -13,7 +13,7 @@
 
 <div class="card">
 	<a
-		data-sveltekit-preload-data="tap"
+		data-sveltekit-preload-data="hover"
 		href={`/recipe/${data.idRecipe}`}
 		class="card__img"
 	>

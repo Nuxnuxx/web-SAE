@@ -45,7 +45,7 @@ func (s *APIServer) Run() {
 	//TODO: Add query and implement similarRecipes drystart and recommended
 	router.HandleFunc("/mostliked", makeHTTPHandleFunc(s.handleMostLiked))
 	router.HandleFunc("/trending", makeHTTPHandleFunc(s.handleTrending))
-	router.HandleFunc("/similarRecipes", makeHTTPHandleFunc(s.handleMostLiked))
+	router.HandleFunc("/similarRecipes/{id}/{number}", makeHTTPHandleFunc(s.handleSimilarRecipes))
 	router.HandleFunc("/drystart", makeHTTPHandleFunc(s.handleMostLiked))
 	router.HandleFunc("/recommended", makeHTTPHandleFunc(s.handleMostLiked))
 
