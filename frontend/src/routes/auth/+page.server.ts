@@ -42,6 +42,7 @@ export const actions: Actions = {
 				cookies.set("token", result.result, {
 					path: "/",
 				});
+				cookies.delete("coldstart");
 				cookies.set("coldstart", "true", {
 					path: "/",
 				});
@@ -98,6 +99,7 @@ export const actions: Actions = {
 				cookies.set("token", result.result, {
 					path: "/",
 				});
+				cookies.delete("coldstart");
 				const token = cookies.get("token");
 
 				if (token === undefined || token === null) {
@@ -126,36 +128,5 @@ export const actions: Actions = {
 			}
 			return fail(400, errors);
 		}
-	},
-
-	coldstart: async ({ cookies, request }) => {
-		const body = await request.formData();
-		const coldstart = {
-			price: body.get("price")?.toString() || "",
-			difficulty: body.get("difficulty")?.toString() || "",
-		};
-
-		try {
-			await schemaColdstart.validate(coldstart, {
-				abortEarly: false,
-			});
-			const token = cookies.get("token");
-			if (token === undefined || token === null) {
-				throw new Error("token is not defined");
-			}
-			const result = await sendColdstart(
-				token,
-				coldstart.price,
-				coldstart.difficulty
-			);
-			if (result) {
-				cookies.set("coldstart", "true", {
-					path: "/",
-				});
-				return {
-					location: "/",
-				};
-			}
-		} catch (err) {}
 	},
 };

@@ -8,7 +8,7 @@
 
 <main>
 	<div class="container">
-		<form use:enhance method="post" class="card__form" action="?/coldstart">
+		<form use:enhance method="post" action="?/coldstart">
 			{#if currentQuestion === 0}
 				<h2
 					>Nous allons maintenant vous poser quelque
@@ -85,7 +85,7 @@
 						arrow_forward
 					</span>
 				</button>
-			{:else if currentQuestion === 3}
+				<!--{:else if currentQuestion === 3}
 				<h2>
 					Et pour les <span class="highlight">épices</span> ?
 				</h2>
@@ -104,7 +104,7 @@
 					>
 						arrow_forward
 					</span>
-				</button>
+				</button>-->
 			{:else}
 				<h2>
 					Pour finir, fait nous savoir ce que tu aimes en choisissant
@@ -112,13 +112,11 @@
 					recettes.
 				</h2>
 
-				<button
-					type="submit"
-					class="button"
-					on:click={() => {
-						console.log(answers);
-					}}
-				>
+				<!-- en invisible, mettre les réponses pour les avoir dans le body -->
+				<input type="hidden" name="price" value={answers[1]} />
+				<input type="hidden" name="difficulty" value={answers[2]} />
+
+				<button type="submit" class="button" on:click={() => {}}>
 					<span>Terminer</span>
 				</button>
 			{/if}

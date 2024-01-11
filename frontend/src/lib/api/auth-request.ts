@@ -157,9 +157,7 @@ export const sendColdstart = async (
 ) => {
 	try {
 		const result = await fetch(
-			`${
-				import.meta.env.VITE_API_URL
-			}/auth/coldstart?price=${price}&difficulty=${difficulty}`,
+			`${import.meta.env.VITE_API_URL}/auth/coldstart`,
 			{
 				method: "POST",
 				body: JSON.stringify({ price, difficulty }),

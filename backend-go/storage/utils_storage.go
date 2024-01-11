@@ -30,6 +30,9 @@ func CreateAccount(record neo4j.Record, key string) types.Account {
 		LastName:          name[1],
 		Mail:              extractProperty(record, key, "mail").(string),
 		EncryptedPassword: extractProperty(record, key, "password").(string),
+		Gender:            extractProperty(record, key, "gender").(string),
+		Price:             extractProperty(record, key, "price").(string),
+		Difficulty:        extractProperty(record, key, "difficulty").(string),
 	}
 }
 
