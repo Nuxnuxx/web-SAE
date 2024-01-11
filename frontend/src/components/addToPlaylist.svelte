@@ -166,7 +166,7 @@
 			border: none;
 			cursor: pointer;
 			transition: all 0.2s ease-out;
-			margin: 1rem auto 1rem auto;
+			margin: 1rem auto;
 
 			&:hover {
 				transform: scale(1.02);

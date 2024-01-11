@@ -41,7 +41,6 @@
 		>
 		{#if $isLikedButtonOpen.open && $isLikedButtonOpen.id == idRecipe && !$userStore}
 			<div class="dropdown-content">
-				<p>apprenons a te connaitre d'abord</p>
 				<button on:click={() => goto("/auth")} class="nav__login">
 					<span class="material-symbols-rounded">person</span>
 					connexion
@@ -80,11 +79,6 @@
 		width: 12rem;
 		left: -100%;
 
-		p {
-			font-size: 0.8rem;
-			font-weight: bold;
-		}
-
 		.nav__login {
 			display: flex;
 			align-items: center;
@@ -98,8 +92,7 @@
 			border: none;
 			cursor: pointer;
 			transition: all 0.2s ease-out;
-			margin: 0 auto;
-			margin-bottom: 1rem;
+			margin: 1rem auto;
 
 			&:hover {
 				transform: scale(1.02);
