@@ -57,17 +57,18 @@
 	}
 
 	:root {
-		--swiper-navigation-color: #1c1b1f;
 		--swiper-navigation-top-offset: 35%;
 		--swiper-navigation-sides-offset: 1.5rem;
-		--swiper-navigation-size: 2rem;
+		@media screen and (max-width: 768px) {
+			--swiper-navigation-sides-offset: 0;
+		}
 	}
 
 	.navigate {
 		text-align: center;
 		position: absolute;
-		color: var(--swiper-navigation-color);
-		font-size: var(--swiper-navigation-size);
+		color: var(--black-color);
+		font-size: 2rem;
 		background: var(--white-color);
 		aspect-ratio: 1;
 		z-index: 20;
