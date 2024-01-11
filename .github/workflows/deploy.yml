@@ -31,7 +31,7 @@ jobs:
             IdentityFile ~/.ssh/id_rsa
             StrictHostKeyChecking no
           END
-          ssh deploy 'whoami'
+          ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa <<< "$passphrase"; ssh -p $port $username@$host "whoami"'
         env:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
