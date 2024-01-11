@@ -545,12 +545,12 @@ func (s *Neo4jStore) CreateAccount(acc *types.Account) error {
 
 	resp, err := s.db.Run(s.ctx, "CREATE (u:User {name: $name, mail: $mail, password: $password, gender: $gender, price: $price, difficulty: $difficulty}) RETURN u",
 		map[string]interface{}{
-			"name":      acc.FirstName + " " + acc.LastName,
-			"mail":      acc.Mail,
-			"gender":    acc.Gender,
-			"password":  acc.EncryptedPassword,
-			"price":     acc.Price,
-			"dificulty": acc.Difficulty,
+			"name":       acc.FirstName + " " + acc.LastName,
+			"mail":       acc.Mail,
+			"gender":     acc.Gender,
+			"password":   acc.EncryptedPassword,
+			"price":      acc.Price,
+			"difficulty": acc.Difficulty,
 		},
 	)
 

@@ -46,7 +46,31 @@ export const schemaLogin = yup.object().shape({
 		.min(8, "Password is too short - should be 8 chars minimum."),
 });
 
+enum Price {
+	// 5 price
+	VERY_CHEAP = "1",
+	CHEAP = "2",
+	MEDIUM = "3",
+	EXPENSIVE = "4",
+	VERY_EXPENSIVE = "5",
+}
+
+enum Difficulty {
+	// 5 difficulty
+	VERY_EASY = "1",
+	EASY = "2",
+	MEDIUM = "3",
+	HARD = "4",
+	VERY_HARD = "5",
+}
+
 export const schemaColdstart = yup.object().shape({
-	price: yup.string().required("Price is required"),
-	difficulty: yup.string().required("Difficulty is required"),
+	price: yup
+		.string()
+		.required("Price is required")
+		.oneOf(Object.values(Price), "Please choose a price"),
+	difficulty: yup
+		.string()
+		.required("Difficulty is required")
+		.oneOf(Object.values(Difficulty), "Please choose a difficulty"),
 });
