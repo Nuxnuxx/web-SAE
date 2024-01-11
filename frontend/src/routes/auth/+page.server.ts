@@ -11,7 +11,14 @@ import type { PageServerLoad } from "./$types";
 import { createPlaylist } from "$lib/api/playlist-request";
 
 export const load: PageServerLoad = async ({ cookies }) => {
+	// vérifie si le coldstart a déjà été fait
+	const coldstart = cookies.get("coldstart");
 	const token = cookies.get("token");
+
+	// si pas de coldstart et que le token est présent, on redirige vers coldstart
+	if (!coldstart && token) {
+		throw redirect(302, "/auth/coldstart");
+	}
 
 	if (token) {
 		throw redirect(302, "/profil");
@@ -33,6 +40,9 @@ export const actions: Actions = {
 			const result = await sendLogin(user);
 			if (result) {
 				cookies.set("token", result.result, {
+					path: "/",
+				});
+				cookies.set("coldstart", "true", {
 					path: "/",
 				});
 				return {
@@ -95,7 +105,7 @@ export const actions: Actions = {
 				}
 				const playlist = await createPlaylist(token, "liked");
 				return {
-					location: "/auth/coldstart",
+					location: "/",
 				};
 			}
 		} catch (err) {
@@ -139,6 +149,9 @@ export const actions: Actions = {
 				coldstart.difficulty
 			);
 			if (result) {
+				cookies.set("coldstart", "true", {
+					path: "/",
+				});
 				return {
 					location: "/",
 				};
