@@ -1,9 +1,24 @@
 <script lang="ts">
+	import { getRecipes } from "$lib/api/auth-request";
 	import Selector from "./selector.svelte";
 	import { enhance } from "$app/forms";
+	import { Price, Difficulty } from "$lib/api/recipe-types";
+	import Swiper from "./Swiper.svelte";
 
 	let currentQuestion = 0;
 	let answers: number[] = [];
+	let recipes: any[] = [];
+
+	async function getRecipesByPreferences() {
+		const jsonRecipes = await getRecipes(
+			"",
+			Price[answers[1]],
+			Difficulty[answers[2]],
+			1
+		);
+		recipes = jsonRecipes.result;
+		console.log(recipes);
+	}
 </script>
 
 <main>
@@ -35,13 +50,7 @@
 					préférez vous ?
 				</h2>
 				<Selector
-					data={[
-						"euro_symbol",
-						"euro_symbol",
-						"euro_symbol",
-						"euro_symbol",
-						"euro_symbol",
-					]}
+					data={["euro_symbol", "euro_symbol", "euro_symbol"]}
 					rating_like={true}
 					bind:selected={answers[1]}
 				/>
@@ -69,13 +78,13 @@
 						"sentiment_neutral",
 						"sentiment_content",
 						"sentiment_calm",
-						"sentiment_satisfied",
 					]}
 					bind:selected={answers[2]}
 				/>
 				<button
 					class="button"
 					on:click={() => {
+						getRecipesByPreferences();
 						currentQuestion++;
 					}}
 				>
@@ -111,6 +120,9 @@
 					<span class="highlight">au moins 3</span>
 					recettes.
 				</h2>
+
+				<!-- faire le swiper selon les recipesbypreferences -->
+				<Swiper {recipes} />
 
 				<!-- en invisible, mettre les réponses pour les avoir dans le body -->
 				<input type="hidden" name="price" value={answers[1]} />
