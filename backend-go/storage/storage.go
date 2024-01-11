@@ -47,6 +47,9 @@ type Storage interface {
 	GetRecipes(int) (*types.APIResponse, error)
 	GetRecipesWithFilter(int, url.Values) (*types.APIResponse, error)
 	GetMetadata(int, string, map[string]interface{}) (*types.Pagination, error)
+
+	//Recommmended
+	GetSimilarRecipes(int, int) (*types.APIResponse, error)
 }
 
 type Neo4jStore struct {
@@ -451,8 +454,7 @@ func (s *Neo4jStore) CreateList(name string, mail string) (*types.APIResponse, e
 }
 
 // INFO: If it return a error then the email has been found
-//
-//	If response is nil then the account is not found
+// If response is nil then the account is not found
 func (s *Neo4jStore) FindAccountByMail(mail string) error {
 	query := "MATCH (u:User {mail: $mail}) RETURN u"
 
@@ -750,4 +752,56 @@ func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]inter
 	}
 
 	return nil, nil
+}
+
+func (s *Neo4jStore) GetSimilarRecipes(id int, number int) (*types.APIResponse, error) {
+	query :=`CALL gds.knn.stream('myGraph', {
+    topK: $number,
+    nodeProperties: ['difficultyNumeric','priceNumeric','preparationTimeNumeric','totalTimeNumeric'],
+    // Les paramètres suivants sont définis pour produire un résultat déterministe
+    randomSeed: 1337,
+    concurrency: 1,
+    sampleRate: 1.0,
+    deltaThreshold: 0.0
+})
+YIELD node1, node2, similarity
+WITH gds.util.asNode(node1).idRecipe AS recipe1, gds.util.asNode(node2).idRecipe AS recipe2, similarity
+WHERE recipe1 = $id
+RETURN recipe1, recipe2, similarity
+ORDER BY similarity DESCENDING, recipe1, recipe2`
+
+	params := map[string]interface{}{
+		"number": number,
+		"id":id,
+	}
+
+	resp, err := s.db.Run(s.ctx, query,
+		params,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.Err() != nil {
+		return nil, err
+	}
+
+	recipeList := make([]types.RecipeDetail, 0)
+
+	for resp.Next(s.ctx) {
+		recipe := CreateRecipeDetail(*resp.Record(), "n")
+
+		recipeList = append(recipeList, recipe)
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	finalResult := types.APIResponse{
+		Result: recipeList,
+	}
+
+	return &finalResult, nil
 }
