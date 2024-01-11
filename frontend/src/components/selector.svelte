@@ -13,13 +13,13 @@
 >
 	{#each data as item, i (i)}
 		<input
-			value={length - i}
-			id={`selector-${item}${length - i}`}
+			value={length - i - 1}
+			id={`selector-${item}${length - i - 1}`}
 			type="radio"
 			bind:group={selected}
 		/>
 		<label
-			for="selector-{item}{length - i}"
+			for="selector-{item}{length - i - 1}"
 			class="material-symbols-rounded">{item}</label
 		>
 	{/each}
