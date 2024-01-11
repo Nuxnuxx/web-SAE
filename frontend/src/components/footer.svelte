@@ -5,6 +5,8 @@
 	<div class="bubble__wrapper">
 		<a
 			href="https://github.com/Nuxnuxx/web-SAE"
+			target="_blank"
+			rel="noopener noreferrer"
 			class="small__bubble github__bubble"
 		>
 			<span class="github__icon"></span>
@@ -16,8 +18,13 @@
 		>
 			<span class="material-symbols-rounded"> arrow_upward </span>
 		</button>
-		<a href="https://dribbble.com/" class="small__bubble dribbble__bubble">
-			<span class="dribbble__icon"></span>
+		<a
+			href="https://www.figma.com/file/UiACSX9ROK89nP9Di5RmkH/PirateCook?type=design&node-id=0%3A1&mode=design&t=ofeghSqgFnjGOAdl-1"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="small__bubble figma__bubble"
+		>
+			<span class="figma__icon"></span>
 		</a>
 	</div>
 	<p class="flavor__text"
@@ -77,15 +84,15 @@
 				&.github__bubble {
 					margin-top: 0.75rem;
 				}
-				&.dribbble__bubble {
+				&.figma__bubble {
 					margin-top: 0.5rem;
 				}
 				span {
 					color: var(--white-color);
-					&.dribbble__icon {
+					&.figma__icon {
 						margin: auto;
 						background: var(--white-color);
-						mask-image: url("../lib/img/dribbble_icon.svg");
+						mask-image: url("../lib/img/figma_icon.svg");
 						mask-size: 100% 100%;
 						mask-repeat: no-repeat;
 						background-size: cover;
@@ -148,13 +155,13 @@
 					&.github__bubble {
 						margin-top: 1rem;
 					}
-					&.dribbble__bubble {
+					&.figma__bubble {
 						margin-top: 0.75rem;
 					}
 					span {
 						font-size: 3rem;
 
-						&.dribbble__icon {
+						&.figma__icon {
 							width: 2.75rem;
 							height: 2.75rem;
 						}
@@ -209,13 +216,13 @@
 					&.github__bubble {
 						margin-top: 1.5rem;
 					}
-					&.dribbble__bubble {
+					&.figma__bubble {
 						margin-top: 1rem;
 					}
 					span {
 						font-size: 4rem;
 
-						&.dribbble__icon {
+						&.figma__icon {
 							width: 3.5rem;
 							height: 3.5rem;
 						}
