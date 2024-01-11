@@ -755,10 +755,24 @@ func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]inter
 }
 
 func (s *Neo4jStore) GetSimilarRecipes(id int, number int) (*types.APIResponse, error) {
-	query := "MATCH (n:Recipe) RETURN n LIMIT $limit"
+	query :=`CALL gds.knn.stream('myGraph', {
+    topK: $number,
+    nodeProperties: ['difficultyNumeric','priceNumeric','preparationTimeNumeric','totalTimeNumeric'],
+    // Les paramètres suivants sont définis pour produire un résultat déterministe
+    randomSeed: 1337,
+    concurrency: 1,
+    sampleRate: 1.0,
+    deltaThreshold: 0.0
+})
+YIELD node1, node2, similarity
+WITH gds.util.asNode(node1).idRecipe AS recipe1, gds.util.asNode(node2).idRecipe AS recipe2, similarity
+WHERE recipe1 = $id
+RETURN recipe1, recipe2, similarity
+ORDER BY similarity DESCENDING, recipe1, recipe2`
 
 	params := map[string]interface{}{
-		"limit": number,
+		"number": number,
+		"id":id
 	}
 
 	resp, err := s.db.Run(s.ctx, query,
