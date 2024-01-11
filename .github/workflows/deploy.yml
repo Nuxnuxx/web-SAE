@@ -19,7 +19,7 @@ jobs:
           client_key: ${{ secrets.USER_KEY }}
 
       - name: Executing remote ssh commands using keys
-        run:
+        run: |
           mkdir -p ~/.ssh/
           echo "$key" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
