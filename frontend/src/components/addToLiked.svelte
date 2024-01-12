@@ -65,7 +65,6 @@
 	.dropdown {
 		position: relative;
 		&.selected::before {
-			z-index: 2;
 			content: "";
 			position: absolute;
 			top: 1.4rem;
