@@ -151,6 +151,12 @@
 
 		margin: 10%;
 
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
 		.container__buttonpass {
 			margin-top: 10px;
 			color: var(--light-black-color);
