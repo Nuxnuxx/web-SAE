@@ -64,12 +64,60 @@ MERGE (recipe)-[op:EST_DANS]->(playlist);
 
 MATCH (r:Recipe)
 WITH r, r.difficulty AS nomDifficulty
-SET r.difficultyNumeric =
+SET r.difficultyNumeric=
     CASE
-        WHEN nomDifficulty = "très facile" THEN 1
-        WHEN nomDifficulty = "facile" THEN 2
-        WHEN nomDifficulty = "moyenne" THEN 3
-        WHEN nomDifficulty = "difficile" THEN 4
-        ELSE 0
+        WHEN nomDifficulty = "très facile" THEN 0
+        WHEN nomDifficulty = "tr s facile" THEN 0
+        WHEN nomDifficulty = "facile" THEN 1
+        WHEN nomDifficulty = "moyenne" THEN 2
+        WHEN nomDifficulty = "difficile" THEN 3
+    ELSE 0
     END
 RETURN r;
+
+MATCH (r:Recipe)
+WITH r,r.price AS nomPrice
+SET r.priceNumeric= 
+    CASE
+        WHEN nomPrice = "moyen" THEN 0
+        WHEN nomPrice = "bon marché" THEN 1
+        WHEN nomPrice = "assez cher" THEN 2
+        WHEN nomPrice = "moyenne" THEN 3
+        WHEN nomPrice = "difficile" THEN 4
+    ELSE 0
+    END
+RETURN r;
+
+MATCH(r:Recipe)
+WITH r, r.preparationTime AS timeString
+WITH r,timeString, CASE 
+  WHEN Size(timeString)<4 THEN toInteger(split(timeString, ' h')[0]) * 60
+  WHEN size(timeString) >6  THEN toInteger(split(timeString, ' h ')[0]) * 60 + toInteger(split(split(timeString, ' h ')[1], ' min')[0])
+  ELSE toInteger(split(timeString, ' min')[0])
+END AS numericTime
+set r.preparationTimeNumeric = numericTime
+return toInteger(split(timeString, ' h ')[0]) * 60 + toInteger(split(split(timeString, ' h ')[1], ' min')[0]);
+
+
+MATCH(r:Recipe)
+WITH r, r.totalTime AS timeString
+WITH r,timeString, CASE 
+  WHEN Size(timeString)<4 THEN toInteger(split(timeString, ' h')[0]) * 60
+  WHEN size(r.totalTime) >6  THEN toInteger(split(timeString, ' h ')[0]) * 60 + toInteger(split(split(timeString, ' h ')[1], ' min')[0])
+  ELSE toInteger(split(timeString, ' min')[0])
+END AS numericTime
+set r.totalTimeNumeric = numericTime
+return toInteger(split(timeString, ' h ')[0]) * 60 + toInteger(split(split(timeString, ' h ')[1], ' min')[0]);
+
+
+
+
+CALL gds.graph.project(
+    'myGraph',
+    {
+        Recipe: {
+            properties: ['difficultyNumeric','priceNumeric','preparationTimeNumeric','totalTimeNumeric']
+        }
+    },
+    '*'
+);

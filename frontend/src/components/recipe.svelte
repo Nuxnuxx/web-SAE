@@ -3,7 +3,7 @@
 	import DEFAULT from "$lib/img/sample.png";
 
 	export let recipe: RecipeData;
-	let finalArrayImages = recipe.recipeDetail.images
+	$: finalArrayImages = recipe.recipeDetail.images
 		.replace(/[\[\]"]+/g, "")
 		.split(", ");
 </script>
@@ -83,8 +83,6 @@
 			<p class="recipe__instruction__text">{instruction.Step}</p>
 		{/each}
 	</div>
-
-	<div class="recipe__line"> </div>
 </div>
 
 <style lang="scss">
