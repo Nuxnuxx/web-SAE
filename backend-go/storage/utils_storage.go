@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"backend/types"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
 
 func extractProperty(record neo4j.Record, key string, propertyName string) interface{} {

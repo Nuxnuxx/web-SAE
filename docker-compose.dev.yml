@@ -19,11 +19,15 @@ services:
     build: ./bdd
     restart: always
     environment:
+      NEO4J_PLUGINS: '["graph-data-science"]'
       NEO4J_AUTH: none
       NEO4J_dbms_memory_pagecache_size: 2G
     volumes:
       - bd_data:/data
       - bd_logs:/logs
+    ports: 
+      - 7474:7474
+      - 7687:7687
     networks:
       - net
 

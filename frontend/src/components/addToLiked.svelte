@@ -4,6 +4,28 @@
 	import { userStore, isLikedButtonOpen } from "../store";
 
 	export let idRecipe: number;
+
+	let mouseHover = false;
+	let mouseFocus = false;
+
+	function openTab() {
+		mouseFocus = true;
+		if (mouseHover && mouseFocus) {
+			isLikedButtonOpen.set({
+				id: idRecipe,
+				open: true,
+			});
+		}
+	}
+	function closeTab(force = false) {
+		mouseFocus = false;
+		if (!mouseHover && !mouseFocus) {
+			isLikedButtonOpen.set({
+				id: idRecipe,
+				open: false,
+			});
+		}
+	}
 </script>
 
 {#if $userStore}
@@ -14,34 +36,22 @@
 		</button>
 	</form>
 {:else}
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
+		on:mouseenter={() => (mouseHover = true)}
+		on:mouseleave={() => (mouseHover = false)}
 		class="dropdown {$isLikedButtonOpen.open &&
 		$isLikedButtonOpen.id == idRecipe
 			? 'selected'
 			: ''}"
 	>
 		<button
-			on:click={() => {
-				// Check if the pop up id open on store is the same as the idRecipe
-				// if not we set the store data to the new recipe clicked and open it
-				// else we can just close the one already open
-				if ($isLikedButtonOpen.id != idRecipe) {
-					isLikedButtonOpen.set({
-						id: idRecipe,
-						open: true,
-					});
-				} else {
-					isLikedButtonOpen.set({
-						id: idRecipe,
-						open: !$isLikedButtonOpen.open,
-					});
-				}
-			}}
+			on:blur={() => closeTab()}
+			on:focus={() => openTab()}
 			class="material-symbols-rounded">favorite</button
 		>
 		{#if $isLikedButtonOpen.open && $isLikedButtonOpen.id == idRecipe && !$userStore}
 			<div class="dropdown-content">
-				<p>apprenons a te connaitre d'abord</p>
 				<button on:click={() => goto("/auth")} class="nav__login">
 					<span class="material-symbols-rounded">person</span>
 					connexion
@@ -55,9 +65,9 @@
 	.dropdown {
 		position: relative;
 		&.selected::before {
-			z-index: 2;
 			content: "";
 			position: absolute;
+			z-index: 2;
 			top: 1.4rem;
 			left: 5%;
 			margin-left: 0.25rem;
@@ -80,11 +90,6 @@
 		width: 12rem;
 		left: -100%;
 
-		p {
-			font-size: 0.8rem;
-			font-weight: bold;
-		}
-
 		.nav__login {
 			display: flex;
 			align-items: center;
@@ -98,8 +103,7 @@
 			border: none;
 			cursor: pointer;
 			transition: all 0.2s ease-out;
-			margin: 0 auto;
-			margin-bottom: 1rem;
+			margin: 1rem auto;
 
 			&:hover {
 				transform: scale(1.02);

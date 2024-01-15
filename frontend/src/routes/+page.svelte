@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FoodImage from "$lib/img/homepage_food.png";
+	import Swiper from "../components/Swiper.svelte";
 	import { userStore, userDataStore } from "../store";
 
 	let NAME = "";
