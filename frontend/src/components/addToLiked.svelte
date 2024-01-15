@@ -67,6 +67,7 @@
 		&.selected::before {
 			content: "";
 			position: absolute;
+			z-index: 2;
 			top: 1.4rem;
 			left: 5%;
 			margin-left: 0.25rem;

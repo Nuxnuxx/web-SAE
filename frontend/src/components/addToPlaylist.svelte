@@ -104,6 +104,7 @@
 		&.selected::before {
 			content: "";
 			position: absolute;
+			z-index: 2;
 			top: 1.4rem;
 			left: 5%;
 			width: 0.7rem;
