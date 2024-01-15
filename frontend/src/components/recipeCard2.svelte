@@ -11,9 +11,9 @@
 	$: finalArrayImages = data.images.replace(/[\[\]"]+/g, "").split(", ");
 
 	let idRecipe = data.idRecipe;
+	let isIn = false;
 
 	const handleLike = () => {
-		let isIn = false;
 		$coldstartLiked.forEach((element) => {
 			if (element == idRecipe) {
 				isIn = true;
@@ -25,25 +25,21 @@
 		} else {
 			$coldstartLiked.splice($coldstartLiked.indexOf(idRecipe), 1);
 		}
-
-		// console.log($coldstartLiked)
-		console.log($coldstartLiked);
 	};
 </script>
 
 <div class="card">
-	<input type="checkbox" on:click={handleLike} class="card__img" />
-	<img
-		src={finalArrayImages[0] == "" ? DEFAULT : finalArrayImages[0]}
-		alt={data.name}
-	/>
+	<!--faire une bordure bleu si dans la liste-->
+
+	<button on:click={handleLike} class="card__img">
+		<img
+			src={finalArrayImages[0] == "" ? DEFAULT : finalArrayImages[0]}
+			alt={data.name}
+		/>
+	</button>
+
 	<div class="card__content">
-		<input type="checkbox" on:click={handleLike} class="card__title" />
 		<h3>{data.name}</h3>
-		<div class="card__likes">
-			<span class="card__likes__number">{readable(100000, 1)}</span>
-			<span class="material-symbols-rounded filled"> favorite </span>
-		</div>
 	</div>
 </div>
 

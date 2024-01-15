@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 	// si pas de coldstart et que le token est présent, on redirige vers coldstart
 	if (coldstart) {
-		throw redirect(302, "/profil");
+		throw redirect(302, "/");
 	}
 };
 

@@ -16,7 +16,7 @@
 		navigation-next-el="#my-next-button"
 		navigation-prev-el="#my-prev-button"
 		class="swiper"
-		slides-per-view="4"
+		slides-per-view="2"
 		slides-per-group="1"
 		space-between="20"
 		loop={true}
@@ -24,8 +24,9 @@
 		navigation={true}
 		breakpoints={{
 			768: {
-				width: 500,
+				width: 600,
 				slidesPerView: 4,
+				slidesPerGroup: 1,
 				spaceBetween: 20,
 				loop: true,
 			},
