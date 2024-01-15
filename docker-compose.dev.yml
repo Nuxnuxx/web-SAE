@@ -25,6 +25,9 @@ services:
     volumes:
       - bd_data:/data
       - bd_logs:/logs
+    ports: 
+      - 7474:7474
+      - 7687:7687
     networks:
       - net
 
