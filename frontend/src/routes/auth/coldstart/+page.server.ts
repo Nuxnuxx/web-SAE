@@ -1,7 +1,10 @@
 import { sendColdstart } from "$lib/api/auth-request";
 import { schemaColdstart } from "$lib/api/auth-schema";
+import { likeRecipe } from "$lib/api/recipe-request";
 import { fail, type Actions, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import { get } from "svelte/store";
+import { coldstartLiked } from "../../../store";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	// vérifie si le coldstart a déjà été fait
@@ -21,6 +24,10 @@ export const actions: Actions = {
 			difficulty: body.get("difficulty")?.toString() || "",
 		};
 
+		const liked = body.get("liked")?.toString().split(",") || [];
+
+		console.log(liked);
+
 		try {
 			await schemaColdstart.validate(coldstart, {
 				abortEarly: false,
@@ -28,6 +35,10 @@ export const actions: Actions = {
 			const token = cookies.get("token");
 			if (token === undefined || token === null) {
 				throw new Error("token is not defined");
+			}
+
+			for (const id of liked) {
+				await likeRecipe(token, Number(id));
 			}
 			const result = await sendColdstart(
 				token,

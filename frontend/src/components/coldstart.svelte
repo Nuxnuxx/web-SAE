@@ -3,21 +3,27 @@
 	import Selector from "./selector.svelte";
 	import { enhance } from "$app/forms";
 	import { Price, Difficulty } from "$lib/api/recipe-types";
-	import Swiper from "./Swiper.svelte";
+	import Swiper2 from "./Swiper2.svelte";
+	import { coldstartLiked } from "../store";
 
 	let currentQuestion = 0;
 	let answers: number[] = [];
 	let recipes: any[] = [];
+	let jsonRecipes: any;
 
 	async function getRecipesByPreferences() {
-		const jsonRecipes = await getRecipes(
+		jsonRecipes = await getRecipes(
 			"",
 			Price[answers[1]],
 			Difficulty[answers[2]],
-			1
+			0
 		);
 		recipes = jsonRecipes.result;
-		console.log(recipes);
+		if (recipes.length < 4) {
+			jsonRecipes = await getRecipes("", Price[answers[1]], "", 0);
+
+			recipes = jsonRecipes.result;
+		}
 	}
 </script>
 
@@ -115,20 +121,30 @@
 					</span>
 				</button>-->
 			{:else}
-				<h2>
+				<!--<h2>
 					Pour finir, fait nous savoir ce que tu aimes en choisissant
 					<span class="highlight">au moins 3</span>
 					recettes.
+				</h2>-->
+
+				<h2>
+					Clique sur termine pour voir les recettes qui te
+					<span class="highlight">correspondent</span>
 				</h2>
 
 				<!-- faire le swiper selon les recipesbypreferences -->
-				<Swiper {recipes} />
+				<Swiper2 {recipes} />
 
 				<!-- en invisible, mettre les réponses pour les avoir dans le body -->
 				<input type="hidden" name="price" value={answers[1]} />
 				<input type="hidden" name="difficulty" value={answers[2]} />
+				<input type="hidden" name="liked" value={$coldstartLiked} />
 
-				<button type="submit" class="button" on:click={() => {}}>
+				<button
+					class="button"
+					on:click={() => {}}
+					disabled={$coldstartLiked.length < 3}
+				>
 					<span>Terminer</span>
 				</button>
 			{/if}
@@ -176,6 +192,12 @@
 
 			.buttonnext__text {
 				margin-right: 10px;
+			}
+
+			&:disabled {
+				background-color: var(--light-secondary-color);
+				border: 3px solid var(--light-secondary-color);
+				cursor: not-allowed;
 			}
 		}
 	}
