@@ -542,3 +542,61 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
 ### Attente technique des besoins
 
 ## Organisation
+
+
+
+
+
+## Oral
+
+Sommaire 30 seconde
+Se presenter avec le sommaire
+
+Slide 1 - 30 seconde
+
+Slide 2 - 30 seconde
+
+Slide 3 - 45 seconde
+
+Slide 4 - 1 minute Gaetan
+Dans l'objectif de proposer une experience utilisateur personnalie, nous avons oriente notre developement vers les gout et habitude de nos utilisateur.
+Pour y arriver, nous nous sommes penche sur des fonctionnalites cles tel que 
+- comme une playlist de musique type spotify
+- relire en reformulant
+pour arrive a notre objectif de personnalisation
+
+Slide 5 - 1 minutes
+Tout le monde se presente
+
+Slide 6 - 2 minutes
+Pour reprendre les deux parties de la solution
+- le site de recette
+    - lire et blablater
+- personnalisation
+    - lire et blablater
+    - coco fait le coldstart
+
+Slide 7 - 1 minutes 30 Gaetan
+Bla bla stack mes couilles
+
+Slide 8 - 1 minutes 30
+Bla bla bla bdd
+
+Slide 9 - 1 minutes 30
+BLa bla bla reseaux
+
+Slide 10 - 30 secondes 
+
+(10 minutes)
+
+Slide 11 - 30 + 30 + 30 + 30 + 15 (2minutes 15)
+
+Slide 12 - 100 + 20 + 30 + 30  (2 minutes 20)
+
+Slide 13 - 45 + 40 + 25 + 30 + 20 (2min40)
+
+Slide 14 - 30 + 25 + 15 + 15 + 15 (1min40)
+
+Slide 15 - 35 + 20 + 15 + 20 + 15 (1min45)
+
+(20 minutes 45)
