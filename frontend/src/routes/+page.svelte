@@ -1,6 +1,7 @@
 <script lang="ts">
 	import FoodImage from "$lib/img/homepage_food.png";
 	import Swiper from "../components/Swiper.svelte";
+	import SearchBar from "../components/searchBar.svelte";
 	import { userStore, userDataStore } from "../store";
 
 	let NAME = "";
@@ -50,6 +51,8 @@
 			</div>
 		{/if}
 	</div>
+
+	<SearchBar />
 </div>
 
 <style lang="scss">
