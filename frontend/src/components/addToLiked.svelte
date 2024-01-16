@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
+	import { likeRecipe } from "$lib/api/recipe-request";
 	import { userStore, isLikedButtonOpen } from "../store";
 
 	export let idRecipe: number;
 
 	let mouseHover = false;
 	let mouseFocus = false;
+	let isLiked = false;
 
 	function openTab() {
 		mouseFocus = true;
@@ -26,12 +28,19 @@
 			});
 		}
 	}
+	function like() {
+		isLiked = !isLiked;
+	}
 </script>
 
 {#if $userStore}
 	<form use:enhance method="post" action="?/likeRecipe">
 		<input hidden name="id" value={idRecipe} type="text" />
-		<button type="submit" class={`material-symbols-rounded like`}>
+		<button
+			on:click={() => like()}
+			type="submit"
+			class="material-symbols-rounded {isLiked ? 'like' : ''}"
+		>
 			favorite
 		</button>
 	</form>
@@ -117,6 +126,24 @@
 		padding: 0;
 		cursor: pointer;
 		outline: inherit;
+
+		&.like {
+			color: var(--primary-color);
+			transition: all 0.2s ease-out;
+			animation: scaled 0.5s ease-in-out;
+
+			@keyframes scaled {
+				0% {
+					transform: scale(1);
+				}
+				50% {
+					transform: scale(1.2);
+				}
+				100% {
+					transform: scale(1);
+				}
+			}
+		}
 	}
 
 	@media (max-width: 768px) {
