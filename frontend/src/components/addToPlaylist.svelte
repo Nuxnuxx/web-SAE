@@ -21,28 +21,42 @@
 			return a;
 		}
 	});
+
+	let mouseHover = false;
+	let mouseFocus = false;
+
+	function openTab() {
+		mouseFocus = true;
+		if (mouseHover && mouseFocus) {
+			isPlaylistAddButtonOpen.set({
+				id: idRecipe,
+				open: true,
+			});
+		}
+	}
+	function closeTab(force = false) {
+		mouseFocus = false;
+		if (!mouseHover && !mouseFocus) {
+			isPlaylistAddButtonOpen.set({
+				id: idRecipe,
+				open: false,
+			});
+		}
+	}
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
+	on:mouseenter={() => (mouseHover = true)}
+	on:mouseleave={() => (mouseHover = false)}
 	class="dropdown {$isPlaylistAddButtonOpen.open &&
 	$isPlaylistAddButtonOpen.id == idRecipe
 		? 'selected'
 		: ''}"
 >
 	<button
-		on:click={() => {
-			if ($isPlaylistAddButtonOpen.id != idRecipe) {
-				isPlaylistAddButtonOpen.set({
-					id: idRecipe,
-					open: true,
-				});
-			} else {
-				isPlaylistAddButtonOpen.set({
-					id: idRecipe,
-					open: !$isPlaylistAddButtonOpen.open,
-				});
-			}
-		}}
+		on:blur={() => closeTab()}
+		on:focus={() => openTab()}
 		class="material-symbols-rounded">playlist_add</button
 	>
 
@@ -88,9 +102,9 @@
 	.dropdown {
 		position: relative;
 		&.selected::before {
-			z-index: 2;
 			content: "";
 			position: absolute;
+			z-index: 2;
 			top: 1.4rem;
 			left: 5%;
 			width: 0.7rem;
@@ -166,7 +180,7 @@
 			border: none;
 			cursor: pointer;
 			transition: all 0.2s ease-out;
-			margin: 1rem auto 1rem auto;
+			margin: 1rem auto;
 
 			&:hover {
 				transform: scale(1.02);

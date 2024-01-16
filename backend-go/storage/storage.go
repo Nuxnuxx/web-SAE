@@ -785,24 +785,23 @@ func (s *Neo4jStore) GetMetadata(page int, query string, params map[string]inter
 }
 
 func (s *Neo4jStore) GetSimilarRecipes(id int, number int) (*types.APIResponse, error) {
-	query :=`CALL gds.knn.stream('myGraph', {
-    topK: $number,
-    nodeProperties: ['difficultyNumeric','priceNumeric','preparationTimeNumeric','totalTimeNumeric'],
-    // Les paramètres suivants sont définis pour produire un résultat déterministe
-    randomSeed: 1337,
-    concurrency: 1,
-    sampleRate: 1.0,
-    deltaThreshold: 0.0
-})
-YIELD node1, node2, similarity
-WITH gds.util.asNode(node1).idRecipe AS recipe1, gds.util.asNode(node2).idRecipe AS recipe2, similarity
-WHERE recipe1 = $id
-RETURN recipe1, recipe2, similarity
-ORDER BY similarity DESCENDING, recipe1, recipe2`
+	query := `CALL gds.knn.stream('myGraph', {
+		topK: $number,
+		nodeProperties: ['difficultyNumeric','priceNumeric','preparationTimeNumeric','totalTimeNumeric'],
+		randomSeed: 1337,
+		concurrency: 1,
+		sampleRate: 1.0,
+		deltaThreshold: 0.0
+	})
+	YIELD node1, node2, similarity
+	WITH gds.util.asNode(node1) AS recipe1, gds.util.asNode(node2) AS n, similarity
+	WHERE recipe1.idRecipe = $id
+	RETURN n
+	ORDER BY similarity DESCENDING, recipe1, n`
 
 	params := map[string]interface{}{
 		"number": number,
-		"id":id,
+		"id":     id,
 	}
 
 	resp, err := s.db.Run(s.ctx, query,
