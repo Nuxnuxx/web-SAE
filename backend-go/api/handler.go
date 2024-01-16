@@ -8,6 +8,7 @@ import (
 
 	"backend/types"
 	"backend/utils"
+
 	"github.com/gorilla/mux"
 )
 
@@ -227,7 +228,7 @@ func (s *APIServer) handleUpdateProfil(w http.ResponseWriter, r *http.Request) e
 		return err
 	}
 
-	account, err := utils.NewAccount(r.Header.Get("Gender"), req.FirstName, req.LastName, r.Header.Get("Mail"), req.NewPassWord)
+	account, err := utils.NewAccount(r.Header.Get("Gender"), req.FirstName, req.LastName, r.Header.Get("Mail"), req.NewPassWord, r.Header.Get("price"), r.Header.Get("difficulty"))
 
 	if err != nil {
 		return err
@@ -270,10 +271,12 @@ func (s *APIServer) handleDeleteProfil(w http.ResponseWriter, r *http.Request) e
 
 func (s *APIServer) handleGetProfil(w http.ResponseWriter, r *http.Request) error {
 	user := types.Account{
-		FirstName: r.Header.Get("firstName"),
-		LastName:  r.Header.Get("lastName"),
-		Gender:    r.Header.Get("gender"),
-		Mail:      r.Header.Get("mail"),
+		FirstName:  r.Header.Get("firstName"),
+		LastName:   r.Header.Get("lastName"),
+		Gender:     r.Header.Get("gender"),
+		Mail:       r.Header.Get("mail"),
+		Price:      r.Header.Get("price"),
+		Difficulty: r.Header.Get("difficulty"),
 	}
 
 	return writeJSON(w, http.StatusOK, user)
@@ -334,7 +337,7 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 		return err
 	}
 
-	account, err := utils.NewAccount(req.Gender, req.FirstName, req.LastName, req.Mail, req.Password)
+	account, err := utils.NewAccount(req.Gender, req.FirstName, req.LastName, req.Mail, req.Password, "0", "0")
 
 	if err != nil {
 		return err
@@ -345,6 +348,38 @@ func (s *APIServer) handleRegister(w http.ResponseWriter, r *http.Request) error
 	}
 
 	if err := s.store.CreateAccount(account); err != nil {
+		return err
+	}
+
+	token, err := createJWT(account)
+
+	finalResult := types.APIResponse{
+		Result: token,
+	}
+
+	return writeJSON(w, http.StatusOK, finalResult)
+}
+
+func (s *APIServer) handleColdStart(w http.ResponseWriter, r *http.Request) error {
+	req := new(types.CreateColdstartRequest)
+
+	// decode the body and store it in the req variable
+	if err := json.NewDecoder(r.Body).Decode(req); err != nil {
+		return err
+	}
+
+	// the account is already created in the register function
+
+	// create the coldstart
+	if err := s.store.CreateColdstart(req, r.Header.Get("Mail")); err != nil {
+		return err
+	}
+
+	// make token with the all the old information + the new one
+	account, err := utils.NewAccount(r.Header.Get("Gender"), r.Header.Get("FirstName"), r.Header.Get("LastName"),
+		r.Header.Get("Mail"), r.Header.Get("Password"), req.Price, req.Difficulty)
+
+	if err != nil {
 		return err
 	}
 

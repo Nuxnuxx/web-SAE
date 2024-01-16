@@ -24,3 +24,5 @@ export const isLikedButtonOpen = writable({
 	id: 0,
 	open: false,
 });
+
+export const coldstartLiked = writable<number[]>([]);

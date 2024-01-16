@@ -5,14 +5,15 @@ import (
 	"net/http"
 	"os"
 
+	"backend/storage"
+
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"backend/storage"
 )
 
 type APIServer struct {
 	listenAddr string
-	store  storage.Storage
+	store      storage.Storage
 }
 
 func NewAPIServer(listenAddr string, store storage.Storage) *APIServer {
@@ -33,6 +34,7 @@ func (s *APIServer) Run() {
 	router.HandleFunc("/auth/login", makeHTTPHandleFunc(s.handleLogin))
 	router.HandleFunc("/auth/register", makeHTTPHandleFunc(s.handleRegister))
 	router.HandleFunc("/auth/profil", withJWTAuth(makeHTTPHandleFunc(s.handleProfil), s.store))
+	router.HandleFunc("/auth/coldstart", withJWTAuth(makeHTTPHandleFunc(s.handleColdStart), s.store))
 
 	router.HandleFunc("/recipe/{id}", makeHTTPHandleFunc(s.handleGetRecipe))
 	router.HandleFunc("/recipe/page/{page}", makeHTTPHandleFunc(s.handleRecipes))

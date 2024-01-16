@@ -1,13 +1,24 @@
-import { sendLogin, sendRegister } from "$lib/api/auth-request";
-import { schemaLogin, schemaRegister } from "$lib/api/auth-schema";
-import type { ErrorWithId, User } from "$lib/api/auth-types";
+import { sendLogin, sendRegister, sendColdstart } from "$lib/api/auth-request";
+import {
+	schemaLogin,
+	schemaRegister,
+	schemaColdstart,
+} from "$lib/api/auth-schema";
+import type { ErrorWithId, User, Coldstart } from "$lib/api/auth-types";
 import { fail, type Actions, redirect } from "@sveltejs/kit";
 import * as yup from "yup";
 import type { PageServerLoad } from "./$types";
 import { createPlaylist } from "$lib/api/playlist-request";
 
 export const load: PageServerLoad = async ({ cookies }) => {
+	// vérifie si le coldstart a déjà été fait
+	const coldstart = cookies.get("coldstart");
 	const token = cookies.get("token");
+
+	// si pas de coldstart et que le token est présent, on redirige vers coldstart
+	if (!coldstart && token) {
+		throw redirect(302, "/auth/coldstart");
+	}
 
 	if (token) {
 		throw redirect(302, "/profil");
@@ -29,6 +40,10 @@ export const actions: Actions = {
 			const result = await sendLogin(user);
 			if (result) {
 				cookies.set("token", result.result, {
+					path: "/",
+				});
+				cookies.delete("coldstart");
+				cookies.set("coldstart", "true", {
 					path: "/",
 				});
 				return {
@@ -84,6 +99,7 @@ export const actions: Actions = {
 				cookies.set("token", result.result, {
 					path: "/",
 				});
+				cookies.delete("coldstart");
 				const token = cookies.get("token");
 
 				if (token === undefined || token === null) {

@@ -6,7 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func NewAccount(gender, firstName, lastName, mail, password string) (*types.Account, error) {
+func NewAccount(gender, firstName, lastName, mail, password, price, difficulty string) (*types.Account, error) {
 	encpw, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
@@ -18,6 +18,8 @@ func NewAccount(gender, firstName, lastName, mail, password string) (*types.Acco
 		Mail:              mail,
 		Gender:            gender,
 		EncryptedPassword: string(encpw),
+		Price:             price,
+		Difficulty:        difficulty,
 	}, nil
 }
 

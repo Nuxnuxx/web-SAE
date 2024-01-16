@@ -28,9 +28,9 @@ export type RecipeData = {
 	recipeIngredients: RecipeIngredients;
 };
 
-export const Price = ["", "bon marché", "moyen", "assez cher"];
+export const Price = ["bon marché", "moyen", "assez cher"];
 
-export const Difficulty = ["", "très facile", "facile", "moyen", "difficile"];
+export const Difficulty = ["très facile", "facile", "moyen", "difficile"];
 
 export type Pagination = {
 	currentPage: number;
