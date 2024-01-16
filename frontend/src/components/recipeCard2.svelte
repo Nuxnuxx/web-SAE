@@ -31,15 +31,16 @@
 <div class="card">
 	<!--faire une bordure bleu si dans la liste-->
 
-	<button on:click={handleLike} class="card__img">
+	<div class="card__img">
 		<img
 			src={finalArrayImages[0] == "" ? DEFAULT : finalArrayImages[0]}
 			alt={data.name}
 		/>
-	</button>
+	</div>
 
 	<div class="card__content">
 		<h3>{data.name}</h3>
+		<input type="checkbox" on:click={handleLike} />
 	</div>
 </div>
 
@@ -67,8 +68,8 @@
 		.card__content {
 			padding: 5px;
 			margin-top: auto;
-			display: grid;
-			grid-template-columns: 1fr auto;
+			display: flex;
+			flex-direction: row;
 			gap: 5px;
 			height: 40%;
 			background-color: var(--white-color);
@@ -84,17 +85,6 @@
 					-webkit-box-orient: vertical;
 					-webkit-line-clamp: 2;
 					display: -webkit-box;
-				}
-				.card__likes {
-					display: flex;
-					align-items: center;
-					height: 40%;
-					color: var(--very-light-secondary-color);
-					font-size: 12px;
-					.material-symbols-rounded {
-						font-size: inherit;
-						margin-left: 3px;
-					}
 				}
 			}
 			.card__icons {

@@ -29,7 +29,7 @@
 
 <main>
 	<div class="container">
-		<form use:enhance method="post" action="?/coldstart">
+		<form method="post" action="?/coldstart">
 			{#if currentQuestion === 0}
 				<h2
 					>Nous allons maintenant vous poser quelque
@@ -143,6 +143,7 @@
 				<button
 					class="button"
 					on:click={() => {}}
+					type="submit"
 					disabled={$coldstartLiked.length < 3}
 				>
 					<span>Terminer</span>

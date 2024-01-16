@@ -25,6 +25,7 @@
 		breakpoints={{
 			768: {
 				width: 600,
+				height: 600,
 				slidesPerView: 4,
 				slidesPerGroup: 1,
 				spaceBetween: 20,
