@@ -2,15 +2,13 @@
 
 ## Origine du projet
 
-
 ### Situation de départ
 
-- Il existe une ribambelle de services de recettes culinaires qui ne sont pas assez orientés sur l'expérience utilisateur. Lorsque l'on va sur ce type de site, nous avons déjà une idée de la recette que nous allons faire. Au final le côté "Quelle recette vais-je faire ?" a été fait en amont et c'est le moteur de recherche qui nous redirige sur le site. Nous pouvons faire une comparaison avec une application de musique qui permet d'en écouter exclusivement grâce à un titre rentré par l'utilisateur. Ce genre d'application n'est pas centrée sur l'utilisateur mais sur les recettes en elles-mêmes. La problématique est de savoir comment proposer un site qui gère tout le chemin de la recette à l'utilisateur en se recentrant sur ses goûts. 
+- Il existe une ribambelle de services de recettes culinaires qui ne sont pas assez orientés sur l'expérience utilisateur. Lorsque l'on va sur ce type de site, nous avons déjà une idée de la recette que nous allons faire. Au final le côté "Quelle recette vais-je faire ?" a été fait en amont et c'est le moteur de recherche qui nous redirige sur le site. Nous pouvons faire une comparaison avec une application de musique qui permet d'en écouter exclusivement grâce à un titre rentré par l'utilisateur. Ce genre d'application n'est pas centrée sur l'utilisateur mais sur les recettes en elles-mêmes. La problématique est de savoir comment proposer un site qui gère tout le chemin de la recette à l'utilisateur en se recentrant sur ses goûts.
 
 ### Développement de la problématique
 
-- Notre objectif est de proposer une expérience personnalisée. Par exemple, sur les applications de musique, on nous permet de découvrir de nouveaux groupes selon les styles que nous aimons. Dans notre cas, nous pourrons proposer de nouveaux plats selon ce que l'utilisateur a fait et a aimé. Nos goûts en musique évoluent et s'élargissent alors pourquoi ne pas avoir la même chose avec la cuisine ? Combien de fois s'est-on demandé "Qu'est ce que j'achète et qu'est-ce que je mange cette semaine ?" pour au final manger des plats habituels ? Combien de personnes sont bloquées sur les mêmes plats en boucle comme une playlist de 8 morceaux ? Notre objectif n'est pas seulement de faire découvrir à l'utilisateur de nouvelles manières de cuisiner et de découvrir de nouveaux plats, mais aussi de s'assurer qu'il apprécie ces nouvelles choses grâce à une expérience personnalisée. 
-
+- Notre objectif est de proposer une expérience personnalisée. Par exemple, sur les applications de musique, on nous permet de découvrir de nouveaux groupes selon les styles que nous aimons. Dans notre cas, nous pourrons proposer de nouveaux plats selon ce que l'utilisateur a fait et a aimé. Nos goûts en musique évoluent et s'élargissent alors pourquoi ne pas avoir la même chose avec la cuisine ? Combien de fois s'est-on demandé "Qu'est ce que j'achète et qu'est-ce que je mange cette semaine ?" pour au final manger des plats habituels ? Combien de personnes sont bloquées sur les mêmes plats en boucle comme une playlist de 8 morceaux ? Notre objectif n'est pas seulement de faire découvrir à l'utilisateur de nouvelles manières de cuisiner et de découvrir de nouveaux plats, mais aussi de s'assurer qu'il apprécie ces nouvelles choses grâce à une expérience personnalisée.
 
 ![Diagramme Bete a corne](bete_a_corne.png)
 
@@ -18,15 +16,13 @@
 
 #### Tout d'abord nous devons proposer un site de recettes fonctionnel :
 
-- Création d'un site web, qui comme sur un site web de recette lambda, permet de rechercher des recettes et les filtrer. 
+- Création d'un site web, qui comme sur un site web de recette lambda, permet de rechercher des recettes et les filtrer.
 
 - Ajout d'une interface utilisateur simple et intuitive coordonnée avec une expérience utilisateur optimisée pour fidéliser les visiteurs du site. Ajout d'un principe d'authentification qui permet de récupérer ses sauvegardes sur n'importe quel appareil.
 
 #### Ensuite nous devons y ajouter le côté personnalisation :
 
 L'objectif est donc de proposer un site qui gère tout le chemin de la recette à l'utilisateur en se recentrant sur ses goûts via une expérience personnalisée. Nous intégrerons des "livres de recettes" où les gens peuvent créer des listes et y ajouter des recettes. De plus nous ajouterons des suggestions personnalisées tout au long du site établies en fonction des habitudes des utilisateurs ainsi que de leur profil individuel mais aussi de la similitude des recettes. Tous les détails de personnalisation sont inscrits dans la partie "Fonctionnalités".
-
-
 
 ## Fonctionnalités
 
@@ -36,7 +32,7 @@ L'objectif est donc de proposer un site qui gère tout le chemin de la recette �
 
 #### Sauvegarde de(s) recette(s)
 
-- Pour sauvegarder les recettes dans des playlists (like ou autre playlists), il sera obligatoire de se connecter, et de s'inscrire au préalable. Grâce à son nouveau compte, l'utilisateur aura plusiseurs possibilités : sauvegarder la recette dans sa playlist "Like" (playlist par défaut non supprimable) et/ou dans une liste créée spécialement par l'utilisateur avec un nom personnalisé. L'utilisateur pourra créer autant de playlists qu'il le souhaitera. 
+- Pour sauvegarder les recettes dans des playlists (like ou autre playlists), il sera obligatoire de se connecter, et de s'inscrire au préalable. Grâce à son nouveau compte, l'utilisateur aura plusiseurs possibilités : sauvegarder la recette dans sa playlist "Like" (playlist par défaut non supprimable) et/ou dans une liste créée spécialement par l'utilisateur avec un nom personnalisé. L'utilisateur pourra créer autant de playlists qu'il le souhaitera.
 
 #### Suggestion
 
@@ -80,7 +76,7 @@ Dans le cadre de notre projet, nous nous reposerons sur l'analyse des actions et
 
 #### Interface
 
-L'interface graphique va être le point clé pour l'utilisateur : c'est ce qu'il verra en premier sur notre site. Pour garantir une expérience optimale, nous concentrerons nos efforts sur une interface intuitive et attrayante. La simplicité d'utilisation sera cruciale : tout type d'utilisateur doit pouvoir naviguer facilement, sans accroc ni confusion. 
+L'interface graphique va être le point clé pour l'utilisateur : c'est ce qu'il verra en premier sur notre site. Pour garantir une expérience optimale, nous concentrerons nos efforts sur une interface intuitive et attrayante. La simplicité d'utilisation sera cruciale : tout type d'utilisateur doit pouvoir naviguer facilement, sans accroc ni confusion.
 
 L'interface devra être : propre, structurée et esthétique pour attirer davantage l'attention des utilisateurs en plus de renforcer leur confiance et augmenter le temps passé sur le site. Les éléments visuels, tels que des icônes intuitives, une mise en page cohérente et des visuels attrayants, contribuent à rendre l'interface conviviale (voir le point Maquette pour un visuel).
 
@@ -97,18 +93,23 @@ Pour pouvoir toucher un large public, il est essentiel d'avoir une grande access
 ## La cible
 
 ### L’étudiant
-Paul Biard, 20 ans, est un étudiant vivant à Amiens. Il est en études supérieures pour la première fois et vit donc seul. Il étudie en informatique et est très sédentaire. Il aime jouer avec ses amis en ligne et commande beaucoup de nourriture via des applications telles qu'Uber Eats. La nourriture est très peu équilibrée, grasse et ne lui confère aucune énergie. Paul souhaite donc utiliser PirateCook pour se mettre à cuisiner. Il peut tester des recettes et en découvrir de nouvelles avec le système de suggestion. Il pourra créer des playlists de recettes selon ses envies. Les sites tels que Marmiton ou Jow ne lui conviennent pas : il n’est pas possible de garder les recettes facilement pour l’un et l’application a des difficultés sur téléphone pour l’autre. Paul est frustré de perdre autant d’argent dans l’utilisation d'applications de livraison. En effet, les prix sont beaucoup plus élevés. Il veut donc pouvoir cuisiner facilement et dépenser peu. Paul souhaite pouvoir utiliser le site facilement sur son téléphone étant donné que sa cuisine est trop petite pour poser son ordinateur. 
+
+Paul Biard, 20 ans, est un étudiant vivant à Amiens. Il est en études supérieures pour la première fois et vit donc seul. Il étudie en informatique et est très sédentaire. Il aime jouer avec ses amis en ligne et commande beaucoup de nourriture via des applications telles qu'Uber Eats. La nourriture est très peu équilibrée, grasse et ne lui confère aucune énergie. Paul souhaite donc utiliser PirateCook pour se mettre à cuisiner. Il peut tester des recettes et en découvrir de nouvelles avec le système de suggestion. Il pourra créer des playlists de recettes selon ses envies. Les sites tels que Marmiton ou Jow ne lui conviennent pas : il n’est pas possible de garder les recettes facilement pour l’un et l’application a des difficultés sur téléphone pour l’autre. Paul est frustré de perdre autant d’argent dans l’utilisation d'applications de livraison. En effet, les prix sont beaucoup plus élevés. Il veut donc pouvoir cuisiner facilement et dépenser peu. Paul souhaite pouvoir utiliser le site facilement sur son téléphone étant donné que sa cuisine est trop petite pour poser son ordinateur.
 
 ### Le retraité
+
 Jean-Bernard Delacroix est un retraité de 69 ans. Il aime beaucoup faire de la pêche toute la journée avec ses petits-enfants. Malheureusement, Jean-Bernard ne cuisine pas ses prises car il ne sait pas comment faire. Il se retrouve donc avec ses poissons sans pouvoir les cuisiner. Ses enfants lui conseillent d’utiliser son ordinateur et d’aller sur PirateCook pour apprendre des recettes. De plus, grâce aux suggestions, il pourra en découvrir de nouvelles. C’est difficile pour Jean-Bernard d’utiliser un ordinateur mais il a la motivation d’apprendre grâce à la facilité d’utilisation de PirateCook. Grâce à PirateCook, il pourra réaliser des repas avec ses poissons à ses petits-enfants après la pêche de la journée.
 
-###  Salarié
+### Salarié
+
 José Bertier, 42 ans, travaille en tant que salarié. Le soir, c’est sa femme qui cuisine pour eux deux. Il souhaite donc cuisiner pour la décharger de ce travail. Il veut cuisiner sans l’aide de sa femme. Cependant, il ne veut pas refaire encore et encore les mêmes repas. Marmiton n’offre pas une suggestion assez poussée et il souhaite enregistrer les repas selon des catégories précises. Avec PirateCook il peut facilement apprendre grâce aux étapes de la recette et garder celles qu’il aime. Il souhaite l’utiliser sur téléphone la journée lors de ses pauses au travail et cuisiner avec son ordinateur.
 
 ### Mère de famille
+
 Clothilde Marie est une mère de 5 enfants. Elle n’a donc pas beaucoup de temps pour elle. Il lui est long de réaliser des repas. Elle utilise Marmiton mais elle prépare des recettes en boucle et a du mal à les retrouver. Il n’est pas rare qu’elle utilise aussi d’autres sites moins connus de cuisine. Elle souhaite donc trouver un site qui lui permet de voir des recettes peu chères et faciles à faire pour les noter et y avoir accès à tout moment sur ordinateur et téléphone. Grâce à PirateCook, elle peut retrouver ses recettes facilement et gagner du temps grâce à des recettes faciles à réaliser pour elle et ses 5 enfants.
 
 ### Cadre
+
 Jérémie Albion est un cadre supérieur dans une entreprise de tech. Avec son travail, il n’a pas le temps de cuisiner par lui-même : il paie un service de livraison de repas équilibré. Cependant, il a rencontré une femme et souhaite l’impressionner lors d’un dîner en cuisinant un repas complexe. Sur Marmiton, il ne trouve pas de recette intéressante et se tourne donc vers PirateCook pour trouver ce qu’il souhaite : une recette complexe à n’importe quel prix. Grâce à PirateCook, il peut “liker” la recette et la retrouver facilement sur toutes les plateformes.
 
 ## La concurrence
@@ -125,11 +126,9 @@ Dans l'optique d'améliorer la praticité du développement et de l'utilisation 
 
 #### Serveur Web
 
-Afin d'héberger le site web, nous utiliserons le serveur web NGINX. Puisque nous utiliserons Node.js, il semble judicieux de l'utiliser à la place d'Apache pour plusieurs raisons : Nginx est réputé pour son efficacité en matière de gestion de connexions simultanées, ce qui le rend adapté aux applications en temps réel comme Node.js. La configuration de Nginx est généralement plus légère que celle d'Apache, signifiant qu'il nécessitera moins de ressources. Nginx est également excellent pour traiter les requêtes statiques, ce qui réduit aussi la charge serveur. 
+Afin d'héberger le site web, nous utiliserons le serveur web NGINX. Puisque nous utiliserons Node.js, il semble judicieux de l'utiliser à la place d'Apache pour plusieurs raisons : Nginx est réputé pour son efficacité en matière de gestion de connexions simultanées, ce qui le rend adapté aux applications en temps réel comme Node.js. La configuration de Nginx est généralement plus légère que celle d'Apache, signifiant qu'il nécessitera moins de ressources. Nginx est également excellent pour traiter les requêtes statiques, ce qui réduit aussi la charge serveur.
 
 #### Base de données
-
-
 
 ### Architecture
 
@@ -180,11 +179,11 @@ Cette approche architecturale permet une organisation claire des composantes du 
 ##### Affichage d'une recette pour carousel
 
 - Front
-    - components : recipeCard
-    - composant affichant une recette dans une card
-    - Paramètre : Recipe (données d'une recette (ex: nomRecette/imageRecette...))
+  - components : recipeCard
+  - composant affichant une recette dans une card
+  - Paramètre : Recipe (données d'une recette (ex: nomRecette/imageRecette...))
 - Back
-    - /recipe?id=
+  - /recipe?id=
 - Model
   - table recette
     - entites
@@ -194,7 +193,6 @@ Cette approche architecturale permet une organisation claire des composantes du 
       - nbrLike
       - user a liké ou pas
       - user a mis dans liste ou pas
-
 
 ##### Affichage des recettes
 
@@ -244,15 +242,15 @@ Cette approche architecturale permet une organisation claire des composantes du 
 - Model
 - Table recette
   - Entités
-      - difficulté
-      - temps
-      - prix
-      - nbrLike
+    - difficulté
+    - temps
+    - prix
+    - nbrLike
 - Table Ingrédient
   - Entités
     - nomIngrédient
 - Table tags
-    - tags
+  - tags
 
 ##### Fonctionnalités de recherche et de filtrage
 
@@ -285,7 +283,6 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
     - sexe
     - password
 
-
 ##### Modification du compte
 
 - Front
@@ -295,36 +292,37 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
 - Back
   - /profil method PUT
 - Model
-    - table user
-      - addresseMail
-      - nom
-      - prenom
-      - mdpCrypte
-      - sexe
+  - table user
+    - addresseMail
+    - nom
+    - prenom
+    - mdpCrypte
+    - sexe
 
 ##### Suppression du compte
 
 - Front
-    - composant : Profil
-    - bouton pour supprimer son profil
-    - Contexte : User
+  - composant : Profil
+  - bouton pour supprimer son profil
+  - Contexte : User
 - Back
-    - /profil method DELETE
+  - /profil method DELETE
 - Model
-    - table user
+  - table user
 
 ##### Connexion au compte
+
 - Front
-    - composant : Login
-    - composant affichant le formulaire de connexion
-    - Contexte : User
+  - composant : Login
+  - composant affichant le formulaire de connexion
+  - Contexte : User
 - Back
-    - /login
-    - verifier la validite des informations et envoyer un token jwt
+  - /login
+  - verifier la validite des informations et envoyer un token jwt
 - Model
-    - table user
-        - mail
-        - password
+  - table user
+    - mail
+    - password
 
 #### Module : Sauvegarde recette
 
@@ -391,17 +389,16 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
       - nomPlaylist
   - Table Recette
     - Entite
-        - idRecette
-        - nomRecette
-        - voir tom design
-
+      - idRecette
+      - nomRecette
+      - voir tom design
 
 ##### Affichage d'une recette dans une liste
 
 - Front
-    - components : recipeListCard
-    - composant affichant une recette dans une liste (like ou pas)
-    - Paramètre : Recipe (données d'une recette (ex: nomRecette/imageRecette...))
+  - components : recipeListCard
+  - composant affichant une recette dans une liste (like ou pas)
+  - Paramètre : Recipe (données d'une recette (ex: nomRecette/imageRecette...))
 - Model
   - table recette
     - entites
@@ -411,20 +408,18 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
       - nbrLike
       - user a liker ou pas
 
-
 ##### Suppresion d'une recette dans une liste liste
 
 - Front
-    - components : deleteListRecipeButton
-    - composant qui supprime la recipe d'une liste
-    - Paramètre : idRecette
+  - components : deleteListRecipeButton
+  - composant qui supprime la recipe d'une liste
+  - Paramètre : idRecette
 - Back
-    - /playlist?id=&?=recipe& method post
+  - /playlist?id=&?=recipe& method post
 - Model
-    - table playlist
-        - idplaylist
-        - idRecipe
-
+  - table playlist
+    - idplaylist
+    - idRecipe
 
 ###### Création d'une liste :
 
@@ -473,44 +468,47 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
 ##### Global
 
 ###### Most liked
+
 - Front
-    - composant : MostLiked
-    - composant affichant les recettes les plus likees
+  - composant : MostLiked
+  - composant affichant les recettes les plus likees
 - Back
-    - /mostLiked
-    - retourne un nombre X de recettes les plus likees 
+  - /mostLiked
+  - retourne un nombre X de recettes les plus likees
 - Model
-    - table recette
-        - nomRecette
-        - imageRecette
-        - nbrLike
-        - variable mostLiked (calcule)
-    - table recette && user
-        - user a liker ou pas
-        - a ajouter a la playlist ou pas
+  - table recette
+    - nomRecette
+    - imageRecette
+    - nbrLike
+    - variable mostLiked (calcule)
+  - table recette && user
+    - user a liker ou pas
+    - a ajouter a la playlist ou pas
 
 ###### Trending
-- Front
-    - composant : Trending
-    - composant affichant les recettes les plus en vogue sur les 30 derniers jours
-- Back
-    - /trending
-    - retourne les recettes les plus clique sur les 30 derniers jours
-- Model
-    - table statRecettes
 
-#####  Context
+- Front
+  - composant : Trending
+  - composant affichant les recettes les plus en vogue sur les 30 derniers jours
+- Back
+  - /trending
+  - retourne les recettes les plus clique sur les 30 derniers jours
+- Model
+  - table statRecettes
+
+##### Context
 
 ###### Item by Item
+
 - Front
-    - composant : SimilarRecipes
-    - composant affichant les recettes similaire a celle en ce moment
-    - Paramètre : idPlaylist
+  - composant : SimilarRecipes
+  - composant affichant les recettes similaire a celle en ce moment
+  - Paramètre : idPlaylist
 - Back
-    - /similarRecipes?idRecette=&
-    - retourne les recettes les plus similaire en lien avec l'app python
+  - /similarRecipes?idRecette=&
+  - retourne les recettes les plus similaire en lien avec l'app python
 - Model
-    - neo4j graph
+  - neo4j graph
 
 ###### Drystart
 
@@ -528,24 +526,21 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
 ##### Personnalise
 
 ###### Recommended for you
+
 - Front
-    - composant : Recommended for you
-    - Contexte : User
+  - composant : Recommended for you
+  - Contexte : User
 - Back
-    - /recommended
-    - calcul magique
+  - /recommended
+  - calcul magique
 - Model
-    - table user
-        - preferences
-    - neo4j graph
+  - table user
+    - preferences
+  - neo4j graph
 
 ### Attente technique des besoins
 
 ## Organisation
-
-
-
-
 
 ## Oral
 
@@ -560,24 +555,31 @@ Slide 3 - 45 seconde
 
 Slide 4 - 1 minute Gaetan
 Dans l'objectif de proposer une experience utilisateur personnalie, nous avons oriente notre developement vers les gout et habitude de nos utilisateur.
-Pour y arriver, nous nous sommes penche sur des fonctionnalites cles tel que 
+Pour y arriver, nous nous sommes penche sur des fonctionnalites cles tel que
+
 - comme une playlist de musique type spotify
 - relire en reformulant
-pour arrive a notre objectif de personnalisation
+  pour arrive a notre objectif de personnalisation
 
 Slide 5 - 1 minutes
 Tout le monde se presente
 
 Slide 6 - 2 minutes
 Pour reprendre les deux parties de la solution
+
 - le site de recette
-    - lire et blablater
+  - lire et blablater
 - personnalisation
-    - lire et blablater
-    - coco fait le coldstart
+  - lire et blablater
+  - coco fait le coldstart
 
 Slide 7 - 1 minutes 30 Gaetan
-Bla bla stack mes couilles
+Pour implementer ces fonctionnalite vu precedemment, j'ai choisi pour le front sveltekit qui est le framework fullstack qui a comme base svelte un framework comme react, vue, angular etc
+pour sa simplicite d'utilisation cote devellopeur et le server side rendering qui nous permet de ne pas avoir de probleme de seo et une bien meilleur experience utilisateur
+De grande entreprise on deja reeecris de grande partie de leur codebase tel que apple, New york times ou bien decathlon cote francais
+typescript de son cote nous a servi a reduire les complications de javascript qui manque de typage de base donc une meilleur maintiennabilite
+pour le backend la premiere idee etait de partir sur nodejs pour avoir une codeback completement en typescript,
+ainsi qu'une mutualisation des types, ensuite une reecriture en golang pour son efficacite (13000 lines de moins pour les memes fonctionnalite) ainsi que le paradigme de concurrence qui est integre au language, qui aurai permis de faire les calculs de suggestions cote serveur tres efficacement
 
 Slide 8 - 1 minutes 30
 Bla bla bla bdd
@@ -585,18 +587,27 @@ Bla bla bla bdd
 Slide 9 - 1 minutes 30
 BLa bla bla reseaux
 
-Slide 10 - 30 secondes 
+Slide 10 - 30 secondes
 
 (10 minutes)
 
 Slide 11 - 30 + 30 + 30 + 30 + 15 (2minutes 15)
+Lors de la premiere semaine, j'ai mis en place le repository sur github, j'ai securiser les branches et mis en place en mode trunk que j'expliquerai juste apres, apres cela j'ai mis en place la stack donc creer l'app sveltekit, creer l'archicture de dossier et une simple appli cote backend, juste apres j'ai mis en place docker compose pour sveltekit, le backend en nodejs ainsi que la base de donnee neo4j avec leur dockerfile respectif
 
-Slide 12 - 100 + 20 + 30 + 30  (2 minutes 20)
+Slide 12 - 100 + 20 + 30 + 30 (2 minutes 20)
+Apres cela j'ai ecris et mise en place les trois plus grosse routes de l'api qui sont la route de recette donc un CRUD avec les metadata de pagination pour certain endpoint, l'authentification a l'aide de JWT pour permettre de se connecter et s'inscrire, les livres de recette qui avais donc bessoin de faire l'authentification juste avant
+Pour la CICD de ce projet je dois d'abord expliquer le trunk mode,tout d'abord il est impossible de push dans le main la seul possible est de faire une pull request ce qui permet un code plus propre a l'aide de la revue de code, donc pour chaque fonctionnalite, un de nous 3 creer une branche qui derive du main puis ajouter du code jusqu'a completer la fonctionnalite, quand elle est fini les test de ci cd se mettent en place, comme vu juste ici donc pour chaque nouveau push dans une branche qui a une pull request liee les test, ces test sont lancer tout cela a l'aide des github actions
+
+- expliquer les test
+  donc si tout les test sont bon les changement sont changer en production
 
 Slide 13 - 45 + 40 + 25 + 30 + 20 (2min40)
+Pendant cette 3eme semaine, ce fut la semaine ou j'ai reecris le backend en golang car le code devenait tres tentaculaire, ainsi que la correction de quelque bug qui etait dans l'api ecris en nodejs. apres la reecriture j'ai lier le backend et le frontend en faisant des requetes a l'api que je venais juste de reecrire, j'ai donc mis en place la logique d'authentification, la page de recette ainsi que les playlist cote front, puis continuer la ci cd vu precedemment
 
 Slide 14 - 30 + 25 + 15 + 15 + 15 (1min40)
+Ainsi apres avoir fais les plus grosse fonctionnalite cote front, je me suis attele a la recherche et la pagination pour permettre une navigation des recette et une recherche avec filtre, ensuite j'ai configuer le serveur doncla configuration du swarm, securisation de ssh ainsi que d'autre point de securite
 
 Slide 15 - 35 + 20 + 15 + 20 + 15 (1min45)
+pour cette avant derniere semaine, j'ai commencer par creer la logique des pop up que l'on voit dans la video pour aimer et ajouter a une playlist, les recette que l'on veut, pour la derniere version de la ci/cd, j'ai ajouter le push des images dans ghcr qui est le github package registry qui permet de stocker des image docker directement dans le repo, le dernier point cle de la ci/cd, ainsi les changement en production etait totalement automatise
 
 (20 minutes 45)
