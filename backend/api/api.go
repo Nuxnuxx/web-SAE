@@ -33,25 +33,9 @@ func (s *APIServer) Run() {
 		AllowOrigins:     []string{os.Getenv("FRONT_URL")},
 	}))
 
-	authRouter := e.Group("/auth")
-	authRouter.POST("/login", s.handleLogin)
-	authRouter.POST("/register", s.handleRegister)
-	authRouter.GET("/profil", withJWTAuth(s.handleProfil, s.store))
-	authRouter.POST("/coldstart", withJWTAuth(s.handleColdStart, s.store))
-
-	recipeRouter := e.Group("/recipe")
-	recipeRouter.GET("/:id", s.handleGetRecipe)
-	recipeRouter.GET("/page/:page", s.handleRecipes)
-
-	listRouter := e.Group("/list")
-	listRouter.GET("", withJWTAuth(s.handleList, s.store))
-	listRouter.GET("/recipe", withJWTAuth(s.handleListRecipe, s.store))
-
-	//TODO: Add query and implement similarRecipes drystart and recommended
-	e.GET("/trending", s.handleTrending)
-	e.GET("/mostliked", s.handleMostLiked)
-	e.GET("/recommended", s.handleMostLiked)
-	e.GET("/similarRecipes/:id/:number", s.handleSimilarRecipes)
+	s.registerAuthRoutes(e)
+	s.registerListRoutes(e)
+	s.registerRecipeRoutes(e)
 
 	log.Println("Piratecook api server running on port:", s.listenAddr)
 	e.Logger.Fatal(e.Start(s.listenAddr))
