@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  backendgo:
-    build: ./backend-go
+  backend:
+    build: ./backend
     restart: always
     environment:
       STAGE: "prod"

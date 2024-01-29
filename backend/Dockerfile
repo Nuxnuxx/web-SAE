@@ -1,19 +1,22 @@
-FROM node:18-alpine
+FROM golang:1.21-alpine
+RUN apk add --no-cache make
 
-RUN apk add dumb-init
-
-COPY ./src/ /app/src/
-COPY ./package*.json /app/
-COPY ./tsconfig.json /app/
+RUN adduser -D backend
+RUN echo 'backend:password' | chpasswd
+USER backend
 
 WORKDIR /app/
-RUN npm install
-RUN npm run build
 
+COPY ./api/ ./api/
+COPY ./config/ ./config/
+COPY ./storage/ ./storage/
+COPY ./types/ ./types/
+COPY ./utils/ ./utils/
+COPY main.go ./
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 
+COPY Makefile .
+RUN make build
 
-EXPOSE 5001
-
-USER node
-
-CMD dumb-init npm run start
+CMD ["/app/bin/backend"]

@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  backendgo:
-    build: ./backend-go
+  backend:
+    build: ./backend
     image: ghcr.io/nuxnuxx/backend
     restart: always
     environment:
