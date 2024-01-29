@@ -36,6 +36,7 @@ func (s *APIServer) Run() {
 	s.registerAuthRoutes(e)
 	s.registerListRoutes(e)
 	s.registerRecipeRoutes(e)
+	s.registerSuggestionRoutes(e)
 
 	log.Println("Piratecook api server running on port:", s.listenAddr)
 	e.Logger.Fatal(e.Start(s.listenAddr))
