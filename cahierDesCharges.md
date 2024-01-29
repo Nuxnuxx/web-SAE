@@ -545,16 +545,16 @@ Les critères de recherche et de filtrage peuvent inclure des paramètres tels q
 ## Oral
 
 Sommaire 30 seconde
-Se presenter avec le sommaire
+Bonjour mesdames messieurs les jury, nous allons vous presenter notre projet de sae, je me presente gaetan littiere option dev
 
-Slide 1 - 30 seconde
+Slide 1 - 30 seconde - Lukas
 
-Slide 2 - 30 seconde
+Slide 2 - 30 seconde - Corentin
 
-Slide 3 - 45 seconde
+Slide 3 - 45 seconde - Pooloo
 
-Slide 4 - 1 minute Gaetan
-Dans l'objectif de proposer une experience utilisateur personnalie, nous avons oriente notre developement vers les gout et habitude de nos utilisateur.
+Slide 4 - 1 minute - Gaetan
+pour aboutir a cette experience utilisateur, nous avons oriente notre developement vers les gout et habitude de nos utilisateur.
 Pour y arriver, nous nous sommes penche sur des fonctionnalites cles tel que
 
 - comme une playlist de musique type spotify
@@ -564,7 +564,7 @@ Pour y arriver, nous nous sommes penche sur des fonctionnalites cles tel que
 Slide 5 - 1 minutes
 Tout le monde se presente
 
-Slide 6 - 2 minutes
+Slide 6 - 2 minutes - Tom
 Pour reprendre les deux parties de la solution
 
 - le site de recette
@@ -573,26 +573,26 @@ Pour reprendre les deux parties de la solution
   - lire et blablater
   - coco fait le coldstart
 
-Slide 7 - 1 minutes 30 Gaetan
-Pour implementer ces fonctionnalite vu precedemment, j'ai choisi pour le front sveltekit qui est le framework fullstack qui a comme base svelte un framework comme react, vue, angular etc
-pour sa simplicite d'utilisation cote devellopeur et le server side rendering qui nous permet de ne pas avoir de probleme de seo et une bien meilleur experience utilisateur
+Slide 7 - 1 minutes 30 - Gaetan
+Pour implementer ces fonctionnalite vu precedemment, le choix pour  le front s'est porter sur sveltekit qui est le framework fullstack qui a comme base svelte un framework comme react, vue, angular etc sveltekit peut s'apparenter a un next pour react
+pour sa simplicite d'utilisation cote devellopeur et le server side rendering qui nous permet de ne pas avoir de probleme de seo et une bien meilleur experience utilisateur permettant le rechargement de la page tout en gardant la persistence de l'etat de l'app
 De grande entreprise on deja reeecris de grande partie de leur codebase tel que apple, New york times ou bien decathlon cote francais
-typescript de son cote nous a servi a reduire les complications de javascript qui manque de typage de base donc une meilleur maintiennabilite
+typescript de son cote nous a servi a reduire les complications de javascript qui manque de typage de base donc une meilleur maintiennabilite du code
 pour le backend la premiere idee etait de partir sur nodejs pour avoir une codeback completement en typescript,
 ainsi qu'une mutualisation des types, ensuite une reecriture en golang pour son efficacite (13000 lines de moins pour les memes fonctionnalite) ainsi que le paradigme de concurrence qui est integre au language, qui aurai permis de faire les calculs de suggestions cote serveur tres efficacement
 
-Slide 8 - 1 minutes 30
+Slide 8 - 1 minutes 30 - paul/lukas
 Bla bla bla bdd
 
-Slide 9 - 1 minutes 30
+Slide 9 - 1 minutes 30 - Mathis
 BLa bla bla reseaux
 
-Slide 10 - 30 secondes
+Slide 10 - 30 secondes - mathis
 
 (10 minutes)
 
 Slide 11 - 30 + 30 + 30 + 30 + 15 (2minutes 15)
-Lors de la premiere semaine, j'ai mis en place le repository sur github, j'ai securiser les branches et mis en place en mode trunk que j'expliquerai juste apres, apres cela j'ai mis en place la stack donc creer l'app sveltekit, creer l'archicture de dossier et une simple appli cote backend, juste apres j'ai mis en place docker compose pour sveltekit, le backend en nodejs ainsi que la base de donnee neo4j avec leur dockerfile respectif
+Lors de la deuxieme semaine, j'ai mis en place le repository sur github, j'ai securiser les branches et mis en place le mode trunk que j'expliquerai juste apres, apres cela j'ai mis en place la stack donc creer l'app sveltekit, creer l'archicture de dossier et une simple appli cote backend, juste apres j'ai mis en place docker compose pour sveltekit, le backend en nodejs ainsi que la base de donnee neo4j avec leur dockerfile respectif
 
 Slide 12 - 100 + 20 + 30 + 30 (2 minutes 20)
 Apres cela j'ai ecris et mise en place les trois plus grosse routes de l'api qui sont la route de recette donc un CRUD avec les metadata de pagination pour certain endpoint, l'authentification a l'aide de JWT pour permettre de se connecter et s'inscrire, les livres de recette qui avais donc bessoin de faire l'authentification juste avant
@@ -608,6 +608,6 @@ Slide 14 - 30 + 25 + 15 + 15 + 15 (1min40)
 Ainsi apres avoir fais les plus grosse fonctionnalite cote front, je me suis attele a la recherche et la pagination pour permettre une navigation des recette et une recherche avec filtre, ensuite j'ai configuer le serveur doncla configuration du swarm, securisation de ssh ainsi que d'autre point de securite
 
 Slide 15 - 35 + 20 + 15 + 20 + 15 (1min45)
-pour cette avant derniere semaine, j'ai commencer par creer la logique des pop up que l'on voit dans la video pour aimer et ajouter a une playlist, les recette que l'on veut, pour la derniere version de la ci/cd, j'ai ajouter le push des images dans ghcr qui est le github package registry qui permet de stocker des image docker directement dans le repo, le dernier point cle de la ci/cd, ainsi les changement en production etait totalement automatise
+cette derniere semaine, j'ai commencer par creer la logique des pop up que l'on voit dans la video pour aimer et ajouter a une playlist, les recette que l'on veut, pour la derniere version de la ci/cd, j'ai ajouter le push des images dans ghcr qui est le github package registry qui permet de stocker des image docker directement dans le repo, le dernier point cle de la ci/cd, ainsi la mise en production est automatique lors du merge dans le main d'une Pull request
 
 (20 minutes 45)
