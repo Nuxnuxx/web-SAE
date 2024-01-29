@@ -2,13 +2,12 @@ package api
 
 import (
 	"log"
-	"net/http"
 	"os"
 
 	"backend/storage"
 
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type APIServer struct {
@@ -24,34 +23,36 @@ func NewAPIServer(listenAddr string, store storage.Storage) *APIServer {
 }
 
 func (s *APIServer) Run() {
-	// CORS Settings
-	credentials := handlers.AllowCredentials()
-	ttl := handlers.MaxAge(3600)
-	origin := handlers.AllowedOrigins([]string{os.Getenv("FRONT_URL")})
+	e := echo.New()
 
-	router := mux.NewRouter()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowCredentials: true,
+		MaxAge:           3600,
+		AllowOrigins:     []string{os.Getenv("FRONT_URL")},
+	}))
 
-	router.HandleFunc("/auth/login", makeHTTPHandleFunc(s.handleLogin))
-	router.HandleFunc("/auth/register", makeHTTPHandleFunc(s.handleRegister))
-	router.HandleFunc("/auth/profil", withJWTAuth(makeHTTPHandleFunc(s.handleProfil), s.store))
-	router.HandleFunc("/auth/coldstart", withJWTAuth(makeHTTPHandleFunc(s.handleColdStart), s.store))
+	authRouter := e.Group("/auth")
+	authRouter.POST("/login", s.handleLogin)
+	authRouter.POST("/register", s.handleRegister)
+	authRouter.GET("/profil", withJWTAuth(s.handleProfil, s.store))
+	authRouter.POST("/coldstart", withJWTAuth(s.handleColdStart, s.store))
 
-	router.HandleFunc("/recipe/{id}", makeHTTPHandleFunc(s.handleGetRecipe))
-	router.HandleFunc("/recipe/page/{page}", makeHTTPHandleFunc(s.handleRecipes))
+	recipeRouter := e.Group("/recipe")
+	recipeRouter.GET("/:id", s.handleGetRecipe)
+	recipeRouter.GET("/page/:page", s.handleRecipes)
 
-	router.HandleFunc("/list", withJWTAuth(makeHTTPHandleFunc(s.handleList), s.store))
-	router.HandleFunc("/list/recipe", withJWTAuth(makeHTTPHandleFunc(s.handleListRecipe), s.store))
+	listRouter := e.Group("/list")
+	listRouter.GET("", withJWTAuth(s.handleList, s.store))
+	listRouter.GET("/recipe", withJWTAuth(s.handleListRecipe, s.store))
 
 	//TODO: Add query and implement similarRecipes drystart and recommended
-	router.HandleFunc("/mostliked", makeHTTPHandleFunc(s.handleMostLiked))
-	router.HandleFunc("/trending", makeHTTPHandleFunc(s.handleTrending))
-	router.HandleFunc("/similarRecipes/{id}/{number}", makeHTTPHandleFunc(s.handleSimilarRecipes))
-	router.HandleFunc("/drystart", makeHTTPHandleFunc(s.handleMostLiked))
-	router.HandleFunc("/recommended", makeHTTPHandleFunc(s.handleMostLiked))
+	e.GET("/trending", s.handleTrending)
+	e.GET("/mostliked", s.handleMostLiked)
+	e.GET("/recommended", s.handleMostLiked)
+	e.GET("/similarRecipes/:id/:number", s.handleSimilarRecipes)
 
 	log.Println("Piratecook api server running on port:", s.listenAddr)
-
-	if err := http.ListenAndServe(s.listenAddr, handlers.CORS(credentials, ttl, origin)(router)); err != nil {
-		log.Fatal("Server failed to start: ", err)
-	}
+	e.Logger.Fatal(e.Start(s.listenAddr))
 }

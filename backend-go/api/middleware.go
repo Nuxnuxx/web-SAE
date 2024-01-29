@@ -10,43 +10,37 @@ import (
 	"backend/types"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/labstack/echo/v4"
 )
 
-func withJWTAuth(handlerFunc http.HandlerFunc, s storage.Storage) http.HandlerFunc {
-
-	return func(w http.ResponseWriter, r *http.Request) {
-		tokenString := r.Header.Get("Authorization")
+func withJWTAuth(next echo.HandlerFunc, s storage.Storage) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		tokenString := c.Request().Header.Get("Authorization")
 
 		finalToken := strings.Split(tokenString, " ")
 
 		token, err := validateJWT(finalToken[1])
-		if err != nil {
-			permissionDenied(w)
-			return
-		}
-
-		if !token.Valid {
-			permissionDenied(w)
-			return
+		if err != nil || !token.Valid {
+			return echo.NewHTTPError(http.StatusUnauthorized, "permission denied")
 		}
 
 		claims := token.Claims.(jwt.MapClaims)
-		r.Header.Set("Mail", fmt.Sprintf("%v", claims["Mail"]))
-		r.Header.Set("FirstName", fmt.Sprintf("%v", claims["FirstName"]))
-		r.Header.Set("LastName", fmt.Sprintf("%v", claims["LastName"]))
-		r.Header.Set("Gender", fmt.Sprintf("%v", claims["Gender"]))
-		r.Header.Set("Password", fmt.Sprintf("%v", claims["Password"]))
-		r.Header.Set("price", fmt.Sprintf("%v", claims["price"]))
-		r.Header.Set("difficulty", fmt.Sprintf("%v", claims["difficulty"]))
+		c.Request().Header.Set("Mail", fmt.Sprintf("%v", claims["Mail"]))
+		c.Request().Header.Set("FirstName", fmt.Sprintf("%v", claims["FirstName"]))
+		c.Request().Header.Set("LastName", fmt.Sprintf("%v", claims["LastName"]))
+		c.Request().Header.Set("Gender", fmt.Sprintf("%v", claims["Gender"]))
+		c.Request().Header.Set("Password", fmt.Sprintf("%v", claims["Password"]))
+		c.Request().Header.Set("price", fmt.Sprintf("%v", claims["price"]))
+		c.Request().Header.Set("difficulty", fmt.Sprintf("%v", claims["difficulty"]))
 
-		if err := s.FindAccountByMail(r.Header.Get("Mail")); err == nil {
-			permissionDenied(w)
-			return
+		if err := s.FindAccountByMail(c.Request().Header.Get("Mail")); err == nil {
+			return echo.NewHTTPError(http.StatusUnauthorized, "permission denied")
 		}
 
-		handlerFunc(w, r)
+		return next(c)
 	}
 }
+
 func makeHTTPHandleFunc(f apiFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := f(w, r); err != nil {
