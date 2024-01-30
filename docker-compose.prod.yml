@@ -21,7 +21,7 @@ services:
     image: ghcr.io/nuxnuxx/frontend
     restart: always
     depends_on:
-      - backendgo
+      - backend
     ports:
       - 3000:3000
     networks:

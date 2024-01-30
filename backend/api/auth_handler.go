@@ -35,7 +35,7 @@ func (s *APIServer) handleRegister(c echo.Context) error {
 	}
 
 	if err := s.store.FindAccountByMail(account.Mail); err != nil {
-		return echo.NewHTTPError(http.StatusUnauthorized, utils.ErrorInvalidCredentials)
+		return echo.NewHTTPError(http.StatusUnauthorized, "User already exist")
 	}
 
 	if err := s.store.CreateAccount(account); err != nil {
