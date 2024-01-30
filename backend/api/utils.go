@@ -1,22 +1,36 @@
 package api
 
 import (
-	"encoding/json"
-	"net/http"
+	"backend/config"
+	"backend/types"
+	"fmt"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
-func writeJSON(w http.ResponseWriter, status int, v any) error {
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(status)
-	return json.NewEncoder(w).Encode(v)
+func validateJWT(tokenString string) (*jwt.Token, error) {
+	return jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+
+		return []byte(config.Jwt_token), nil
+	})
 }
 
-type apiFunc func(http.ResponseWriter, *http.Request) error
+func createJWT(account *types.Account) (string, error) {
+	claims := &jwt.MapClaims{
+		"ExpiresAt":  15000,
+		"Mail":       account.Mail,
+		"FirstName":  account.FirstName,
+		"Gender":     account.Gender,
+		"LastName":   account.LastName,
+		"Password":   account.EncryptedPassword,
+		"price":      account.Price,
+		"difficulty": account.Difficulty,
+	}
 
-type ApiError struct {
-	Error string `json:"error"`
-}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-func permissionDenied(w http.ResponseWriter) {
-	writeJSON(w, http.StatusForbidden, ApiError{Error: "permission denied"})
+	return token.SignedString([]byte(config.Jwt_token))
 }

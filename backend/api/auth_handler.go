@@ -13,7 +13,7 @@ func (s *APIServer) registerAuthRoutes(e *echo.Echo) {
 	authRouter.POST("/login", s.handleLogin)
 	authRouter.POST("/register", s.handleRegister)
 
-	authRouter.Use(withJWTAuth(s.store))
+	authRouter.Use(JWTMiddleware(s.store))
 	authRouter.GET("/profil", s.handleGetProfil)
 	authRouter.PUT("/profil", s.handleUpdateProfil)
 	authRouter.DELETE("/profil", s.handleDeleteProfil)

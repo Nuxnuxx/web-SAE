@@ -6,3 +6,4 @@
 # TODO
 
 - centralize error
+- use uuid not simple id
