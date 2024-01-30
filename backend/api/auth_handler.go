@@ -12,7 +12,11 @@ func (s *APIServer) registerAuthRoutes(e *echo.Echo) {
 	authRouter := e.Group("/auth")
 	authRouter.POST("/login", s.handleLogin)
 	authRouter.POST("/register", s.handleRegister)
-	authRouter.GET("/profil", withJWTAuth(s.handleProfil, s.store))
+
+	authRouter.GET("/profil", withJWTAuth(s.handleGetProfil, s.store))
+	authRouter.PUT("/profil", withJWTAuth(s.handleUpdateProfil, s.store))
+	authRouter.DELETE("/profil", withJWTAuth(s.handleDeleteProfil, s.store))
+
 	authRouter.POST("/coldstart", withJWTAuth(s.handleColdStart, s.store))
 }
 
@@ -80,10 +84,6 @@ func (s *APIServer) handleColdStart(c echo.Context) error {
 }
 
 func (s *APIServer) handleLogin(c echo.Context) error {
-	if c.Request().Method != "POST" {
-		return echo.NewHTTPError(http.StatusMethodNotAllowed, "method not allowed")
-	}
-
 	var req types.LoginRequest
 	if err := c.Bind(&req); err != nil {
 		return err
@@ -112,21 +112,6 @@ func (s *APIServer) handleLogin(c echo.Context) error {
 	return c.JSON(http.StatusOK, finalResponse)
 }
 
-func (s *APIServer) handleProfil(c echo.Context) error {
-	if c.Request().Method == "PUT" {
-		return s.handleUpdateProfil(c)
-	}
-	if c.Request().Method == "DELETE" {
-		return s.handleDeleteProfil(c)
-	}
-
-	if c.Request().Method == "GET" {
-		return s.handleGetProfil(c)
-	}
-
-	return c.JSON(http.StatusMethodNotAllowed, utils.ErrorMethodNotAllowed)
-}
-
 func (s *APIServer) handleGetProfil(c echo.Context) error {
 	user := types.Account{
 		FirstName:  c.Request().Header.Get("firstName"),
@@ -147,13 +132,15 @@ func (s *APIServer) handleUpdateProfil(c echo.Context) error {
 		return err
 	}
 
+	if req.NewPassWord != c.Request().Header.Get("password") {
+		return echo.NewHTTPError(http.StatusUnauthorized, utils.ErrorInvalidCredentials)
+	}
+
 	account, err := utils.NewAccount(c.Request().Header.Get("Gender"), req.FirstName, req.LastName, c.Request().Header.Get("Mail"), req.NewPassWord, c.Request().Header.Get("price"), c.Request().Header.Get("difficulty"))
 
 	if err != nil {
 		return err
 	}
-
-	//FIXME: need to check if the account exists and the current password is correct
 
 	if err := s.store.UpdateAccount(account); err != nil {
 		return err
