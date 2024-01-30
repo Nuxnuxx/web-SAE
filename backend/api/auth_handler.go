@@ -13,11 +13,12 @@ func (s *APIServer) registerAuthRoutes(e *echo.Echo) {
 	authRouter.POST("/login", s.handleLogin)
 	authRouter.POST("/register", s.handleRegister)
 
-	authRouter.GET("/profil", withJWTAuth(s.handleGetProfil, s.store))
-	authRouter.PUT("/profil", withJWTAuth(s.handleUpdateProfil, s.store))
-	authRouter.DELETE("/profil", withJWTAuth(s.handleDeleteProfil, s.store))
-
-	authRouter.POST("/coldstart", withJWTAuth(s.handleColdStart, s.store))
+	authRouter.Use(withJWTAuth(s.store))
+	authRouter.GET("/profil", s.handleGetProfil)
+	authRouter.PUT("/profil", s.handleUpdateProfil)
+	authRouter.DELETE("/profil", s.handleDeleteProfil)
+	
+	authRouter.POST("/coldstart", s.handleColdStart)
 }
 
 func (s *APIServer) handleRegister(c echo.Context) error {

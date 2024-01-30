@@ -12,15 +12,16 @@ import (
 func (s *APIServer) registerListRoutes(e *echo.Echo) {
 	listRouter := e.Group("/list")
 
-	listRouter.GET("", withJWTAuth(s.handleGetList, s.store))
-	listRouter.POST("", withJWTAuth(s.handleCreateList, s.store))
-	listRouter.PUT("", withJWTAuth(s.handleUpdateList, s.store))
-	listRouter.DELETE("", withJWTAuth(s.handleDeleteList, s.store))
+	listRouter.Use(JWTMiddleware(s.store))
+	listRouter.GET("", s.handleGetList)
+	listRouter.POST("", s.handleCreateList)
+	listRouter.PUT("", s.handleUpdateList)
+	listRouter.DELETE("", s.handleDeleteList)
 
-	listRouter.GET("/recipe", withJWTAuth(s.handleGetListRecipe, s.store))
-	listRouter.POST("/recipe", withJWTAuth(s.handleCreateListRecipe, s.store))
-	listRouter.PUT("/recipe", withJWTAuth(s.handleUpdateListRecipe, s.store))
-	listRouter.DELETE("/recipe", withJWTAuth(s.handleDeleteListRecipe, s.store))
+	listRouter.GET("/recipe", s.handleGetListRecipe)
+	listRouter.POST("/recipe", s.handleCreateListRecipe)
+	listRouter.PUT("/recipe", s.handleUpdateListRecipe)
+	listRouter.DELETE("/recipe", s.handleDeleteListRecipe)
 }
 
 func (s *APIServer) handleCreateListRecipe(c echo.Context) error {
