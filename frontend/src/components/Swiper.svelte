@@ -11,37 +11,36 @@
 	export let recipes: RecipeDetail[];
 </script>
 
-<div class="swiper__wrapper">
-	<swiper-container
-		navigation-next-el="#my-next-button"
-		navigation-prev-el="#my-prev-button"
-		class="swiper"
-		slides-per-view="2"
-		slides-per-group="1"
-		space-between="20"
-		loop={true}
-		css-mode={false}
-		navigation={true}
-		breakpoints={JSON.stringify({
-			768: {
-				slidesPerView: 4,
-				slidesPerGroup: 1,
-				spaceBetween: 20,
-				loop: true,
-			},
-		})}
-	>
-		{#each recipes as recipe}
-			<swiper-slide><RecipeCard data={recipe} /></swiper-slide>
-		{/each}
-	</swiper-container>
-	<button id="my-prev-button" class="navigate material-symbols-rounded"
-		>navigate_before</button
-	>
-	<button id="my-next-button" class="navigate material-symbols-rounded"
-		>navigate_next</button
-	>
-</div>
+<swiper-container
+	navigation-next-el="#my-next-button"
+	navigation-prev-el="#my-prev-button"
+	class="swiper"
+	slides-per-view="2"
+	slides-per-group="1"
+	speed="500"
+	loop="true"
+	css-mode="true"
+	breakpoints={{
+		768: {
+			slidesPerView: 4,
+			slidesPerGroup: 1,
+			spaceBetween: 20,
+			loop: true,
+		},
+	}}
+>
+	{#each recipes as recipe}
+		<swiper-slide>
+			<RecipeCard data={recipe} />
+		</swiper-slide>
+	{/each}
+</swiper-container>
+<button id="my-prev-button" class="navigate material-symbols-rounded"
+	>navigate_before</button
+>
+<button id="my-next-button" class="navigate material-symbols-rounded"
+	>navigate_next</button
+>
 
 <style lang="scss">
 	.swiper__wrapper {

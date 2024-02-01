@@ -3,6 +3,8 @@ import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { getSimilarRecipes } from "$lib/api/recommendation-request";
 
+export const ssr = false;
+
 export const load: PageServerLoad = async ({ params }) => {
 	const id = Number(params.slug);
 	const recipe = await getRecipe(id);
