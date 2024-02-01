@@ -15,14 +15,14 @@ export const playlistStore = writable<PlaylistDetail[]>([]);
 export const userStore = writable(false);
 export const userDataStore = writable<User>();
 
-export const isPlaylistAddButtonOpen = writable({
-	id: 0,
-	open: false,
-});
-
-export const isLikedButtonOpen = writable({
-	id: 0,
-	open: false,
-});
-
 export const coldstartLiked = writable<number[]>([]);
+
+type Popup = {
+	idRecipe: number | null;
+	type: string | null;
+};
+
+export const popup = writable<Popup>({
+	idRecipe: null,
+	type: null,
+});
