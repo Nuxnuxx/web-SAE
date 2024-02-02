@@ -35,14 +35,10 @@
 		</a>
 		<div class="card__icons">
 			<span class="card__likes__icon">
-				<PopUpContainer {idRecipe} type="like">
-					<div> saucisse </div>
-				</PopUpContainer>
+				<PopUpContainer {idRecipe} type="like" />
 			</span>
 			<span class="card__saved__icon">
-				<PopUpContainer {idRecipe} type="playlist">
-					<div> saucisse playlist </div>
-				</PopUpContainer>
+				<PopUpContainer {idRecipe} type="playlist" />
 			</span>
 		</div>
 	</div>

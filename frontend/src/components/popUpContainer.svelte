@@ -2,6 +2,8 @@
 	import { goto } from "$app/navigation";
 	import { onDestroy } from "svelte";
 	import { userStore, popup } from "../store";
+	import FormLike from "./formLike.svelte";
+	import FormPlaylist from "./formPlaylist.svelte";
 
 	export let idRecipe: number;
 	export let type: string;
@@ -24,44 +26,49 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class={`dropdown ${SamePopUp ? "selected" : ""}`}>
-	<button
-		bind:this={button}
-		class="material-symbols-rounded"
-		on:blur={(e) => {
-			// si on sort de la pop up on la ferme
-			if (!mouseEnter) {
-				popup.set({
-					idRecipe: null,
-					type: null,
-				});
-			}
-		}}
-		on:click={() => {
-			// au premier click pour ouvrir la premiere pop up
-			if (isNull) {
-				popup.set({
-					idRecipe: idRecipe,
-					type: type,
-				});
-			}
-			// si c'est pas la meme on lui met le nouvelle id pour qu'elle souvre au bonne endoirt
-			else if (!SamePopUp) {
-				popup.set({
-					idRecipe: idRecipe,
-					type: type,
-				});
-			}
-			// sinon cest la meme et on la ferme (en gros le double click)
-			else {
-				popup.set({
-					idRecipe: null,
-					type: null,
-				});
-			}
-		}}>{type == "playlist" ? "playlist_add" : "favorite"}</button
-	>
+	{#if type == "like"}
+		<FormLike {idRecipe} />
+	{:else}
+		<button
+			bind:this={button}
+			class="material-symbols-rounded"
+			on:blur={() => {
+				// si on sort de la pop up on la ferme
+				if (!mouseEnter) {
+					popup.set({
+						idRecipe: null,
+						type: null,
+					});
+				}
+			}}
+			on:click={() => {
+				// au premier click pour ouvrir la premiere pop up
+				if (isNull) {
+					popup.set({
+						idRecipe: idRecipe,
+						type: type,
+					});
+				}
+				// si c'est pas la meme on lui met le nouvelle id pour qu'elle souvre au bonne endoirt
+				else if (!SamePopUp) {
+					popup.set({
+						idRecipe: idRecipe,
+						type: type,
+					});
+				}
+				// sinon cest la meme et on la ferme (en gros le double click)
+				else {
+					popup.set({
+						idRecipe: null,
+						type: null,
+					});
+				}
+			}}>playlist_add</button
+		>
+	{/if}
 	{#if $userStore && SamePopUp}
 		<div
+			class="dropdown-content"
 			on:mouseenter={() => {
 				// on met mouseEnter a true pour pas que la pop up se ferme
 				mouseEnter = true;
@@ -72,7 +79,7 @@
 				button.focus();
 			}}
 		>
-			<slot />
+			<FormPlaylist {idRecipe} />
 		</div>
 	{:else if SamePopUp}
 		<div
