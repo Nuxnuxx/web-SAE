@@ -12,14 +12,13 @@
 </script>
 
 <swiper-container
-	navigation-next-el="#my-next-button"
-	navigation-prev-el="#my-prev-button"
 	class="swiper"
 	slides-per-view="2"
 	slides-per-group="1"
 	speed="500"
 	loop="true"
 	css-mode="true"
+	navigation="true"
 	breakpoints={{
 		768: {
 			slidesPerView: 4,
