@@ -26,7 +26,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class={`dropdown ${SamePopUp ? "selected" : ""}`}>
-	{#if type == "like"}
+	{#if type == "like" && $userStore}
 		<FormLike {idRecipe} />
 	{:else}
 		<button
@@ -63,7 +63,7 @@
 						type: null,
 					});
 				}
-			}}>playlist_add</button
+			}}>{type === "playlist" ? "playlist_add" : "favorite"}</button
 		>
 	{/if}
 	{#if $userStore && SamePopUp}
