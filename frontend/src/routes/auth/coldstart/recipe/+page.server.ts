@@ -38,8 +38,8 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 		recipes = jsonRecipes.result;
 	}
 	return {
-		price: priceEnum,
-		difficulty: difficultyEnum,
+		price: price,
+		difficulty: difficulty,
 		recipes: recipes,
 	};
 
@@ -48,28 +48,30 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 
 export const actions: Actions = {
 	coldstart: async ({ cookies, request }) => {
+		console.log("coldstart");
 		const body = await request.formData();
 		const coldstart = {
 			price: body.get("price")?.toString() || "",
 			difficulty: body.get("difficulty")?.toString() || "",
 		};
 
-		const liked = body.get("liked")?.toString().split(",") || [];
-
-		console.log(liked);
+		//const liked = body.get("liked")?.toString().split(",") || [];
 
 		try {
+			console.log("coldstart2");
 			await schemaColdstart.validate(coldstart, {
 				abortEarly: false,
 			});
+			console.log("coldstart3");
 			const token = cookies.get("token");
 			if (token === undefined || token === null) {
 				throw new Error("token is not defined");
 			}
+			console.log("coldstart4");
 
-			for (const id of liked) {
+			/*for (const id of liked) {
 				await likeRecipe(token, Number(id));
-			}
+			}*/
 			const result = await sendColdstart(
 				token,
 				coldstart.price,

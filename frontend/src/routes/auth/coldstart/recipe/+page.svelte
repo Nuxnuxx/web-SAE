@@ -7,46 +7,25 @@
 	import type { PageData } from "../$types";
 
 	export let data: PageData;
-
-	let answers: number[] = [];
-
 	console.log(data);
-
-	/*    async function getRecipesByPreferences() {
-		jsonRecipes = await getRecipes(
-			"",
-			Price[answers[1]],
-			Difficulty[answers[2]],
-			0
-		);
-		recipes = jsonRecipes.result;
-		if (recipes.length < 4) {
-			jsonRecipes = await getRecipes("", Price[answers[1]], "", 0);
-
-			recipes = jsonRecipes.result;
-		}
-	};  */
 </script>
 
-<h2>
-	Pour finir, fait nous savoir ce que tu aimes en choisissant
-	<span class="highlight">au moins 3</span>
-	recettes.
-</h2>
+<form method="post" action="?/coldstart">
+	<h2>
+		Pour finir, fait nous savoir ce que tu aimes en choisissant
+		<span class="highlight">au moins 3</span>
+		recettes.
+	</h2>
 
-<!-- faire le swiper selon les recipesbypreferences -->
-<Swiper recipes={data.recipes} />
+	<!-- faire le swiper selon les recipesbypreferences -->
+	<Swiper recipes={data.recipes} />
 
-<!-- en invisible, mettre les réponses pour les avoir dans le body -->
-<input type="hidden" name="price" value={data.price} />
-<input type="hidden" name="difficulty" value={data.difficulty} />
-<input type="hidden" name="liked" value={$coldstartLiked} />
+	<!-- en invisible, mettre les réponses pour les avoir dans le body -->
+	<input type="hidden" name="price" value={data.price} />
+	<input type="hidden" name="difficulty" value={data.difficulty} />
+	<input type="hidden" name="liked" value={$coldstartLiked} />
 
-<button
-	class="button"
-	on:click={() => {}}
-	type="submit"
-	disabled={$coldstartLiked.length < 3}
->
-	<span>Terminer</span>
-</button>
+	<button class="button" on:click={() => {}} type="submit">
+		<span>Terminer</span>
+	</button>
+</form>
