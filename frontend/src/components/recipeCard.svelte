@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { RecipeDetail } from "$lib/api/recipe-types";
 	import readable from "readable-numbers";
-	import AddToPlaylist from "./addToPlaylist.svelte";
-	import AddToLiked from "./addToLiked.svelte";
 	import DEFAULT from "$lib/img/sample.png";
+	import PopUpContainer from "./popUpContainer.svelte";
 
 	export let data: RecipeDetail;
 	$: finalArrayImages = data.images.replace(/[\[\]"]+/g, "").split(", ");
@@ -14,7 +13,7 @@
 <div class="card">
 	<a
 		data-sveltekit-preload-data="hover"
-		href={`/recipe/${data.idRecipe}`}
+		href={`/recipe/${idRecipe}`}
 		class="card__img"
 	>
 		<img
@@ -25,7 +24,7 @@
 	<div class="card__content">
 		<a
 			data-sveltekit-preload-data="tap"
-			href={`/recipe/${data.idRecipe}`}
+			href={`/recipe/${idRecipe}`}
 			class="card__title"
 		>
 			<h3>{data.name}</h3>
@@ -36,27 +35,10 @@
 		</a>
 		<div class="card__icons">
 			<span class="card__likes__icon">
-				<!-- {#if data.liked} -->
-				<!-- <form action="?/likeRecipe"> -->
-				<!-- 	<button class="material-symbols-rounded filled red"> -->
-				<!-- 		favorite -->
-				<!-- 	</button> -->
-				<!-- </form> -->
-				<!-- {:else} -->
-				<!-- {/if} -->
-				<AddToLiked {idRecipe} />
+				<PopUpContainer {idRecipe} type="like" />
 			</span>
 			<span class="card__saved__icon">
-				<!-- {#if data.saved} -->
-				<!-- 	<button -->
-				<!-- 		on:click={() => save()} -->
-				<!-- 		class="material-symbols-rounded green" -->
-				<!-- 	> -->
-				<!-- 		playlist_add_check -->
-				<!-- 	</button> -->
-				<!-- {:else} -->
-				<AddToPlaylist {idRecipe} />
-				<!-- {/if} -->
+				<PopUpContainer {idRecipe} type="playlist" />
 			</span>
 		</div>
 	</div>

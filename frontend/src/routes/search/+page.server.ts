@@ -64,6 +64,7 @@ export const actions: Actions = {
 			}
 
 			const body = await request.formData();
+			console.log(body.get("id"));
 			const id = Number(body.get("idRecipe"));
 
 			if (id === undefined || id === null || isNaN(id)) {

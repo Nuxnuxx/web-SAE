@@ -1,11 +1,7 @@
 <script lang="ts">
 	import type { RecipeDetail } from "$lib/api/recipe-types";
-	import readable from "readable-numbers";
-	import AddToPlaylist from "./addToPlaylist.svelte";
-	import AddToLiked from "./addToLiked.svelte";
 	import DEFAULT from "$lib/img/sample.png";
 	import { coldstartLiked } from "../store";
-	import Coldstart from "./coldstart.svelte";
 
 	export let data: RecipeDetail;
 	$: finalArrayImages = data.images.replace(/[\[\]"]+/g, "").split(", ");
