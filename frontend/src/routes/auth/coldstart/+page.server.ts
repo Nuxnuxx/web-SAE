@@ -17,44 +17,20 @@ export const load: PageServerLoad = async ({ cookies }) => {
 };
 
 export const actions: Actions = {
-	coldstart: async ({ cookies, request }) => {
+	// redirect to the /recipe page to finish the coldstart
+	endColdstart: async ({ request }) => {
+		//transmettre le prix et difficulté
 		const body = await request.formData();
 		const coldstart = {
 			price: body.get("price")?.toString() || "",
 			difficulty: body.get("difficulty")?.toString() || "",
 		};
 
-		const liked = body.get("liked")?.toString().split(",") || [];
-
-		console.log(liked);
-
-		try {
-			await schemaColdstart.validate(coldstart, {
-				abortEarly: false,
-			});
-			const token = cookies.get("token");
-			if (token === undefined || token === null) {
-				throw new Error("token is not defined");
-			}
-
-			for (const id of liked) {
-				await likeRecipe(token, Number(id));
-			}
-			const result = await sendColdstart(
-				token,
-				coldstart.price,
-				coldstart.difficulty
-			);
-			if (result) {
-				cookies.set("coldstart", "true", {
-					path: "/",
-				});
-				return {
-					location: "/",
-				};
-			}
-		} catch (err) {
-			return fail(400);
-		}
+		//redirect to the /recipe page with the coldstart data
+		throw redirect(
+			302,
+			"/auth/coldstart/recipe?" +
+				new URLSearchParams(coldstart).toString()
+		);
 	},
 };
