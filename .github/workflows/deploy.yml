@@ -1,5 +1,5 @@
-name: Deploy
-
+name: Deploy through SSH #appleboy
+on: [pull_request, workflow_dispatch]
 jobs:
   deploy_on_server:
     runs-on: ubuntu-latest
@@ -16,17 +16,13 @@ jobs:
           config_file: .github/workflows/client.ovpn
           username: ${{ secrets.OVPN_USERNAME }}
           password: ${{ secrets.OVPN_PASSWORD }}
-          client_key: ${{ secrets.USER_KEY }}
-      - name: executing remote ssh commands using keys
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          PORT: ${{ secrets.SSH_PORT }}
-          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-          
-        run: |
-         mkdir -p ~/.ssh/
-         echo "$SSH_KEY" > ~/.ssh/id_rsa
-         chmod 600 ~/.ssh/id_rsa
-         ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa <<< "$SSH_PASSPHRASE"; ssh -p $PORT $SSH_USERNAME@$SSH_HOST "whoami"'
+          client_key: ${{ secrets.OVPN_KEY }}
+
+      - name: Executing remote ssh commands using keys
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          password: ${{ secrets.SSH_PASSPHRASE }}
+          script: whoami
