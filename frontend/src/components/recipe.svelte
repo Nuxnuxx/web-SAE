@@ -5,13 +5,15 @@
 	import { onDestroy, onMount } from "svelte";
 
 	export let recipe: RecipeData;
-	export let token: string;
 	$: finalArrayImages = recipe.recipeDetail.images
 		.replace(/[\[\]"]+/g, "")
 		.split(", ");
 
 	let entranceTime: Date;
 	let exitTime: Date;
+	let timeSpent: number = 0;
+
+	let formRef: HTMLFormElement;
 
 	onMount(() => {
 		entranceTime = new Date();
@@ -19,15 +21,9 @@
 
 	onDestroy(async () => {
 		exitTime = new Date();
-		var timeSpent = exitTime.getTime() - entranceTime.getTime();
+		timeSpent = exitTime.getTime() - entranceTime.getTime();
 
-		const result = await recipeTimeSpent(
-			token,
-			recipe.recipeDetail.idRecipe,
-			timeSpent
-		);
-
-		console.log(result);
+		formRef.submit();
 	});
 </script>
 
@@ -107,6 +103,16 @@
 		{/each}
 	</div>
 </div>
+
+<form bind:this={formRef} method="post" action="?/timeSpent">
+	<input
+		hidden
+		name="idRecipe"
+		value={recipe.recipeDetail.idRecipe}
+		type="text"
+	/>
+	<input hidden name="timeSpent" bind:value={timeSpent} type="text" />
+</form>
 
 <style lang="scss">
 	.recipe {

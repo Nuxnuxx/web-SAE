@@ -7,14 +7,12 @@ import {
 	recipeTimeSpent,
 } from "$lib/api/recommendation-request";
 
-export const load: PageServerLoad = async ({ params, cookies }) => {
-	const token = cookies.get("token") || "";
+export const load: PageServerLoad = async ({ params }) => {
 	const id = Number(params.slug);
 	const recipe = await getRecipe(id);
 	const numberOfRecipesSimilar = 8;
 	if (recipe) {
 		return {
-			token: token,
 			recipe: await getRecipe(id),
 			similarRecipe: await getSimilarRecipes(id, numberOfRecipesSimilar),
 		};
@@ -26,6 +24,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 export const actions: Actions = {
 	timeSpent: async ({ request, cookies }) => {
 		try {
+			console.log("request");
 			const token = cookies.get("token");
 
 			if (token === undefined || token === null) {
@@ -34,12 +33,12 @@ export const actions: Actions = {
 
 			const body = await request.formData();
 			const timeSpent = Number(body.get("timeSpent"));
-			const recipeId = Number(body.get("recipeId"));
+			const idRecipe = Number(body.get("idRecipe"));
 
 			if (
-				recipeId === undefined ||
-				recipeId === null ||
-				isNaN(recipeId)
+				idRecipe === undefined ||
+				idRecipe === null ||
+				isNaN(idRecipe)
 			) {
 				throw new Error("recipeId is not defined");
 			}
@@ -52,7 +51,8 @@ export const actions: Actions = {
 				throw new Error("timeSpent is not defined");
 			}
 
-			const result = await recipeTimeSpent(token, recipeId, timeSpent);
+			console.log("timeSpent", timeSpent);
+			const result = await recipeTimeSpent(token, idRecipe, timeSpent);
 			return {
 				result,
 			};

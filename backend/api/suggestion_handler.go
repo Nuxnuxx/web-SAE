@@ -16,6 +16,7 @@ func (s *APIServer) registerSuggestionRoutes(e *echo.Echo) {
 	e.GET("/mostliked", s.handleMostLiked)
 	e.GET("/recommended", s.handleMostLiked)
 	e.GET("/similarRecipes/:id/:number", s.handleSimilarRecipes)
+	e.GET("/recipeTimeSpent", s.handleRecipeTimeSpent)
 }
 
 func (s *APIServer) handleTrending(c echo.Context) error {
@@ -61,4 +62,33 @@ func (s *APIServer) handleMostLiked(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, resp)
+}
+
+func (s *APIServer) handleRecipeTimeSpent(c echo.Context) error {
+	idRecipe, err := strconv.Atoi(c.QueryParam("idRecipe"))
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Please give a recipe id")
+	}
+
+	mail, err := c.Request().Header.Get("mail")
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Please give a mail")
+	}
+
+	timeSpent, err := strconv.Atoi(c.QueryParam("timeSpent"))
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Please give a timeSpent")
+	}
+
+	err = s.store.SetTimeSpentRecipe(mail, idRecipe, timeSpent)
+
+	if err != nil {
+		fmt.Println(err)
+		return echo.NewHTTPError(http.StatusInternalServerError, utils.ErrorInternal)
+	}
+
+	return c.JSON(http.StatusOK, "Time spent updated")
 }

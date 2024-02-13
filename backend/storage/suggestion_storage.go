@@ -7,7 +7,7 @@ type SuggestionStorage interface {
 	GetMostLiked() (*types.APIResponse, error)
 	GetTrending() (*types.APIResponse, error)
 	GetSimilarRecipes(int, int) (*types.APIResponse, error)
-	SetTimeSpentRecipe(*types.Account, int, int) error
+	SetTimeSpentRecipe(string, int, int) error
 }
 
 func (s *Neo4jStore) GetMostLiked() (*types.APIResponse, error) {
@@ -117,9 +117,9 @@ func (s *Neo4jStore) GetSimilarRecipes(id int, number int) (*types.APIResponse, 
 	return &finalResult, nil
 }
 
-func (s *Neo4jStore) SetTimeSpentRecipe(account *types.Account, idRecipe int, timeSpent int) error {
+func (s *Neo4jStore) SetTimeSpentRecipe(mail string, idRecipe int, timeSpent int) error {
 	/*query := `
-		// Put the query
+		// Put the query here
 
 
 	params := map[string]interface{}{
