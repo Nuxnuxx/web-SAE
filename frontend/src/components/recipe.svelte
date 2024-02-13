@@ -1,11 +1,30 @@
 <script lang="ts">
 	import type { RecipeData } from "$lib/api/recipe-types";
+	import { recipeTimeSpent } from "$lib/api/recommendation-request";
 	import DEFAULT from "$lib/img/sample.png";
+	import { onDestroy, onMount } from "svelte";
 
 	export let recipe: RecipeData;
 	$: finalArrayImages = recipe.recipeDetail.images
 		.replace(/[\[\]"]+/g, "")
 		.split(", ");
+
+	let entranceTime: Date;
+	let exitTime: Date;
+	let timeSpent: number = 0;
+
+	let formRef: HTMLFormElement;
+
+	onMount(() => {
+		entranceTime = new Date();
+	});
+
+	onDestroy(async () => {
+		exitTime = new Date();
+		timeSpent = exitTime.getTime() - entranceTime.getTime();
+
+		formRef.submit();
+	});
 </script>
 
 <div class="recipe">
@@ -84,6 +103,16 @@
 		{/each}
 	</div>
 </div>
+
+<form bind:this={formRef} method="post" action="?/timeSpent">
+	<input
+		hidden
+		name="idRecipe"
+		value={recipe.recipeDetail.idRecipe}
+		type="text"
+	/>
+	<input hidden name="timeSpent" bind:value={timeSpent} type="text" />
+</form>
 
 <style lang="scss">
 	.recipe {
