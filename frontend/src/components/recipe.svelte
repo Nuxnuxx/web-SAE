@@ -1,11 +1,34 @@
 <script lang="ts">
 	import type { RecipeData } from "$lib/api/recipe-types";
+	import { recipeTimeSpent } from "$lib/api/recommendation-request";
 	import DEFAULT from "$lib/img/sample.png";
+	import { onDestroy, onMount } from "svelte";
 
 	export let recipe: RecipeData;
+	export let token: string;
 	$: finalArrayImages = recipe.recipeDetail.images
 		.replace(/[\[\]"]+/g, "")
 		.split(", ");
+
+	let entranceTime: Date;
+	let exitTime: Date;
+
+	onMount(() => {
+		entranceTime = new Date();
+	});
+
+	onDestroy(async () => {
+		exitTime = new Date();
+		var timeSpent = exitTime.getTime() - entranceTime.getTime();
+
+		const result = await recipeTimeSpent(
+			token,
+			recipe.recipeDetail.idRecipe,
+			timeSpent
+		);
+
+		console.log(result);
+	});
 </script>
 
 <div class="recipe">

@@ -10,5 +10,5 @@
 	<title>{data.recipe.result.recipeDetail.name} | PirateCook</title>
 </svelte:head>
 
-<Recipe recipe={data.recipe.result} />
+<Recipe token={data.token} recipe={data.recipe.result} />
 <Swiper recipes={data.similarRecipe.result} />
