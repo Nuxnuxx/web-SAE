@@ -1,11 +1,39 @@
 <script lang="ts">
 	import type { RecipeData } from "$lib/api/recipe-types";
 	import DEFAULT from "$lib/img/sample.png";
+	import { onMount } from "svelte";
+	import { parcours } from "../store";
 
 	export let recipe: RecipeData;
 	$: finalArrayImages = recipe.recipeDetail.images
 		.replace(/[\[\]"]+/g, "")
 		.split(", ");
+
+	let day = new Date().getDay();
+
+	// récupérer la date de parcours
+	let parcoursDay = $parcours.actualDay;
+
+	function dayReset() {
+		if (day != parcoursDay) {
+			$parcours.actualDay = day;
+			// reset the parcours
+			$parcours.history = [];
+		}
+	}
+
+	onMount(() => {
+		dayReset();
+
+		// add the recipe to the parcours (need to put the idRecipe, the name and the image)
+		$parcours.history.push({
+			idRecipe: recipe.recipeDetail.idRecipe,
+			name: recipe.recipeDetail.name,
+		});
+
+		console.log($parcours.actualDay);
+		console.log($parcours.history);
+	});
 </script>
 
 <div class="recipe">
