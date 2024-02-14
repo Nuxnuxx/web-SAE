@@ -5,6 +5,7 @@
 	import { parcours } from "../store";
 
 	export let recipe: RecipeData;
+
 	$: finalArrayImages = recipe.recipeDetail.images
 		.replace(/[\[\]"]+/g, "")
 		.split(", ");
@@ -28,11 +29,9 @@
 		// add the recipe to the parcours (need to put the idRecipe, the name and the image)
 		$parcours.history.push({
 			idRecipe: recipe.recipeDetail.idRecipe,
-			name: recipe.recipeDetail.name,
+			origin: "swiper",
+			liked: false,
 		});
-
-		console.log($parcours.actualDay);
-		console.log($parcours.history);
 	});
 </script>
 

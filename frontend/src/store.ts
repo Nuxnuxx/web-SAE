@@ -30,7 +30,8 @@ export const popup = writable<Popup>({
 
 type HistoryEntry = {
 	idRecipe: number;
-	name: string;
+	origin: string;
+	liked: boolean;
 };
 
 type ParcoursStore = {
