@@ -1,6 +1,7 @@
 import type { PlaylistDetail } from "$lib/api/playlist-types";
 import { writable } from "svelte/store";
 import type { User } from "$lib/api/auth-types";
+import { History } from "swiper/modules";
 
 export const filterStore = writable({
 	name: "",
@@ -25,4 +26,20 @@ type Popup = {
 export const popup = writable<Popup>({
 	idRecipe: null,
 	type: null,
+});
+
+type HistoryEntry = {
+	idRecipe: number;
+	origin: string;
+	liked: boolean;
+};
+
+type ParcoursStore = {
+	actualDay: number;
+	history: HistoryEntry[];
+};
+
+export const parcours = writable<ParcoursStore>({
+	actualDay: new Date().getDay(),
+	history: [],
 });
